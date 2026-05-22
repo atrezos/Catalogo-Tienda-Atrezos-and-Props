@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newborn — Atrezos & Props</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="categoria.css">
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-logo">Atrezos & Props</a>
+        <div class="nav-breadcrumb">
+            <a href="index.html">Inicio</a>
+            <span>/</span>
+            <span>Newborn</span>
+        </div>
+        <span class="nav-contact">0986 332140</span>
+    </nav>
+
+    <div class="page-hero">
+        <img src="https://cloud.atrezosprops.space/s/pnpghWCGYP6LdSw/download" alt="Newborn">
+        <div class="page-hero-overlay"></div>
+        <div class="page-hero-content">
+            <div class="page-hero-eyebrow">Atrezos & Props — Catálogo</div>
+            <h1 class="page-hero-title">Newborn</h1>
+        </div>
+    </div>
+
+    <div class="subcats-nav">
+        <button class="subcat-tab active" onclick="showTab('camitas', this)">Camitas</button>
+        <button class="subcat-tab" onclick="showTab('baldes', this)">Baldes</button>
+        <button class="subcat-tab" onclick="showTab('mantasYWraps', this)">Mantas y Wraps</button>
+        <button class="subcat-tab" onclick="showTab('cestas', this)">Cestas</button>
+        <button class="subcat-tab" onclick="showTab('posicionadores', this)">Posicionadores</button>
+    </div>
+
+    <div class="catalogo-section">
+
+        <div class="subcat-panel active" id="panel-camitas">
+            <div class="subcat-header">
+                <h2 class="subcat-title"><em>Camitas</em></h2>
+                <p class="subcat-desc">Seleccioná los que te interesan y consultanos por WhatsApp.</p>
+            </div>
+            <div class="catalog-grid" id="grid-camitas"></div>
+        </div>
+
+        <div class="subcat-panel" id="panel-baldes">
+            <div class="subcat-header">
+                <h2 class="subcat-title"><em>Baldes</em></h2>
+                <p class="subcat-desc">Seleccioná los que te interesan y consultanos por WhatsApp.</p>
+            </div>
+            <div class="catalog-grid" id="grid-baldes"></div>
+        </div>
+   
+        <div class="subcat-panel" id="panel-cestas">
+            <div class="subcat-header">
+                <h2 class="subcat-title"><em>Cestas</em></h2>
+                <p class="subcat-desc">Seleccioná los que te interesan y consultanos por WhatsApp.</p>
+            </div>
+            <div class="catalog-grid" id="grid-cestas"></div>
+        </div>
+
+        <div class="subcat-panel" id="panel-mantasYWraps">
+            <div class="subcat-header">
+                <h2 class="subcat-title"><em>Mantas y Wraps</em></h2>
+                <p class="subcat-desc">Seleccioná los que te interesan y consultanos por WhatsApp.</p>
+            </div>
+            <div class="catalog-grid" id="grid-mantasYWraps"></div>
+        </div>
+        
+        <div class="subcat-panel" id="panel-posicionadores">
+            <div class="subcat-header">
+                <h2 class="subcat-title"><em>Posicionadores</em></h2>
+                <p class="subcat-desc">Seleccioná los que te interesan y consultanos por WhatsApp.</p>
+            </div>
+            <div class="catalog-grid" id="grid-posicionadores"></div>
+        </div>
+
+    </div>
+
+    <button class="cart-float" onclick="sendWhatsApp()">
+        🛒 <span id="cart-count">0 items</span> — Consultar
+    </button>
+
+<script src="categoria.js"></script>
+<script>
+    const CATEGORIA = "Newborn";
+    let carrito = [];
+
+    const camitas = [
+        {
+            id: 101,
+            nombre: "Camita Marrón 2036",
+            stock: 3,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/IbxxBXuj2zw8Snd/download",
+                "https://cloud.atrezosprops.space/s/7xlFNAKfRRHw8QC/download",
+            ]
+        },
+        {
+            id: 102,
+            nombre: "Camita Blanca 2037",
+            stock: 4,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/5NzicjEIuvCCUEy/download",
+                "https://cloud.atrezosprops.space/s/vEghELghVqjtibr/download",
+            ]
+        },
+        {
+            id: 103,
+            nombre: "Camita Celeste 2034",
+            stock: 5,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/Q6nTcYWzfhx6BTG/download",
+                "https://cloud.atrezosprops.space/s/9mnpmlKvYpJKk85/download",
+            ]
+        },
+        {
+            id: 104,
+            nombre: "Camita Rosa 2035",
+            stock: 4,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/s2lOwwday5TLaVB/download",
+                "https://cloud.atrezosprops.space/s/Ce7j2BZHtxel40l/download",
+            ]
+        },
+        {
+            id: 105,
+            nombre: "Camita Beige 2033",
+            stock: 1,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/SdNFm4NwSBicwo5/download",
+                "https://cloud.atrezosprops.space/s/1WsPBNjsIUNh6i9/download",
+            ]
+        },
+        {
+            id: 106,
+            nombre: "Camita Verde 2038",
+            stock: 1,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/QJdXacTURFEBR1d/download",
+                "https://cloud.atrezosprops.space/s/Fazgx3trR1Y1v80/download",
+            ]
+        },
+        {
+            id: 107,
+            nombre: "Camita Blanca Nuevo modelo 2168",
+            stock: 5,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/5VeNvrv2btK3tDd/download",
+                "https://cloud.atrezosprops.space/s/7X2jsfsMkF4VfoQ/download",
+            ]
+        },
+        {
+            id: 108,
+            nombre: "Camita Marrón Nuevo modelo 2169",
+            stock: 0,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/HySIfSFwjEHMIuP/download",
+                "https://cloud.atrezosprops.space/s/9QSaeJYIMmKEAAq/download",
+            ]
+        },
+        {
+            id: 109,
+            nombre: "Camita Vintage Marrón 2167",
+            stock: 0,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/vdJELHB2bAmM2hw/download",
+                "https://cloud.atrezosprops.space/s/gukujwvynh8VZHb/download",
+            ]
+        },
+        {
+            id: 110,
+            nombre: "Camita Vintage Blanco 8013",
+            stock: 0,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/INIPmzYyPXQsHNn/download",
+                "https://cloud.atrezosprops.space/s/MIqtmzjETQHP9wa/download",
+            ]
+        },
+        {
+            id: 111,
+            nombre: "Camita Curva Blanca Nuevo modelo 2170",
+            stock: 3,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/Vl0l5EOjAz6nQdT/download",
+                "https://cloud.atrezosprops.space/s/QxDziR5gxBrjMOc/download",
+            ]
+        },
+        {
+            id: 112,
+            nombre: "Cunita de Mimbre 2165",
+            stock: 0,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/DJdgr3CPGyEWERd/download",
+                "https://cloud.atrezosprops.space/s/nBDcHzQDcQuP4Zl/download",
+                "https://cloud.atrezosprops.space/s/c3916Ob7JieaEJT/download",
+                "https://cloud.atrezosprops.space/s/DlUDDwz8S9T0S7F/download",
+            ]
+        },
+        {
+            id: 113,
+            nombre: "Camita de Hierro Mc 2164",
+            stock: 1,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/eDSbXbHGZ48GJYq/download",
+                "https://cloud.atrezosprops.space/s/gLtVytZm7jyUiDM/download",
+                "https://cloud.atrezosprops.space/s/IrcLkglYhggqMmc/download",
+                "https://cloud.atrezosprops.space/s/Ne0m4Yx6ycmFPAW/download",
+            ]
+        },
+        {
+            id: 114,
+            nombre: "Cunita alargada Blanca o Marrón 2171/2172",
+            stock: 0,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/V1fVdCIr6Tua6bn/download",
+                "https://cloud.atrezosprops.space/s/Bi0XYzMXC819YnO/download",
+                "https://cloud.atrezosprops.space/s/pTmY0TgkNqRMIr1/download",
+            ]
+        },
+        {
+            id: 115,
+            nombre: "Cunita alta de Mimbre 2166",
+            stock: 2,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/6q37DbVty4A1m0b/download",
+                "https://cloud.atrezosprops.space/s/khQyjfkLzY1P4Sr/download",
+            ]
+        },
+        {
+            id: 116,
+            nombre: "Camita Placeholder 116",
+            stock: 0,
+            fotos: [
+                "",
+                "",
+            ]
+        },
+        {
+            id: 117,
+            nombre: "Camita Placeholder 117",
+            stock: 0,
+            fotos: [
+                "",
+                "",
+            ]
+        },
+    ];
+
+    const baldes = [
+        {
+            id: 201,
+            nombre: "Balde RN con cuerdas Blanco 2087",
+            stock: 4,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/46pdNfVqh4QMwba/download",
+                "https://cloud.atrezosprops.space/s/XkF6DZVTpg4QuzR/download",
+            ]
+        },
+        {
+            id: 202,
+            nombre: "Balde RN con cuerdas Beige 8018",
+            stock: 1,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/SHfdUBZ9Z2bRGzE/download",
+                "https://cloud.atrezosprops.space/s/BVFZBt2gjCvELsO/download",
+            ]
+        },
+        {
+            id: 203,
+            nombre: "Balde RN con cuerdas 2174",
+            stock: 1,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/QHDxFzeUrTRldy7/download",
+                "",
+            ]
+        },
+        {
+            id: 204,
+            nombre: "Contenedor RN Beige 2176",
+            stock: 1,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/O2AjBLBryDXoVxS/download",
+                "https://cloud.atrezosprops.space/s/kyJNGEIXsvckPZ7/download",
+            ]
+        },
+        {
+            id: 205,
+            nombre: "Balde Blanco Sitter 2087",
+            stock: 1,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/nrOYHC2SbzW1YyB/download",
+                "https://cloud.atrezosprops.space/s/cLK4swaxFjfMDiy/download",
+            ]
+        },
+        {
+            id: 206,
+            nombre: "Balde Marrón Sitter 8015",
+            stock: 1,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/AZYH4eBv3XfHzG9/download",
+                "https://cloud.atrezosprops.space/s/UqwRk0KiluIQ3lf/download",
+            ]
+        },
+
+	{
+            id: 207,
+            nombre: "Balde Beige Sitter 8017",
+            stock: 2,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/ocyIZl4PYmbPSrG/download",
+                "https://cloud.atrezosprops.space/s/cLK4swaxFjfMDiy/download",
+            ]
+        },
+
+        {
+            id: 208,
+            nombre: "Contenedor Sitter Marrón 2175",
+            stock: 1,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/H69heGLMS5RwUYi/download",
+                "https://cloud.atrezosprops.space/s/88l8gTVKoOfiGXJ/download",
+            ]
+        },
+        {
+            id: 209,
+            nombre: "Contenedor Sitter Blanco 2175",
+            stock: 1,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/HVPMNf66qOuy82u/download",
+                "https://cloud.atrezosprops.space/s/88l8gTVKoOfiGXJ/download",
+            ]
+        },
+        {
+            id: 210,
+            nombre: "Contenedor Sitter Beige 8016",
+            stock: 1,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/ZjzW8hJ0I1ESYgg/download",
+                "https://cloud.atrezosprops.space/s/3aCVG6g08MU20PB/download",
+            ]
+        },
+	
+	 {  id: 211,
+            nombre: "Barrilcito Sitter Marrón #2189",
+            stock: 1,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/m1X0M7U8kha5LEm/download",
+                "https://cloud.atrezosprops.space/s/hKtmZQGNSsATtYd/download",
+            ]
+        },
+
+    ];
+
+    const cestas = [
+        {
+            id: 301,
+            nombre: "Cesta de Yute 30cm 30",
+            stock: 1,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/4DE7A3dz8eVUhYm/download",
+                "https://cloud.atrezosprops.space/s/4OytsN3MWKDqRCT/download",
+            ]
+        },
+        {
+            id: 302,
+            nombre: "Cesta Rectangular Rn 2182",
+            stock: 2,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/SURmZDYhPJMUlyq/download",
+                "https://cloud.atrezosprops.space/s/Bbkh051hzcTlyev/download",
+            ]
+        },
+        {
+            id: 303,
+            nombre: "Cuenco Brasil 2183",
+            stock: 2,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/nyI9sJF6hp5N84f/download",
+                "https://cloud.atrezosprops.space/s/0L6g75ZY12YPF44/download",
+            ]
+        },
+        {
+            id: 304,
+            nombre: "Corazón de Madera NM RN-Sitter 2178-2179",
+            stock: 2,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/FZc6x8Afh5OoPfg/download",
+                "https://cloud.atrezosprops.space/s/s5gtFjjb6fFgw4u/download",
+            ]
+        },
+        {
+            id: 305,
+            nombre: "Corazón de Madera NM RN-Sitter 2180-2181",
+            stock: 2,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/x16E9FLnEPQjqsy/download",
+                "https://cloud.atrezosprops.space/s/KJvR8dsoCtULfdh/download",
+            ]
+        },
+
+	{
+            id: 306,
+            nombre: "Contenedor de Mimbre 2385",
+            stock: 1,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/5gVvTlNhVogl5Fk/download",
+                "https://cloud.atrezosprops.space/s/3RKkxj4My3u92z7/download",
+            ]
+        },
+
+	{
+            id: 307,
+            nombre: "Cesta Rectangular #31",
+            stock: 1,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/S43a4t5rtMtkDUE/download",
+                
+            ]
+        },
+
+    ];
+
+    const mantasYWraps = [
+        {
+            id: 401,
+            nombre: "Manta + Wrap Marrón Estampado flores 2132",
+            stock: 2,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/axvDLjac7HvBbZH/download",
+                "https://cloud.atrezosprops.space/s/EH5PgagcvCXCfDH/download",
+            ]
+        },
+        {
+            id: 402,
+            nombre: "Manta + Wrap Rosa Estampado flores 2133",
+            stock: 2,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/glD1gLGtZv2UfoB/download",
+                "https://cloud.atrezosprops.space/s/Mz3K3iJUb2T4LRz/download",
+            ]
+        },
+        {
+            id: 403,
+            nombre: "Manta + Wrap Verde Estampado flores 2133",
+            stock: 2,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/mRACFtdKafHtc0N/download",
+                "https://cloud.atrezosprops.space/s/eaLYsxT44JKXlFI/download",
+            ]
+        },
+        {
+            id: 404,
+            nombre: "Manta + Wrap Tocado Floreado 8082",
+            stock: 1,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/UtczWBXZoNWf2Is/download",
+                "https://cloud.atrezosprops.space/s/StEKp9LHxdBlyg2/download",
+            ]
+        },
+        {
+            id: 405,
+            nombre: "Manta + Wrap de Encaje Gris 8081",
+            stock: 1,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/yk6sj7okKxCBhYh/download",
+                "https://cloud.atrezosprops.space/s/lASVnqRosjCUS6M/download",
+            ]
+        },
+        {
+            id: 406,
+            nombre: "Manta + Wrap de Encaje Celeste 8063",
+            stock: 1,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/KyIf4XqwXQdu1XD/download",
+                "https://cloud.atrezosprops.space/s/ASCEOYLHngJEmx0/download",
+            ]
+        },
+        {
+            id: 407,
+            nombre: "Manta de Encaje Celeste 8085",
+            stock: 1,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/ASCEOYLHngJEmx0/download",
+                "https://cloud.atrezosprops.space/s/ASCEOYLHngJEmx0/download",
+            ]
+        },
+        {
+            id: 408,
+            nombre: "Manta Cuadrille Mostaza 2410",
+            stock: 4,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/pMFIBsB0kZwUU6G/download",
+                "https://cloud.atrezosprops.space/s/nvnQCIT5BH6ZYdh/download",
+            ]
+        },
+
+	{
+            id: 409,
+            nombre: "Manta Mostaza 2331",
+            stock: 3,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/3VLB4JMPR1JeaLR/download",
+                "https://cloud.atrezosprops.space/s/1kw3ZotRuJ0gvdN/download",
+            ]
+        },
+
+	{
+            id: 410,
+            nombre: "Manta de Hilo Verde 37",
+            stock: 1,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/QU5rzggDpAPAvVq/download",
+                "https://cloud.atrezosprops.space/s/P9QYVmJ3kqfYL8A/download",
+            ]
+        },
+
+	{
+            id: 411,
+            nombre: "Manta Cuadros Blanco + Amarillo 2332",
+            stock: 1,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/UCY6GbCqTFd7nT0/download",
+                "https://cloud.atrezosprops.space/s/pbI8K8OVgAYcgxl/download",
+            ]
+        },
+
+	{
+            id: 412,
+            nombre: "Manta Piel de Oveja 2395",
+            stock: 3,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/CNNpht43hyR4D6H/download",
+                "https://cloud.atrezosprops.space/s/Qz3Y0CjUHmHHNYz/download",
+		"https://cloud.atrezosprops.space/s/PnekKouKUGmTjoS/download",
+		"https://cloud.atrezosprops.space/s/yBNgfu0zk35uyQZ/download",
+            ]
+        },
+
+    ];
+     
+    const posicionadores = [
+        {
+            id: 501,
+            nombre: "Posicionador Doble 2129",
+            stock: 2,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/0wPD9Ggqycfm9O7/download",
+                "https://cloud.atrezosprops.space/s/xdE5VDZ79fqUldP/download",
+            ]
+        },
+        
+        {
+            id: 502,
+            nombre: "Juego de 4 Posicionadores Lunitas 2130",
+            stock: 1,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/QEOnYJrXFj9eFYu/download",
+                "https://cloud.atrezosprops.space/s/JOWKBRovQyUzUjd/download",
+            ]
+        },
+    
+        {
+            id: 503,
+            nombre: "Posicionador Moldeable 2126",
+            stock: 2,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/P7ix9QS2unacnf6/download",
+                "https://cloud.atrezosprops.space/s/SHGbpHXkHm20jWU/download",
+            ]
+        },
+        
+        {
+            id: 504,
+            nombre: "Relleno para el wraping 2127",
+            stock: 4,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/4YllHQnjm7k2LRj/download",
+                "https://cloud.atrezosprops.space/s/uxc010AI1vYppUJ/download",
+            ]
+        },
+    
+        {
+            id: 505,
+            nombre: "Pesita Contenedora 2128",
+            stock: 3,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/VuclJq39Anv22sj/download",
+                "https://cloud.atrezosprops.space/s/CCcSVlH5yHnLu8e/download",
+            ]
+        },
+    
+        {
+            id: 506,
+            nombre: "Posicionador Nido 2229",
+            stock: 2,
+            fotos: [
+                "https://cloud.atrezosprops.space/s/sZiHAgLSRF5c3vD/download",
+                "https://cloud.atrezosprops.space/s/rEOSAXDFFyGgZIB/download",
+            ]
+        },
+    
+        { id: 507,
+            nombre: "Posing POD 2228",
+            stock: 3,
+            fotos: [ 
+                  "https://cloud.atrezosprops.space/s/98ttA2c4YPlsrlD/download",
+                  "https://cloud.atrezosprops.space/s/uRQek6nPSWNbRVG/download",
+           ]
+        },
+    
+            { id: 508,
+                nombre: "Colchoncito + almohadita Marrón 2141",
+                stock: 1,
+                fotos: [ 
+                    "https://cloud.atrezosprops.space/s/1QK00XGcr2lMbGG/download",
+                    "https://cloud.atrezosprops.space/s/jBP8nX8ipIPyX0M/download",
+            ]
+            },
+                        
+            { id: 509,
+                nombre: "Colchoncito + almohadita Blanco 2140",
+                stock: 0,
+                fotos: [ 
+                    "https://cloud.atrezosprops.space/s/1QK00XGcr2lMbGG/download",
+                    "https://cloud.atrezosprops.space/s/UIMcbaJPQUMYhnO/download",
+            ]
+            },
+
+       
+];
+    renderGrid(camitas, 'grid-camitas');
+    renderGrid(baldes, 'grid-baldes');
+    renderGrid(cestas, 'grid-cestas');
+    renderGrid(mantasYWraps, 'grid-mantasYWraps');
+    renderGrid(posicionadores, 'grid-posicionadores');
+</script>
+</body>
+</html>

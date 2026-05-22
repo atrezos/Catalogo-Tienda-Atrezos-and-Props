@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vestuarios Infantiles — Atrezos & Props</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="categoria.css">
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-logo">Atrezos & Props</a>
+        <div class="nav-breadcrumb">
+            <a href="index.html">Inicio</a>
+            <span>/</span>
+            <span>Vestuarios Infantiles</span>
+        </div>
+        <span class="nav-contact">0986 332140</span>
+    </nav>
+
+    <div class="page-hero">
+        <img src="" alt="Vestuarios Infantiles">
+        <div class="page-hero-overlay"></div>
+        <div class="page-hero-content">
+            <div class="page-hero-eyebrow">Atrezos & Props — Catálogo</div>
+            <h1 class="page-hero-title">Vestuarios Infantiles</h1>
+        </div>
+    </div>
+
+    <div class="subcats-nav">
+        <button class="subcat-tab active" onclick="showTab('todos', this)">Todos</button>
+        <!-- Agregá más subcategorías cuando las tengas definidas -->
+    </div>
+
+    <div class="catalogo-section">
+
+        <div class="subcat-panel active" id="panel-todos">
+            <div class="subcat-header">
+                <h2 class="subcat-title">Vestuarios <em>Infantiles</em></h2>
+                <p class="subcat-desc">Precio por unidad. Agregá al carrito y consultanos por WhatsApp.</p>
+            </div>
+            <div class="catalog-grid" id="grid-todos"></div>
+        </div>
+
+    </div>
+
+    <button class="cart-float" onclick="sendWhatsApp()">
+        🛒 <span id="cart-count">0 items</span> — Consultar
+    </button>
+
+<script src="categoria.js"></script>
+<script>
+    const CATEGORIA = "Vestuarios Infantiles";
+    let carrito = [];
+
+    // ── PRODUCTOS CON PRECIO ── Completá con tus datos
+    const todos = [
+        { id: 101, nombre: "Vestuario Placeholder 1", precio: 0, stock: 3, foto1: "", foto2: "" },
+        { id: 102, nombre: "Vestuario Placeholder 2", precio: 0, stock: 2, foto1: "", foto2: "" },
+        { id: 103, nombre: "Vestuario Placeholder 3", precio: 0, stock: 1, foto1: "", foto2: "" },
+        { id: 104, nombre: "Vestuario Placeholder 4", precio: 0, stock: 0, foto1: "", foto2: "" },
+    ];
+
+    renderGrid(todos, 'grid-todos');
+</script>
+</body>
+</html>

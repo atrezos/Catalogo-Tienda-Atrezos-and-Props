@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accesorios & Detalles — Atrezos & Props</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="categoria.css">
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-logo">Atrezos & Props</a>
+        <div class="nav-breadcrumb">
+            <a href="index.html">Inicio</a>
+            <span>/</span>
+            <span>Accesorios & Detalles</span>
+        </div>
+        <span class="nav-contact">0986 332140</span>
+    </nav>
+
+    <div class="page-hero">
+        <img src="https://cloud.atrezosprops.space/s/Iiu6I5asNMvmrNn/download" alt="Accesorios y Detalles">
+        <div class="page-hero-overlay"></div>
+        <div class="page-hero-content">
+            <div class="page-hero-eyebrow">Atrezos & Props — Catálogo</div>
+            <h1 class="page-hero-title">Accesorios & Detalles</h1>
+        </div>
+    </div>
+
+    <div class="subcats-nav">
+        <button class="subcat-tab active" onclick="showTab('flores', this)">Flores</button>
+        <button class="subcat-tab" onclick="showTab('ramos', this)">Ramos Secos</button>
+        <button class="subcat-tab" onclick="showTab('frutas', this)">Frutas</button>
+        <button class="subcat-tab" onclick="showTab('jarrones', this)">Decos</button>
+		<button class="subcat-tab" onclick="showTab('ositos', this)">Ositos</button>
+   </div>
+
+    <div class="catalogo-section">
+
+        <!-- FLORES — con precio -->
+        <div class="subcat-panel active" id="panel-flores">
+            <div class="subcat-header">
+                <h2 class="subcat-title"><em>Flores</em></h2>
+                <p class="subcat-desc">Precio por unidad. Agregá al carrito y consultanos por WhatsApp.</p>
+            </div>
+            <div class="catalog-grid" id="grid-flores"></div>
+        </div>
+
+        <!-- RAMOS SECOS — con precio -->
+        <div class="subcat-panel" id="panel-ramos">
+            <div class="subcat-header">
+                <h2 class="subcat-title">Ramos <em>Secos</em></h2>
+                <p class="subcat-desc">Precio por unidad. Agregá al carrito y consultanos por WhatsApp.</p>
+            </div>
+            <div class="catalog-grid" id="grid-ramos"></div>
+        </div>
+
+        <!-- FRUTAS — solo consulta -->
+        <div class="subcat-panel" id="panel-frutas">
+            <div class="subcat-header"><h2 class="subcat-title"><em>Frutas</em></h2><p class="subcat-desc">Seleccioná los que te interesan y consultanos por WhatsApp.</p></div>
+            <div class="catalog-grid" id="grid-frutas"></div>
+        </div>
+
+        <div class="subcat-panel" id="panel-jarrones">
+            <div class="subcat-header"><h2 class="subcat-title"><em>Decos</em></h2><p class="subcat-desc">Seleccioná los que te interesan y consultanos por WhatsApp.</p></div>
+            <div class="catalog-grid" id="grid-jarrones"></div>
+        </div>
+
+        <div class="subcat-panel" id="panel-ositos">
+			<div class="subcat-header"><h2 class="subcat-title"><em>Ositos</em></h2><p class="subcat-desc">Seleccioná los que te interesan y consultanos por WhatsApp.</p></div>
+            <div class="catalog-grid" id="grid-ositos"></div>
+        
+		</div>
+		
+    </div>
+
+    <button class="cart-float" onclick="sendWhatsApp()">
+        🛒 <span id="cart-count">0 items</span> — Consultar
+    </button>
+
+<script src="categoria.js"></script>
+<script>
+    const CATEGORIA = "Accesorios & Detalles";
+    let carrito = [];
+
+    // ── FLORES — incluí precio en Gs. ──────────────────────────
+    const flores = [
+        { id: 1,  nombre: "Flor Deisy Amarilla 011",        precio: 25000, stock: 0,  foto1: "https://cloud.atrezosprops.space/s/mhPfw8xpkTw9IVj/download", foto2: "https://cloud.atrezosprops.space/s/a2LBgYcJD6eisr9/download" },
+        { id: 2,  nombre: "Ramo 5 Rosas Blancas 2420",      precio: 18000, stock: 3,  foto1: "https://cloud.atrezosprops.space/s/ng0cBYFJVtlnYDQ/download", foto2: "https://cloud.atrezosprops.space/s/Pn6lwAcm1iPNz72/download" },
+        { id: 3,  nombre: "Rosas Amarillas 665",             precio: 25000, stock: 0,  foto1: "https://cloud.atrezosprops.space/s/YTZ0Xd7ccwathTB/download", foto2: "https://cloud.atrezosprops.space/s/7Ly99XI3PMB3DlH/download" },
+        { id: 4,  nombre: "Margaritas Matizado 184",         precio: 25000, stock: 7,  foto1: "https://cloud.atrezosprops.space/s/IlUgwRq9XUir34e/download", foto2: "https://cloud.atrezosprops.space/s/Nh9CSqBAsJKPH1m/download" },
+        { id: 5,  nombre: "Rosas Rosita rosa 196",           precio: 25000, stock: 3,  foto1: "https://cloud.atrezosprops.space/s/nkug6racJZL3oQc/download", foto2: "https://cloud.atrezosprops.space/s/EmRQCv5H6upsjLH/download" },
+        { id: 6,  nombre: "Hojas corazon 8074",              precio: 12000, stock: 9,  foto1: "https://cloud.atrezosprops.space/s/flitlItBqdr3Yml/download", foto2: "https://cloud.atrezosprops.space/s/5mBGG8GXGMtAvpK/download" },
+        { id: 7,  nombre: "Lavandas 507",                    precio: 25000, stock: 5,  foto1: "https://cloud.atrezosprops.space/s/4MyfZj6Oohuxy7R/download", foto2: "https://cloud.atrezosprops.space/s/KUQS8sLXiAj2BeH/download" },
+        { id: 8,  nombre: "Flores Lilas 605",                precio: 25000, stock: 3,  foto1: "https://cloud.atrezosprops.space/s/3f1F8vrpnpbPR8Q/download", foto2: "https://cloud.atrezosprops.space/s/Wnw8YITqAageUTT/download" },
+        { id: 9,  nombre: "Flores Rosas Lilas 273",          precio: 25000, stock: 3,  foto1: "https://cloud.atrezosprops.space/s/KAHiXQph5iHA4Uw/download", foto2: "https://cloud.atrezosprops.space/s/3n9bV6b0b4yogvl/download" },
+        { id: 10, nombre: "Flor Hortencia Celeste 8056",     precio: 25000, stock: 1,  foto1: "https://cloud.atrezosprops.space/s/PsgJrnSeXjL2qMM/download", foto2: "https://cloud.atrezosprops.space/s/cQopnFXnJf4FfH4/download" },
+        { id: 11, nombre: "Flor Hortencia 8089",             precio: 25000, stock: 9,  foto1: "https://cloud.atrezosprops.space/s/okNnYYkvTJuekbC/download", foto2: "https://cloud.atrezosprops.space/s/FospxxI0DDvMOhz/download" },
+        { id: 13, nombre: "Peonias Azules 071",              precio: 45000, stock: 3,  foto1: "https://cloud.atrezosprops.space/s/hbL5cEZRKevUmV8/download", foto2: "https://cloud.atrezosprops.space/s/85cOAqITOSt4rVw/download" },
+        { id: 14, nombre: "Flor Clavel Amarillo 693",        precio: 18000, stock: 2,  foto1: "https://cloud.atrezosprops.space/s/bla20amikdE2uhj/download", foto2: "https://cloud.atrezosprops.space/s/bla20amikdE2uhj/download" },
+        { id: 15, nombre: "Ramo Rosas Rojas 667",            precio: 25000, stock: 2,  foto1: "https://cloud.atrezosprops.space/s/ZWFxtqIOwr1kiwU/download", foto2: "https://cloud.atrezosprops.space/s/6kVI5XBUX9FC3zf/download" },
+        { id: 16, nombre: "Ramo 7 Flores Lavanda 6351",      precio: 20000, stock: 2,  foto1: "https://cloud.atrezosprops.space/s/d91NbiovMQdAhmF/download", foto2: "https://cloud.atrezosprops.space/s/0VJn9SR1Gz0GkVM/download" },
+        { id: 17, nombre: "Ramo 7 Flores Lila Claro 6352",   precio: 20000, stock: 2,  foto1: "https://cloud.atrezosprops.space/s/7dSXyymxwTQPuNN/download", foto2: "https://cloud.atrezosprops.space/s/kwHlWtLPn4YO2ho/download" },
+        { id: 18, nombre: "Flores rojas 129",                precio: 25000, stock: 2,  foto1: "https://cloud.atrezosprops.space/s/XMl4fcxZNxHBDw4/download", foto2: "https://cloud.atrezosprops.space/s/eYiNUdbZmQPSR6r/download" },
+        { id: 19, nombre: "Flores Lilas chicas 228",         precio: 25000, stock: 1,  foto1: "https://cloud.atrezosprops.space/s/z1XrZ153nE8xUPo/download", foto2: "https://cloud.atrezosprops.space/s/OC4G6aNxbWnpE0v/download" },
+        { id: 20, nombre: "Flores Rosa pastel 8055",         precio: 25000, stock: 4,  foto1: "https://cloud.atrezosprops.space/s/iBTSMmx94lobjYH/download", foto2: "https://cloud.atrezosprops.space/s/iBTSMmx94lobjYH/download" },
+        { id: 21, nombre: "Ramo 7 Flores Lila Matizada 2419",precio: 22500, stock: 2,  foto1: "https://cloud.atrezosprops.space/s/ogeR3IrmgQWbVO1/download", foto2: "https://cloud.atrezosprops.space/s/hmyxU7Tc0GPQseD/download" },
+        { id: 22, nombre: "Girasol x Ramo 32",               precio: 15000, stock: 7,  foto1: "https://cloud.atrezosprops.space/s/cW98Jl2lMPSQuol/download", foto2: "https://cloud.atrezosprops.space/s/8Ca45PS2qsDcU8J/download" },
+        { id: 23, nombre: "Flor Rosa Granate Terciopelo 668",precio: 25000, stock: 2,  foto1: "https://cloud.atrezosprops.space/s/iUURv8bPO6rCNyh/download", foto2: "https://cloud.atrezosprops.space/s/QnDeU2ZahiLxBHO/download" },
+        { id: 24, nombre: "Rosa roja 6 Ramos 7938",          precio: 30000, stock: 2,  foto1: "https://cloud.atrezosprops.space/s/cRqQOeRHKf6ovoW/download", foto2: "https://cloud.atrezosprops.space/s/oBgBCggRE0KjY7o/download" },
+        { id: 25, nombre: "Flor Margarita 5 Ramas 116",      precio: 30000, stock: 11, foto1: "https://cloud.atrezosprops.space/s/LWZDXQKZNYBZYYt/download", foto2: "https://cloud.atrezosprops.space/s/Nfbd3tXpztWpqhX/download" },
+        { id: 26, nombre: "Flor Amarilla 7 Ramos grande 8090",precio:18000, stock: 2,  foto1: "https://cloud.atrezosprops.space/s/WEcbbmT2L8Ns4sk/download", foto2: "https://cloud.atrezosprops.space/s/6NiHHUJboouh3QX/download" },
+        { id: 27, nombre: "Flor Celeste 7 Ramos 059",        precio: 25000, stock: 2,  foto1: "https://cloud.atrezosprops.space/s/vDg23Wz7zyDjpCx/download", foto2: "https://cloud.atrezosprops.space/s/e6rVpNnUgbuVxVP/download" },
+       
+	{ id: 28, nombre: "Ramo Rosas Secas Vintage 694",
+		precio: 65000,
+		stock: 2, 
+		foto1: "https://cloud.atrezosprops.space/s/j1rGuBlAJRmySjH/download",
+		foto2: "https://cloud.atrezosprops.space/s/uyiRN7pePIEbUJ2/download"
+	},
+
+
+    ];
+
+    // ── RAMOS SECOS — con precio ──────────────────────────────
+    const ramos = [
+        { id: 12, nombre: "Ramo Rosas Secas Vintage 694",
+		precio: 60000,
+		stock: 2, 
+		foto1: "https://cloud.atrezosprops.space/s/YZFS3zLlooqvI6D/download",
+		foto2: "https://cloud.atrezosprops.space/s/I6hf7OChqAOFV7a/download"
+	},
+
+
+        // Agregá más ramos secos aquí
+    ];
+
+    const frutas = [
+        { id: 501,
+		nombre: "Frutilla paq. x 5 #2088",
+			precio: 45000,
+			stock: 4,
+			foto1: "https://cloud.atrezosprops.space/s/vwAJSxqUHzdYmJA/download",
+			foto2: "https://cloud.atrezosprops.space/s/KmICf5OkGfDrTqx/download"
+	},
+
+        { id: 502,
+		nombre: "Banana #2201",
+			precio: 12000,
+			stock: 1,
+			foto1: "https://cloud.atrezosprops.space/s/cGGhoMInd8wBbnR/download",
+			foto2: "https://cloud.atrezosprops.space/s/5rVKbadrpyN8Sbp/download"
+	},
+
+	{ id: 503,
+		nombre: "Naranja #2200",
+			precio: 12000,
+			stock: 3,
+			foto1: "https://cloud.atrezosprops.space/s/XRbFbW4VTfmJQzg/download",
+			foto2: "https://cloud.atrezosprops.space/s/3qcHt18vIoGIFX0/download"
+	},
+
+	{ id: 504,
+		nombre: "Granada #2196",
+			precio: 12000,
+			stock: 6,
+			foto1: "https://cloud.atrezosprops.space/s/F6dMubpbhwI35h3/download",
+			foto2: "https://cloud.atrezosprops.space/s/5rVKbadrpyN8Sbp/download"
+	},
+
+	{ id: 505,
+		nombre: "Manzana #2199",
+			precio: 12000,
+			stock: 6,
+			foto1: "https://cloud.atrezosprops.space/s/dDyBuMaPuBXBdc5/download",
+			foto2: "https://cloud.atrezosprops.space/s/KB1DVHP5BvYS26g/download"
+	},
+
+	{ id: 506,
+		nombre: "Pera #8054",
+			precio: 12000,
+			stock: 4,
+			foto1: "https://cloud.atrezosprops.space/s/OvhWeNUBlAYwmUK/download",
+			foto2: "https://cloud.atrezosprops.space/s/5rVKbadrpyN8Sbp/download"
+	},
+
+	{ id: 507,
+		nombre: "Tira Colgante Frutilla #8093",
+			precio: 30000,
+			stock: 2,
+			foto1: "https://cloud.atrezosprops.space/s/P8qZw0mvVdKvpsY/download",
+			
+	},
+
+	{ id: 507,
+		nombre: "Tira Colgante Limones #8092",
+			precio: 30000,
+			stock: 2,
+			foto1: "https://cloud.atrezosprops.space/s/cbqBYJ1OVF8ShWT/download",
+			
+	},
+
+    ];
+    // ── SIN PRECIO — solo consulta ────────────────────────────
+    
+
+    const jarrones = [
+        { id: 601,
+		nombre: "Botella con Encaje #69",
+			stock: 4,
+			foto1: "https://cloud.atrezosprops.space/s/AwpMv78jrVcpCWb/download",
+			foto2: "https://cloud.atrezosprops.space/s/BvD2kRP1zM85bvn/download"
+	},
+
+        { id: 602,
+		nombre: "Set 3 Floreros de Cerámica #8097",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/JWjlU2AJ4ATYYER/download",
+		foto2: "https://cloud.atrezosprops.space/s/s0djYTv8SWhKBIK/download"
+	},
+
+	{ id: 603,
+		nombre: "Juego de 3 Canastos Verde #51",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/DP1XjS5ty3ViAcx/download",
+		foto2: "https://cloud.atrezosprops.space/s/ahxkPo9KqIbCIG1/download"
+	},
+
+	{ id: 604,
+		nombre: "Juego de 3 Canastos Lila #52",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/yo2duMNGPi3IJmT/download",
+		foto2: "https://cloud.atrezosprops.space/s/0dvuOIViF7u2Qhb/download"
+	},
+
+	{ id: 605,
+		nombre: "Jaulitas #2338",
+		stock: 5,
+		foto1: "https://cloud.atrezosprops.space/s/jKXRr8NuA3beqjb/download",
+		foto2: "https://cloud.atrezosprops.space/s/jT0vmdQax463wr6/download"
+	},
+
+	{ id: 607,
+		nombre: "Jaula Grande #9751",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/P1REK86oYSOALU4/download",
+		foto2: "https://cloud.atrezosprops.space/s/1fCwJ4yU5Wniotd/download"
+	},
+
+	{ id: 608,
+		nombre: "Cesta Verde #8126",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/QhYbPPRhecTmpxg/download",
+		
+	},
+
+	{ id: 609,
+		nombre: "Cajas Deco Storage #7956",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/LT9dFt6qf5xxI6x/download",
+		
+	},
+
+	{ id: 610,
+		nombre: "Tapete de Yute Diseño Flor #41",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/cf1gTLXrhT2kKFX/download",
+		foto2: "https://cloud.atrezosprops.space/s/Iue0QLzUdtGb01c/download"
+	},
+
+
+	{ id: 611,
+		nombre: "Tapete de Yute 1.50m #43",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/pT2zRE6b0mcmduT/download",
+		foto2: "https://cloud.atrezosprops.space/s/ptvkEPTahC5a4iI/download"
+	},
+
+	{ id: 612,
+		nombre: "Tapete de Yute Rectangular #7976",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/uiiVnuk2D0659dm/download",
+		foto2: "https://cloud.atrezosprops.space/s/jUwaTEzsr8dOXAw/download"
+	},
+ 
+	{ id: 613,
+		nombre: "Tapete Piri redondo 37cm #7953",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/RWtRPfH00yrCsEo/download",
+		
+	},
+
+	{ id: 614,
+		nombre: "Tapete Arpillera Blanco Redondo 36cm #7954",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/Fl1khf0dKreab77/download",
+		foto2: "https://cloud.atrezosprops.space/s/7JrsolVb2Blmd8f/download"
+	},
+
+    ];
+    
+	const ositos = [
+	{ id: 701,
+		nombre: "Peluche Osito con Moño #2262",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/BaN9cxdmHJCsnGg/download",
+		foto2: "https://cloud.atrezosprops.space/s/066GDZ1R5QihzVR/download"
+	},		
+
+	{ id: 702,
+		nombre: "Peluche Osito con Bufanda #7969",
+		stock: 2,				
+		foto1: "https://cloud.atrezosprops.space/s/nCZoreKyhupUYFg/download",
+		foto2: "https://cloud.atrezosprops.space/s/066GDZ1R5QihzVR/download"
+	},
+
+	{ id: 703,
+		nombre: "Peluche Osito chico #7968",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/dWYuik2KLgeU7Qf/download",
+		foto2: "https://cloud.atrezosprops.space/s/066GDZ1R5QihzVR/download"
+	},	
+
+	{ id: 704,
+		nombre: "Peluche Osito Daisy #7967",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/DAtsvRiPhZVDkDe/download",
+		foto2: "https://cloud.atrezosprops.space/s/066GDZ1R5QihzVR/download"
+	},
+
+	{ id: 705,
+		nombre: "Peluche Oveja #2059",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/WIV4qSYKoaymopD/download"
+		
+	},
+
+	{ id: 706,
+		nombre: "Peluche Felpudo Rosa Moño Cuadrille #8135",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/Ipn7XUd8LMzNd3F/download"
+		
+	},
+
+	{ id: 707,
+		nombre: "Peluche Felpudo Beige Moño Cuadrille #8136",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/rt3pYqQjMWKSqb1/download"
+		
+	},
+
+	{ id: 708,
+		nombre: "Peluche Felpudo Blanco Moño Cuadrille #8134",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/mvkHaMis3QZQImi/download"
+		
+	},
+
+	{ id: 709,
+		nombre: "Peluche Osito Peludo #2263",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/Mvy1XqEOmNSjci3/download"
+	
+	},
+
+
+	
+    ];
+
+    renderGrid(flores,   'grid-flores');
+    renderGrid(ramos,    'grid-ramos');
+    renderGrid(frutas,   'grid-frutas');
+    renderGrid(jarrones, 'grid-jarrones');
+   	renderGrid(ositos,   'grid-ositos');
+</script>
+</body>
+</html>

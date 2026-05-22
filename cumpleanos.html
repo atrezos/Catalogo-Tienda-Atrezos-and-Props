@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cumpleaños & Temáticas — Atrezos & Props</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="categoria.css">
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-logo">Atrezos & Props</a>
+        <div class="nav-breadcrumb">
+            <a href="index.html">Inicio</a>
+            <span>/</span>
+            <span>Cumpleaños & Temáticas</span>
+        </div>
+        <span class="nav-contact">0986 332140</span>
+    </nav>
+
+    <div class="page-hero">
+        <img src="https://cloud.atrezosprops.space/s/vHqE0nNbJTuziRO/download" alt="Cumpleaños y Temáticas">
+        <div class="page-hero-overlay"></div>
+        <div class="page-hero-content">
+            <div class="page-hero-eyebrow">Atrezos & Props — Catálogo</div>
+            <h1 class="page-hero-title">Cumpleaños & Temáticas</h1>
+        </div>
+    </div>
+
+    <div class="subcats-nav">
+        <button class="subcat-tab active" onclick="showTab('tortas', this)">Posatortas</button>
+		 <button class="subcat-tab active" onclick="showTab('toppers', this)">Toppers</button>
+        <button class="subcat-tab" onclick="showTab('globos', this)">Globos</button>
+        <button class="subcat-tab" onclick="showTab('decoracion', this)">Decoración</button>
+        <button class="subcat-tab" onclick="showTab('numeros', this)">Números</button>
+        <button class="subcat-tab" onclick="showTab('letras', this)">Letras</button>
+    </div>
+
+    <div class="catalogo-section">
+
+        <div class="subcat-panel active" id="panel-tortas">
+            <div class="subcat-header"><h2 class="subcat-title">Posatortas</em></h2><p class="subcat-desc">Seleccioná los que te interesan y consultanos por WhatsApp.</p></div>
+            <div class="catalog-grid" id="grid-tortas"></div>
+        </div>
+
+		<div class="subcat-panel active" id="panel-toppers">
+            <div class="subcat-header"><h2 class="subcat-title">Toppers</em></h2><p class="subcat-desc">Seleccioná los que te interesan y consultanos por WhatsApp.</p></div>
+            <div class="catalog-grid" id="grid-toppers"></div>
+        </div>
+
+        <div class="subcat-panel" id="panel-globos">
+            <div class="subcat-header"><h2 class="subcat-title"><em>Globos</em></h2><p class="subcat-desc">Seleccioná los que te interesan y consultanos por WhatsApp.</p></div>
+            <div class="catalog-grid" id="grid-globos"></div>
+        </div>
+
+        <!-- PANEL DE DECORACIÓN (Contiene Portaglobos y Banderines) -->
+<div class="subcat-panel" id="panel-decoracion">
+    
+    <!-- SECCIÓN PORTAGLOBOS -->
+    <div class="subcat-header">
+        <h2 class="subcat-title"><em>Portaglobos</em></h2>
+        <p class="subcat-desc">Seleccioná los que te interesan y consultanos por WhatsApp.</p>
+    </div>
+    <div class="catalog-grid" id="grid-decoracion"></div>
+
+    <!-- SECCIÓN BANDERINES (Replicando estilo) -->
+    <div class="subcat-header" style="margin-top: 4rem;"> <!-- Margen para separar secciones -->
+        <h2 class="subcat-title"><em>Banderines</em></h2>
+        <p class="subcat-desc">Seleccioná los que te interesan y consultanos por WhatsApp.</p>
+    </div>
+    <div class="catalog-grid" id="grid-banderines"></div>
+
+	
+
+</div>
+        <div class="subcat-panel" id="panel-numeros">
+            <div class="subcat-header"><h2 class="subcat-title"><em>Números</em></h2><p class="subcat-desc">Seleccioná los que te interesan y consultanos por WhatsApp.</p></div>
+            <div class="catalog-grid" id="grid-numeros"></div>
+        </div>
+        <div class="subcat-panel" id="panel-letras">
+            <div class="subcat-header"><h2 class="subcat-title"><em>Letras</em></h2><p class="subcat-desc">Seleccioná los que te interesan y consultanos por WhatsApp.</p></div>
+            <div class="catalog-grid" id="grid-letras"></div>
+        </div>
+
+    </div>
+
+    <button class="cart-float" onclick="sendWhatsApp()">
+        🛒 <span id="cart-count">0 items</span> — Consultar
+    </button>
+
+<script src="categoria.js"></script>
+<script>
+    const CATEGORIA = "Cumpleaños & Temáticas";
+    let carrito = [];
+
+    const tortas = [
+        { id: 101,
+		nombre: "Posatortas Vintage Dorado 2244",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/ux4lB8BYBz92eVQ/download",
+		foto2: "https://cloud.atrezosprops.space/s/lOYWEc6uuEl9sWK/download"
+	},
+
+
+        { id: 102,
+		nombre: "Posatortas Rústico Troncos 2246",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/TC4fxPXVEFM4VVT/download",
+		foto2: "https://cloud.atrezosprops.space/s/DyEnRX5WDFIu1zB/download"
+	},
+
+        { id: 103,
+		nombre: "Posatortas Enano Rosa 2240",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/mJ3FaYMVDG2XjBd/download",
+		foto2: "https://cloud.atrezosprops.space/s/Oe4Sjf8D43cfPZE/download"
+	},
+
+        { id: 104,
+		nombre: "Posatortas Enano Celeste 2242",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/BRVRkpnVL1vVRaz/download",
+		foto2: "https://cloud.atrezosprops.space/s/Oe4Sjf8D43cfPZE/download"
+	},
+
+        { id: 105,
+		nombre: "Posatortas Enano Marrón 2239",
+		stock: 0,
+		foto1: "https://cloud.atrezosprops.space/s/G8mCsqDLokUwo1x/download",
+		foto2: "https://cloud.atrezosprops.space/s/bqlpkgA9bAQ4X4f/download"
+	},
+
+         { id: 106,
+		nombre: "Posatortas Enano Blanco 2240",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/czuDyqFKlSXUVSG/download",
+		foto2: "https://cloud.atrezosprops.space/s/pANr97CXCi5zgAH/download"
+	},
+
+         { id: 107,
+		nombre: "Posatortas Cuadrado Celeste 2234",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/6BxWnOfAI7krShT/download",
+		foto2: "https://cloud.atrezosprops.space/s/kSUsehszBVAgIoj/download"
+	},
+
+         { id: 108,
+		nombre: "Posatortas Cuadrado Rosa 2236",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/hNAwB2xDI1U8ivE/download",
+		foto2: "https://cloud.atrezosprops.space/s/sZvHBCSceV4w5m5/download"
+	},
+
+        { id: 109,
+		nombre: "Posatortas Cuadrado Blanco 2235",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/z9kL3p00cEztkeW/download",
+		foto2: "https://cloud.atrezosprops.space/s/vPbD8GN2peeL0LV/download"
+	},
+
+        { id: 110,
+		nombre: "Posatortas Cuadrado Marrón 2238",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/v2oMrFSZeuRQmVE/download",
+		foto2: "https://cloud.atrezosprops.space/s/vPbD8GN2peeL0LV/download"
+	},
+
+        { id: 111,
+		nombre: "Posatortas Cuadrado Beige 2237",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/Z6XwzpCXWTfUYmD/download",
+		foto2: "https://cloud.atrezosprops.space/s/vPbD8GN2peeL0LV/download"
+	},
+  
+        { id: 112,
+		nombre: "Posatortas Plast Blanco 2412",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/lXT8mWj848DiIIV/download",
+		foto2: "https://cloud.atrezosprops.space/s/vPbD8GN2peeL0LV/download"
+	},
+
+       { id: 113,
+		nombre: "Posatortas Plast Celeste 2415",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/3AiwJvCQzuZi13C/download",
+		foto2: "https://cloud.atrezosprops.space/s/MtIfZvx1GaJI4po/download"
+	},
+
+	{ id: 114,
+		nombre: "Posatortas Plast Rosa Viejo 2414",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/XiezgZUdWv4KCXH/download",
+		foto2: "https://cloud.atrezosprops.space/s/MtIfZvx1GaJI4po/download"
+	},
+
+	{ id: 115,
+		nombre: "Posatortas Plast Verde 2418",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/O106w7SPUvyW9v0/download",
+		foto2: "httphttps://cloud.atrezosprops.space/s/eJ6hsAC0Z282Xa3/download"
+	},
+
+	{ id: 116,
+		nombre: "Posatortas Negro 2418",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/LVpRvgwO7kJ6H3S/download",
+		foto2: "https://cloud.atrezosprops.space/s/FjWpqcBrR4ZvfPL/download"
+	},
+
+	{ id: 117,
+		nombre: "Posatortas Plast Verde 2418",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/O106w7SPUvyW9v0/download",
+		foto2: "https://cloud.atrezosprops.space/s/MtIfZvx1GaJI4po/download"
+	},
+
+	{ id: 118,
+		nombre: "Posatortas c/ pata corazón 8094",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/tuBkUji0iwkXLyV/download",
+		foto2: "https://cloud.atrezosprops.space/s/Bmuz83ih0KXttZM/download"
+	},
+
+	{ id: 119,
+		nombre: "Posatortas Mediano Redondo 2418",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/V9eYfAdgDjpymRk/download",
+		foto2: "https://cloud.atrezosprops.space/s/JG0P48L7SrrxQBt/download"
+	},
+
+	{ id: 120,
+		nombre: "Posatortas Grande Redondo 2418",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/mceg1MXIvrNZ7sP/download",
+		foto2: "https://cloud.atrezosprops.space/s/cJLHxIfZhlZQJ0j/download"
+	},
+
+
+
+    ];
+    const globos = [
+        { id: 201,
+		nombre: "Globo Moño Celeste 21",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/w1hNEUUSMF3oFTX/download",
+		foto2: "https://cloud.atrezosprops.space/s/D9EnZW90e2S5d8X/download"
+	},
+
+        { id: 202,
+		nombre: "Globo Moño Rojo 22",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/iDSet3hks33oW1k/download",
+		foto2: "https://cloud.atrezosprops.space/s/58IrFurjk1ceQsJ/download"
+	},
+
+	{ id: 203,
+		nombre: "Globo Moño Dorado 23",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/TveCc3JQOti7EGS/download",
+		foto2: "https://cloud.atrezosprops.space/s/t0PF8UyJaqAnV4L/download"
+	},
+
+	{ id: 204,
+		nombre: "Globo Abejita 65.5x77.5cm 73",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/saVDPepeJY7k553/download",
+		foto2: "https://cloud.atrezosprops.space/s/81BAXikB4Ekq95E/download"
+	},
+
+	{ id: 205,
+		nombre: "Globo Abejita 65x81cm 74",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/k52ykR90xp8vJHF/download",
+		foto2: "https://cloud.atrezosprops.space/s/81BAXikB4Ekq95E/download"
+	},
+
+	{ id: 206,
+		nombre: "Set 5 globos Arcoiris + Estrellas 049",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/PiThe2TTfAy2c6U/download",
+		
+	},
+
+	{ id: 207,
+		nombre: "Set 5 Globos Osito Nena 7937",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/W7PnzKlrii0Ixim/download",
+		foto2: "https://cloud.atrezosprops.space/s/z3hX78VFnBRhOpE/download"
+	},
+
+	{ id: 208,
+		nombre: "Set 5 globos Auto Carrera 783",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/U4jqXICYxB17Ob9/download",
+		foto2: "https://cloud.atrezosprops.space/s/rtVgV2rtehFqNpE/download"
+	},
+
+	{ id: 209,
+		nombre: "Set 5 globos Navidad Moño 663",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/t8pxxt3AbuF31kh/download",
+		foto2: "https://cloud.atrezosprops.space/s/mOYDvUDfDhcDc4p/download"
+	},
+
+	{ id: 210,
+		nombre: "Set globos Papa Noel Navidad 410",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/herjXMUP8m4s1JY/download",
+		foto2: "https://cloud.atrezosprops.space/s/4WR1hCWAPlB6Q2P/download"
+	},
+
+	{ id: 211,
+		nombre: "Globo Mariposa 512",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/Mz3ESzGhu59vFqn/download",
+		foto2: "https://cloud.atrezosprops.space/s/u4OLACclp8tM8yn/download"
+	},
+
+	{ id: 212,
+		nombre: "Globo Margarita 65x78cm 387",
+		stock: 4,
+		foto1: "https://cloud.atrezosprops.space/s/Q9LhCB5v03c0oYv/download",
+		foto2: "https://cloud.atrezosprops.space/s/RObMeyAICsBhWjP/download"
+	},
+
+	{ id: 213,
+		nombre: "Globo Margarita 50x40cm 868",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/8YJuUjkE6GEvg2B/download",
+		foto2: "https://cloud.atrezosprops.space/s/RObMeyAICsBhWjP/download"
+	},
+
+
+	{ id: 214,
+		nombre: "Globo Nube 220",
+		stock: 3,
+		foto1: "https://cloud.atrezosprops.space/s/eYqEVd89qwwa3zV/download",
+		foto2: "https://cloud.atrezosprops.space/s/Ox3xoPnVuYTQhyH/download"
+	},
+
+	{ id: 215,
+		nombre: "Globo Arcoíris 79x57.5cm 081",
+		stock: 3,
+		foto1: "https://cloud.atrezosprops.space/s/gnMkkboepGjcZxz/download",
+		foto2: "https://cloud.atrezosprops.space/s/z3V6Gpr7TtHgzuS/download"
+	},
+
+	{ id: 216,
+		nombre: "Globo Camión Bombero 68x59cm 882",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/7JTwBssGI2FpTsE/download",
+		foto2: "https://cloud.atrezosprops.space/s/oA0vyJ70pkgf1tM/download"
+	},
+	
+	{ id: 217,
+		nombre: "Globo Ostra 908",
+		stock: 3,
+		foto1: "https://cloud.atrezosprops.space/s/aKIz2TL4kOQKj1m/download",
+		foto2: "https://cloud.atrezosprops.space/s/RSeKN10sYq4jiWF/download"
+	},
+
+	{ id: 218,
+		nombre: "Globo Cola de Sirena 909",
+		stock: 3,
+		foto1: "https://cloud.atrezosprops.space/s/A5xwgZb8Jl5fdnm/download",
+		foto2: "https://cloud.atrezosprops.space/s/RSeKN10sYq4jiWF/download"
+	},
+
+	{ id: 219,
+		nombre: "Globo Cebra Redondo 910",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/JUHsvEaq4VLcucw/download",
+		foto2: "https://cloud.atrezosprops.space/s/uLeXzaKVkKopgVI/download"
+	},
+
+	{ id: 220,
+		nombre: "Globo Tigre Redondo 913",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/5Db6VfD0o8dx5Yb/download",
+		foto2: "https://cloud.atrezosprops.space/s/uLeXzaKVkKopgVI/download"
+	},
+
+	{ id: 221,
+		nombre: "Globo Jirafa Redondo 914",
+		stock: 4,
+		foto1: "https://cloud.atrezosprops.space/s/uA4ahpw0zGyTkhK/download",
+		foto2: "https://cloud.atrezosprops.space/s/uLeXzaKVkKopgVI/download"
+	},
+
+	{ id: 222,
+		nombre: "Globo Leopardo Redondo 915",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/VcG91hbqiMWIjxS/download",
+		foto2: "https://cloud.atrezosprops.space/s/uLeXzaKVkKopgVI/download"
+	},
+
+	{ id: 223,
+		nombre: "Globo Revelación Español",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/3tk7M0K3r4aHlgU/download",
+		foto2: "https://cloud.atrezosprops.space/s/hpqr3CWuETy8L3Q/download"
+	},
+
+	{ id: 224,
+		nombre: "Globo Corazón Marrón Pastel 906",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/m8XzIn0vtytl0i6/download",
+		foto2: "https://cloud.atrezosprops.space/s/23RzR37b9hJSzAr/download"
+	},
+
+	{ id: 225,
+		nombre: "Globo Corazón Marrón Oscuro 907",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/m8XzIn0vtytl0i6/download",
+		foto2: "https://cloud.atrezosprops.space/s/23RzR37b9hJSzAr/download"
+	},
+
+	{ id: 226,
+		nombre: "Globo Disco 10  8098",
+		stock: 5,
+		foto1: "https://cloud.atrezosprops.space/s/HCWKpzwd8n1epXj/download",
+		foto2: "https://cloud.atrezosprops.space/s/awnc8CPcQ473UcG/download"
+	},
+
+	{ id: 227,
+		nombre: "Globo 1 verde pastel 241",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/M10AqtlrT19AzOh/download",
+		foto2: "https://cloud.atrezosprops.space/s/IDIX1Hs1kpvODMl/download"
+	},
+
+	{ id: 228,
+		nombre: "Globo 2 verde pastel 241",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/eciQmelfpz91G02/download",
+		foto2: "https://cloud.atrezosprops.space/s/2knI8cOVNuU0qRH/download"
+	},
+
+	{ id: 229,
+		nombre: "Globo 2 celeste pastel 142",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/W707YHjoAllgSgG/download",
+		foto2: "https://cloud.atrezosprops.space/s/GX5fO9J8bzYOcMm/download"
+	},
+
+	{ id: 230,
+		nombre: "Globo 4 Rose Gold 7978",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/sHxcYob7ZMNHNHH/download",
+		foto2: "https://cloud.atrezosprops.space/s/SThpcSuo3A9LD3y/download"
+	},
+
+	{ id: 231,
+		nombre: "Globo Cebra 8113",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/czYWePbqlMKtiqI/download",
+		
+	},
+
+	{ id: 232,
+		nombre: "Globo Piñata x 7 un",
+		stock: 3,
+		foto1: "https://cloud.atrezosprops.space/s/zSHBAAqJrLM7yDG/download",
+		
+	},
+
+	{ id: 233,
+		nombre: "Globo fucsia 8114",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/Xt2097IEyuYjbv1/download",
+		
+	},
+
+	{ id: 234,
+		nombre: "Globo Azul cromado 8116",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/hLDkTtEs17Aok9C/download",
+		
+	},
+	
+
+	{ id: 235,
+		nombre: "Globo Lila 8116",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/ZmxPnDxOnz9wGUQ/download",
+		
+	},
+
+
+	{ id: 236,
+		nombre: "Globo Gris Azulado 8118",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/e14y6KPBUgF73cS/download",
+		
+	},
+
+	{ id: 237,
+		nombre: "Globo Rose Red 8119",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/SPg7EyT8dv9PPmS/download",
+		
+	},
+
+	{ id: 238,
+		nombre: "Globo Verde Agua pastel 8120",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/T9hzHk4vXVicbr4/download",
+		
+	},
+
+	{ id: 239,
+		nombre: "Globo Verde Oscuro 8121",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/Cv6J6NLRNJBmtiH/download",
+		
+	},
+
+	{ id: 240,
+		nombre: "Globo Marrón Boho 8122",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/sxSE60g9wDeMqe3/download",
+		
+	},
+
+	{ id: 241,
+		nombre: "Globo Marrón Boho 8123",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/EUtzNdkAstpnKGj/download",
+		
+	},
+
+    ];
+    const decoracion = [
+        { id: 301,
+		nombre: "Portaglobos 0 #2023",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/hJtg0A5DSAjxWWO/download",
+		foto2: "https://cloud.atrezosprops.space/s/KVSprmlpS3ctpNe/download"
+	},
+
+        { id: 302,
+		nombre: "Portaglobos 1 #2024",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/x7eBH474BsxqOUF/download",
+		foto2: "https://cloud.atrezosprops.space/s/CzNh2V6Xu83YBeO/download"
+	},
+
+	{ id: 303,
+		nombre: "Portaglobos 2 #2025",
+		stock: 3,
+		foto1: "https://cloud.atrezosprops.space/s/nNosYqqSIttZC4R/download",
+		foto2: "https://cloud.atrezosprops.space/s/6GuLE58pHTgE0cs/download"
+	},
+
+	{ id: 304,
+		nombre: "Portaglobos 3 #2026",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/VVK9E7GtYC5YWeU/download",
+		foto2: "https://cloud.atrezosprops.space/s/No4esTcQZNzAGCr/download"
+	},
+
+	{ id: 305,
+		nombre: "Portaglobos 4 #2027",
+		stock: 3,
+		foto1: "https://cloud.atrezosprops.space/s/SSv3N8Z6SKKRpEm/download",
+		foto2: "https://cloud.atrezosprops.space/s/v8tqZoypoccxWJI/download"
+	},
+
+	{ id: 306,
+		nombre: "Portaglobos 5 #2028",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/Ra4waFS3azEHVzd/download",
+		foto2: "https://cloud.atrezosprops.space/s/IYQ8D0qHrwbpLMU/download"
+	},
+
+	{ id: 307,
+		nombre: "Portaglobos 6 #2029",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/ZkIhed2PDnWGjis/download",
+		foto2: "https://cloud.atrezosprops.space/s/1nNMyrDjkW1v7Os/download"
+	},
+
+	{ id: 308,
+		nombre: "Portaglobos 7 #2030",
+		stock: 5,
+		foto1: "https://cloud.atrezosprops.space/s/V9UsOrFqvVjydTH/download",
+		foto2: "https://cloud.atrezosprops.space/s/JKUG9a2RO7cv9XI/download"
+	},
+
+	{ id: 309,
+		nombre: "Portaglobos 8 #2031",
+		stock: 3,
+		foto1: "https://cloud.atrezosprops.space/s/9tFGiFBgFXbKJZu/download",
+		foto2: "https://cloud.atrezosprops.space/s/QaACEcJq6RQiyP3/download"
+	},
+
+	{ id: 310,
+		nombre: "Portaglobos 9 #2032",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/3cmSqxhQrqytCCi/download",
+		foto2: "https://cloud.atrezosprops.space/s/cbURiWM4easg7kE/download"
+	},
+
+    ];
+
+    const banderines = [
+        { id: 350,
+		nombre: "Banderin Arpillera 3.5m Cuadrado #39",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/dulqNAeuFjwCSK4/download",
+		foto2: "https://cloud.atrezosprops.space/s/lubGc7ZcnUBoPDD/download"
+	},
+	
+	{ id: 351,
+		nombre: "Banderin Arpillera 2.8m Triangular #40",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/mXoa66m7b01lpfi/download",
+		foto2: "https://cloud.atrezosprops.space/s/hlbscdyeJegAqkH/download"
+	},
+
+	{ id: 352,
+		nombre: "Banderin Happy Birthday #2069",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/yaWSTxqkZ6JTszb/download",
+		foto2: "https://cloud.atrezosprops.space/s/vp8SvGxdkth3PpQ/download"
+	},
+
+	{ id: 353,
+		nombre: "Banderin LOVE #164",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/FVl7aoy7p6iCTiv/download",
+		foto2: "https://cloud.atrezosprops.space/s/2u6I4OFVQsEQEgR/download"
+	},
+
+	{ id: 354,
+		nombre: "Banderin de Corazones #021",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/Vnv0GjR0i6hgkGc/download",
+		foto2: "https://cloud.atrezosprops.space/s/cO9cAeclyEJY1jq/download"
+	},
+
+    ];
+
+    const numeros = [
+        { id: 401,
+		nombre: "Corpóreo 2-3-4 de 10cm #COD:5-6-7",
+		stock: 3,
+		foto1: "https://cloud.atrezosprops.space/s/OsavQWV4BtZ709a/download",
+		
+	},
+
+        { id: 402,
+		nombre: "Corpóreo 2-4-7-8 de 15cm #8-9-10-11",
+		stock: 5,
+		foto1: "https://cloud.atrezosprops.space/s/DHS50NgWk54Uwxd/download",
+		
+	},
+
+	 { id: 403,
+		nombre: "Corpóreo 9 de 20cm #15",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/uwov0hrOxGjgSlE/download",
+		
+	},
+
+	{ id: 404,
+		nombre: "Corpóreo 1 a pilas #29",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/LrkiaOYct2Dlywu/download",
+		foto2: "https://cloud.atrezosprops.space/s/zHzw3drwwL0B0H9/download"
+	},
+
+	{ id: 405,
+		nombre: "Corpóreo Nº1 Natural-Celeste-Blanco-Rosa #2271",
+		stock: 4,
+		foto1: "https://cloud.atrezosprops.space/s/i8DpHvtcc9U8Dat/download",
+		foto2: "https://cloud.atrezosprops.space/s/qZM06AdNv8f0Kqc/download"
+
+	},
+
+    ];
+    const letras = [
+        { id: 501,
+		nombre: "Copóreo UNO Cursiva Blanco 2266",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/Fu45YRcoV0B4kVb/download",
+		foto2: "https://cloud.atrezosprops.space/s/1EoBZEexVAe1KBM/download"
+	},
+
+        { id: 502,
+		nombre: "Corpóreo UNO Cursiva Rosa 2391",
+		stock: 2,
+		foto1: "https://cloud.atrezosprops.space/s/GXhJw6q0Jm1cjXi/download",
+		foto2: "https://cloud.atrezosprops.space/s/6Tk1QvCLLThi6d0/download"
+	},
+
+	{ id: 503,
+		nombre: "Corpóreo UNO Cursiva Celeste 2392",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/ZRupc4l2lEXHKjL/download",
+		foto2: "https://cloud.atrezosprops.space/s/1EoBZEexVAe1KBM/download"
+	},
+
+	{ id: 504,
+		nombre: "Corpóreo ONE Cursiva BLANCO 2266",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/WjZ7vRIMx260VcF/download",
+		foto2: "https://cloud.atrezosprops.space/s/pSafDFAO1HnnhoN/download"
+	},
+
+	{ id: 505,
+		nombre: "Corpóreo ONE Cursiva Cremita 2388",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/B02pKJ86QUbTMVK/download",
+		foto2: "https://cloud.atrezosprops.space/s/1EoBZEexVAe1KBM/download"
+	},
+
+	{ id: 506,
+		nombre: "Corpóreo ONE Cursiva Celeste 2390",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/bdvOQc0CQhPSoZR/download",
+		foto2: "https://cloud.atrezosprops.space/s/pSafDFAO1HnnhoN/download"
+	},
+	{ id: 507,
+		nombre: "Corpóreo ONE Cursiva Rosa pastel 2389",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/ioxopV74a5YVSIx/download",
+		foto2: "https://cloud.atrezosprops.space/s/pSafDFAO1HnnhoN/download"
+	},
+
+	{ id: 508,
+		nombre: "Corpóreo UNO Madera 2380",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/ARpSlnZw4iNbEW9/download",
+		foto2: "https://cloud.atrezosprops.space/s/eabnpCJXGrHqnNR/download"
+	},
+
+	{ id: 509,
+		nombre: "Corpóreo UNO Madera Blanco 2381",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/6sbz0h6Si7SwNWy/download",
+		foto2: "https://cloud.atrezosprops.space/s/eabnpCJXGrHqnNR/download"
+	},
+
+	{ id: 510,
+		nombre: "Corpóreo UNO Madera Marrón 8124",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/DVMgIKcHLzokRvk/download",
+		foto2: "https://cloud.atrezosprops.space/s/eabnpCJXGrHqnNR/download"
+	},
+
+	{ id: 511,
+		nombre: "Corpóreo EUNO Marrón 2387",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/z0OeU6Bo97XbYdL/download",
+		foto2: "https://cloud.atrezosprops.space/s/93P5Ukl369AKxJn/download"
+	},
+
+	{ id: 512,
+		nombre: "Corpóreo EUNO Blanco 2270",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/hlmM56Eh6xqqug4/download",
+		foto2: "https://cloud.atrezosprops.space/s/93P5Ukl369AKxJn/download"
+	},
+
+	{ id: 513,
+		nombre: "Corpóreo ONE Blanco #3",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/fkkAmOrOXJgevdZ/download",
+		
+	},
+
+    ];
+
+    renderGrid(tortas, 'grid-tortas');
+    renderGrid(globos, 'grid-globos');
+    renderGrid(decoracion, 'grid-decoracion');
+    renderGrid(banderines, 'grid-banderines');
+    renderGrid(numeros, 'grid-numeros');
+    renderGrid(letras, 'grid-letras');
+</script>
+</body>
+</html>

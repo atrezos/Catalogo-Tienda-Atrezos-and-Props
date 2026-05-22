@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Fondos de Tela — Atrezos & Props</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="categoria.css">
+    <style>
+
+        /* ── HERO CATÁLOGO ── */
+        .catalogo-hero {
+            height: 220px;
+            background: var(--arena);
+            margin-top: 72px;
+            display: flex;
+            align-items: flex-end;
+            position: relative;
+            overflow: hidden;
+        }
+        .catalogo-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--bosque) 0%, #3a5a34 50%, var(--sage) 100%);
+            opacity: 0.92;
+        }
+        .catalogo-hero-content {
+            position: relative;
+            z-index: 1;
+            padding: 36px 60px;
+            color: white;
+        }
+        .catalogo-hero-eyebrow {
+            font-size: 0.7rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.65);
+            margin-bottom: 8px;
+        }
+        .catalogo-hero-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 300;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        .catalogo-hero-sub {
+            font-size: 0.82rem;
+            color: rgba(255,255,255,0.7);
+            font-weight: 300;
+        }
+
+        /* ── BARRA DE FILTROS ── */
+        .filtros-bar {
+            background: var(--crema);
+            border-bottom: 1px solid var(--arena);
+            padding: 0;
+            position: sticky;
+            top: 72px;
+            z-index: 90;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+        }
+
+        .filtros-row {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            padding: 0 48px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            border-bottom: 1px solid var(--arena);
+        }
+        .filtros-row::-webkit-scrollbar { display: none; }
+        .filtros-row:last-child { border-bottom: none; }
+
+        .filtros-label {
+            font-size: 0.68rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #aaa;
+            padding: 14px 20px 14px 0;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        /* Temáticas */
+        .tematica-btn {
+            padding: 14px 20px;
+            font-size: 0.77rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #999;
+            cursor: pointer;
+            border: none;
+            border-bottom: 2px solid transparent;
+            background: none;
+            font-family: 'Jost', sans-serif;
+            white-space: nowrap;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        .tematica-btn.active { color: var(--bosque); border-bottom-color: var(--bosque); }
+        .tematica-btn:hover { color: var(--bosque); }
+
+        /* Colores */
+        .colores-row {
+            padding: 10px 48px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .colores-row::-webkit-scrollbar { display: none; }
+
+        .color-chip {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--arena);
+            cursor: pointer;
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: #888;
+            background: white;
+            transition: all 0.2s;
+            white-space: nowrap;
+            font-family: 'Jost', sans-serif;
+        }
+        .color-chip:hover { border-color: var(--bosque); color: var(--bosque); }
+        .color-chip.active { background: var(--bosque); color: white; border-color: var(--bosque); }
+
+        .color-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 1px solid rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+
+        /* ── RESULTADOS ── */
+        .resultados-bar {
+            padding: 20px 48px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .resultados-count {
+            font-size: 0.78rem;
+            color: #aaa;
+        }
+        .resultados-count strong {
+            color: var(--bosque);
+            font-weight: 500;
+        }
+        .limpiar-btn {
+            font-size: 0.72rem;
+            color: #bbb;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: 'Jost', sans-serif;
+            transition: color 0.2s;
+            display: none;
+        }
+        .limpiar-btn.visible { display: block; }
+        .limpiar-btn:hover { color: var(--bosque); }
+
+        /* ── GRID PRINCIPAL ── */
+        .catalogo-main {
+            padding: 24px 48px 120px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .foto-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        /* ── FOTO CARD ── */
+        .foto-card {
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            background: var(--crema);
+            border: 1px solid var(--arena);
+        }
+        .foto-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+        }
+
+        .foto-card-img {
+            width: 100%;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+        .foto-card:hover .foto-card-img { transform: scale(1.04); }
+
+        /* Placeholder cuando no hay foto */
+        .foto-placeholder {
+            width: 100%;
+            aspect-ratio: 3/4;
+            background: linear-gradient(135deg, var(--crema) 0%, var(--arena) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ccc;
+            font-size: 2rem;
+        }
+
+        .foto-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(26,26,26,0.82) 0%, rgba(26,26,26,0.1) 50%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 16px;
+        }
+        .foto-card:hover .foto-card-overlay { opacity: 1; }
+
+        .foto-card-nombre {
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .btn-presupuestar {
+            background: white;
+            color: var(--bosque);
+            border: none;
+            padding: 9px 14px;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-family: 'Jost', sans-serif;
+            transition: background 0.2s;
+            width: 100%;
+        }
+        .btn-presupuestar:hover { background: var(--sage); color: white; }
+        .btn-presupuestar.en-lista {
+            background: var(--sage);
+            color: white;
+        }
+        .btn-presupuestar.en-lista:hover { background: var(--bosque); }
+
+        /* Nombre visible siempre (bajo la imagen) */
+        .foto-card-info {
+            padding: 10px 12px 12px;
+            background: white;
+        }
+        .foto-card-nombre-visible {
+            font-size: 0.8rem;
+            color: var(--bosque);
+            font-weight: 500;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+        .foto-card-tematica {
+            font-size: 0.68rem;
+            color: #bbb;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        /* ── MODAL LIGHTBOX ── */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(15,15,15,0.92);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .lightbox.open { display: flex; }
+
+        .lightbox-inner {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            max-width: 760px;
+            width: 100%;
+            display: flex;
+            max-height: 90vh;
+        }
+
+        .lightbox-img-wrap {
+            flex: 0 0 55%;
+            background: var(--crema);
+            overflow: hidden;
+        }
+        .lightbox-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .lightbox-info {
+            flex: 1;
+            padding: 36px 32px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .lb-eyebrow {
+            font-size: 0.68rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--sage);
+            margin-bottom: 10px;
+        }
+        .lb-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 300;
+            color: var(--negro);
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+        .lb-divider {
+            height: 1px;
+            background: var(--arena);
+            margin-bottom: 20px;
+        }
+        .lb-detail {
+            font-size: 0.8rem;
+            color: #999;
+            margin-bottom: 6px;
+        }
+        .lb-detail strong { color: var(--bosque); font-weight: 500; }
+
+        .lb-colores {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 12px 0 24px;
+        }
+        .lb-color-tag {
+            padding: 3px 10px;
+            border-radius: 20px;
+            background: var(--crema);
+            border: 1px solid var(--arena);
+            font-size: 0.7rem;
+            color: #888;
+        }
+
+        .lb-nota {
+            font-size: 0.78rem;
+            color: #bbb;
+            font-style: italic;
+            line-height: 1.5;
+            margin-bottom: 24px;
+            flex-grow: 1;
+        }
+
+        .btn-lb-presupuestar {
+            background: var(--bosque);
+            color: white;
+            border: none;
+            padding: 13px;
+            border-radius: 5px;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .btn-lb-presupuestar:hover { background: #3a5a34; }
+        .btn-lb-presupuestar.en-lista { background: var(--sage); }
+
+        .btn-lb-cerrar {
+            background: none;
+            border: 1px solid var(--arena);
+            color: #999;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s;
+        }
+        .btn-lb-cerrar:hover { border-color: var(--bosque); color: var(--bosque); }
+
+        .lightbox-close-x {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.6);
+            font-size: 1.5rem;
+            cursor: pointer;
+            line-height: 1;
+            z-index: 1001;
+            transition: color 0.2s;
+        }
+        .lightbox-close-x:hover { color: white; }
+
+        /* ── LISTA FLOTANTE ── */
+        .lista-float {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            background: var(--bosque);
+            color: white;
+            padding: 14px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 6px 24px rgba(80,101,73,0.4);
+            z-index: 200;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            border: none;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .lista-float.visible { display: flex; }
+        .lista-float:hover { background: #3a5a34; transform: scale(1.02); }
+
+        .lista-badge {
+            background: white;
+            color: var(--bosque);
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.72rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* ── ESTADO VACÍO ── */
+        .estado-vacio {
+            text-align: center;
+            padding: 80px 20px;
+            display: none;
+        }
+        .estado-vacio.visible { display: block; }
+        .estado-vacio-icon {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+        .estado-vacio p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            color: #bbb;
+            font-style: italic;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .catalogo-hero-content { padding: 28px 24px; }
+            .filtros-row { padding: 0 16px; }
+            .colores-row { padding: 10px 16px; }
+            .resultados-bar { padding: 16px 16px 0; }
+            .catalogo-main { padding: 16px 16px 100px; }
+            .foto-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .lightbox-inner { flex-direction: column; max-height: 95vh; }
+            .lightbox-img-wrap { flex: 0 0 220px; }
+            .lightbox-info { padding: 24px 20px; }
+            .lista-float { bottom: 16px; right: 16px; padding: 12px 18px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-logo">Atrezos & Props</a>
+        <div class="nav-breadcrumb">
+            <a href="index.html">Inicio</a>
+            <span>/</span>
+            <a href="escenografias.html">Escenografías & Fondos</a>
+            <span>/</span>
+            <span>Fondos de Tela</span>
+        </div>
+        <span class="nav-contact">0986 332140</span>
+    </nav>
+
+    <!-- HERO -->
+    <div class="catalogo-hero">
+        <div class="catalogo-hero-content">
+            <div class="catalogo-hero-eyebrow">Atrezos & Props — Escenografías & Fondos</div>
+            <h1 class="catalogo-hero-title">Catálogo Fondos de Tela</h1>
+            <p class="catalogo-hero-sub">Todos los fondos son personalizados · Pedí el tamaño que necesitás</p>
+        </div>
+    </div>
+
+    <!-- FILTROS -->
+    <div class="filtros-bar">
+        <div class="filtros-row" id="tematicas-row">
+            <span class="filtros-label">Temática</span>
+            <!-- Generado por JS -->
+        </div>
+        <div class="colores-row" id="colores-row">
+            <span class="filtros-label" style="padding: 0; margin-right: 4px;">Color</span>
+            <!-- Generado por JS -->
+        </div>
+    </div>
+
+    <!-- BARRA RESULTADOS -->
+    <div class="resultados-bar">
+        <p class="resultados-count" id="resultados-count">Cargando...</p>
+        <button class="limpiar-btn" id="limpiar-btn" onclick="limpiarFiltros()">✕ Limpiar filtros</button>
+    </div>
+
+    <!-- GRID -->
+    <div class="catalogo-main">
+        <div class="foto-grid" id="foto-grid"></div>
+        <div class="estado-vacio" id="estado-vacio">
+            <div class="estado-vacio-icon">🎨</div>
+            <p>No hay fondos con esa combinación de filtros.</p>
+        </div>
+    </div>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close-x" onclick="cerrarLightbox()">✕</button>
+        <div class="lightbox-inner">
+            <div class="lightbox-img-wrap">
+                <img id="lb-foto" src="" alt="">
+            </div>
+            <div class="lightbox-info">
+                <div class="lb-eyebrow" id="lb-tematica">—</div>
+                <h2 class="lb-title" id="lb-nombre">—</h2>
+                <div class="lb-divider"></div>
+                <p class="lb-detail"><strong>Tipo:</strong> Fondo de Tela</p>
+                <p class="lb-detail"><strong>Tamaño:</strong> A medida según pedido</p>
+                <div class="lb-colores" id="lb-colores"></div>
+                <p class="lb-nota">Este fondo es totalmente personalizado. Consultanos por el tamaño que necesitás y te damos precio al instante por WhatsApp.</p>
+                <button class="btn-lb-presupuestar" id="btn-lb-presupuestar" onclick="presupuestarDesdeModal()">
+                    Agregar a mi consulta
+                </button>
+                <button class="btn-lb-cerrar" onclick="cerrarLightbox()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FLOTANTE LISTA -->
+    <button class="lista-float" id="lista-float" onclick="enviarConsulta()">
+        <span class="lista-badge" id="lista-count">0</span>
+        Consultar por WhatsApp
+    </button>
+
+    <!-- DATOS -->
+    <script src="fondos-data.js"></script>
+
+    <script>
+        const WA = "595986338010";
+        let listaConsulta = [];
+        let filtroTematica = "todas";
+        let filtroColor = "todos";
+        let fondoActual = null;
+
+        // ── TEMATICA LABELS ─────────────────────────────────────────────────
+        const TEMATICA_LABELS = {};
+        TEMATICAS.forEach(t => { TEMATICA_LABELS[t.id] = t.label; });
+
+        // ── RENDER FILTROS ───────────────────────────────────────────────────
+        function renderFiltros() {
+            const rowTem = document.getElementById('tematicas-row');
+            const label = rowTem.querySelector('.filtros-label');
+            rowTem.innerHTML = '';
+            rowTem.appendChild(label);
+            TEMATICAS.forEach(t => {
+                const btn = document.createElement('button');
+                btn.className = 'tematica-btn' + (t.id === filtroTematica ? ' active' : '');
+                btn.textContent = t.label;
+                btn.onclick = () => { filtroTematica = t.id; renderFiltros(); renderGrid(); };
+                rowTem.appendChild(btn);
+            });
+
+            const rowCol = document.getElementById('colores-row');
+            const labelCol = rowCol.querySelector('.filtros-label');
+            rowCol.innerHTML = '';
+            rowCol.appendChild(labelCol);
+            COLORES_FILTRO.forEach(c => {
+                const chip = document.createElement('button');
+                chip.className = 'color-chip' + (c.id === filtroColor ? ' active' : '');
+                if (c.hex) {
+                    const dot = document.createElement('span');
+                    dot.className = 'color-dot';
+                    dot.style.background = c.hex;
+                    chip.appendChild(dot);
+                } else if (c.id === 'multicolor') {
+                    const dot = document.createElement('span');
+                    dot.className = 'color-dot';
+                    dot.style.background = 'linear-gradient(135deg, #f0a0b8, #a8d4e6, #7a9e6e, #c8a840)';
+                    chip.appendChild(dot);
+                }
+                chip.appendChild(document.createTextNode(c.label));
+                chip.onclick = () => { filtroColor = c.id; renderFiltros(); renderGrid(); };
+                rowCol.appendChild(chip);
+            });
+        }
+
+        // ── FILTRAR DATOS ────────────────────────────────────────────────────
+        function filtrarFondos() {
+            return FONDOS_CATALOGO.filter(f => {
+                const okTem = filtroTematica === 'todas' || f.tematica === filtroTematica;
+                const okCol = filtroColor === 'todos' || f.colores.includes(filtroColor);
+                return okTem && okCol;
+            });
+        }
+
+        // ── RENDER GRID ──────────────────────────────────────────────────────
+        function renderGrid() {
+            const grid = document.getElementById('foto-grid');
+            const vacio = document.getElementById('estado-vacio');
+            const countEl = document.getElementById('resultados-count');
+            const limpiarEl = document.getElementById('limpiar-btn');
+
+            const fondos = filtrarFondos();
+            const hayFiltros = filtroTematica !== 'todas' || filtroColor !== 'todos';
+            limpiarEl.classList.toggle('visible', hayFiltros);
+
+            if (fondos.length === 0) {
+                grid.innerHTML = '';
+                vacio.classList.add('visible');
+                countEl.innerHTML = 'Sin resultados para esa combinación';
+                return;
+            }
+
+            vacio.classList.remove('visible');
+            countEl.innerHTML = `Mostrando <strong>${fondos.length}</strong> fondo${fondos.length !== 1 ? 's' : ''}`;
+
+            grid.innerHTML = fondos.map(f => {
+                const enLista = listaConsulta.some(x => x.id === f.id);
+                const temLabel = TEMATICA_LABELS[f.tematica] || f.tematica;
+
+                const imgHtml = f.foto && !f.foto.includes('TU_LINK_AQUI')
+                    ? `<img class="foto-card-img" src="${f.foto}" alt="${f.nombre}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'foto-placeholder\\'>🖼</div>'">`
+                    : `<div class="foto-placeholder">🖼</div>`;
+
+                return `
+                <div class="foto-card" onclick="abrirLightbox(${f.id})">
+                    ${imgHtml}
+                    <div class="foto-card-overlay">
+                        <p class="foto-card-nombre">${f.nombre}</p>
+                        <button class="btn-presupuestar ${enLista ? 'en-lista' : ''}"
+                            onclick="event.stopPropagation(); toggleConsulta(${f.id}, '${f.nombre.replace(/'/g, "\\'")}')">
+                            ${enLista ? '✓ En tu consulta' : '+ Agregar a consulta'}
+                        </button>
+                    </div>
+                    <div class="foto-card-info">
+                        <p class="foto-card-nombre-visible">${f.nombre}</p>
+                        <p class="foto-card-tematica">${temLabel}</p>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        // ── LIGHTBOX ─────────────────────────────────────────────────────────
+        function abrirLightbox(id) {
+            const f = FONDOS_CATALOGO.find(x => x.id === id);
+            if (!f) return;
+            fondoActual = f;
+
+            document.getElementById('lb-foto').src = (f.foto && !f.foto.includes('TU_LINK_AQUI')) ? f.foto : '';
+            document.getElementById('lb-nombre').textContent = f.nombre;
+            document.getElementById('lb-tematica').textContent = TEMATICA_LABELS[f.tematica] || f.tematica;
+
+            const coloresEl = document.getElementById('lb-colores');
+            coloresEl.innerHTML = f.colores.map(c => `<span class="lb-color-tag">${c}</span>`).join('');
+
+            const enLista = listaConsulta.some(x => x.id === f.id);
+            const btn = document.getElementById('btn-lb-presupuestar');
+            btn.textContent = enLista ? '✓ Ya está en tu consulta' : '+ Agregar a mi consulta';
+            btn.className = 'btn-lb-presupuestar' + (enLista ? ' en-lista' : '');
+
+            document.getElementById('lightbox').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function cerrarLightbox() {
+            document.getElementById('lightbox').classList.remove('open');
+            document.body.style.overflow = '';
+            fondoActual = null;
+        }
+
+        document.getElementById('lightbox').addEventListener('click', function(e) {
+            if (e.target === this) cerrarLightbox();
+        });
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') cerrarLightbox();
+        });
+
+        function presupuestarDesdeModal() {
+            if (!fondoActual) return;
+            toggleConsulta(fondoActual.id, fondoActual.nombre);
+            const enLista = listaConsulta.some(x => x.id === fondoActual.id);
+            const btn = document.getElementById('btn-lb-presupuestar');
+            btn.textContent = enLista ? '✓ Ya está en tu consulta' : '+ Agregar a mi consulta';
+            btn.className = 'btn-lb-presupuestar' + (enLista ? ' en-lista' : '');
+        }
+
+        // ── LISTA CONSULTA ───────────────────────────────────────────────────
+        function toggleConsulta(id, nombre) {
+            const idx = listaConsulta.findIndex(x => x.id === id);
+            if (idx >= 0) {
+                listaConsulta.splice(idx, 1);
+            } else {
+                listaConsulta.push({ id, nombre });
+            }
+            actualizarFlotante();
+            renderGrid();
+        }
+
+        function actualizarFlotante() {
+            const float = document.getElementById('lista-float');
+            const count = document.getElementById('lista-count');
+            count.textContent = listaConsulta.length;
+            float.classList.toggle('visible', listaConsulta.length > 0);
+        }
+
+        function limpiarFiltros() {
+            filtroTematica = 'todas';
+            filtroColor = 'todos';
+            renderFiltros();
+            renderGrid();
+        }
+
+        // ── ENVIAR WHATSAPP ──────────────────────────────────────────────────
+        function enviarConsulta() {
+            if (listaConsulta.length === 0) return;
+            let msg = `Hola! Quisiera consultar precio y disponibilidad de los siguientes fondos de tela de *Atrezos & Props*:%0A%0A`;
+            listaConsulta.forEach((f, i) => {
+                msg += `${i + 1}. ${f.nombre}%0A`;
+            });
+            msg += `%0A¿Me informan tallas y precio para cada uno?`;
+            window.open(`https://wa.me/${WA}?text=${msg}`, '_blank');
+        }
+
+        // ── INIT ─────────────────────────────────────────────────────────────
+        renderFiltros();
+        renderGrid();
+    </script>
+
+</body>
+</html>

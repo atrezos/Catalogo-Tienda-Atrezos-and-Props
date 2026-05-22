@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sesiones Infantiles — Atrezos & Props</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="categoria.css">
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-logo">Atrezos & Props</a>
+        <div class="nav-breadcrumb">
+            <a href="index.html">Inicio</a>
+            <span>/</span>
+            <span>Sesiones Infantiles</span>
+        </div>
+        <span class="nav-contact">0986 332140</span>
+    </nav>
+
+    <div class="page-hero">
+        <img src="https://cloud.atrezosprops.space/s/kuRFx1Jw0PWTdFO/download" alt="Sesiones Infantiles">
+        <div class="page-hero-overlay"></div>
+        <div class="page-hero-content">
+            <div class="page-hero-eyebrow">Atrezos & Props — Catálogo</div>
+            <h1 class="page-hero-title">Sesiones Infantiles</h1>
+        </div>
+    </div>
+
+    <div class="subcats-nav">
+        <button class="subcat-tab active" onclick="showTab('sillitas', this)">Sillitas</button>
+        <button class="subcat-tab" onclick="showTab('tinas', this)">Tinas</button>
+        <button class="subcat-tab" onclick="showTab('minisofa', this)">Mini Sofá</button>
+        <button class="subcat-tab" onclick="showTab('triciclos', this)">Triciclos</button>
+        <button class="subcat-tab" onclick="showTab('caballitos', this)">Caballitos</button>
+        <button class="subcat-tab" onclick="showTab('piano', this)">Piano</button>
+        <button class="subcat-tab" onclick="showTab('columpio', this)">Columpio</button>
+        <button class="subcat-tab" onclick="showTab('autitos', this)">Autitos</button>
+    </div>
+
+    <div class="catalogo-section">
+
+        <div class="subcat-panel active" id="panel-sillitas">
+            <div class="subcat-header"><h2 class="subcat-title"><em>Sillitas-Banquitos-Carritos-Lunitas</em></h2><p class="subcat-desc">Seleccioná los que te interesan y consultanos por WhatsApp.</p></div>
+            <div class="catalog-grid" id="grid-sillitas"></div>
+        </div>
+        <div class="subcat-panel" id="panel-tinas">
+            <div class="subcat-header"><h2 class="subcat-title"><em>Tinas</em></h2><p class="subcat-desc">Seleccioná los que te interesan y consultanos por WhatsApp.</p></div>
+            <div class="catalog-grid" id="grid-tinas"></div>
+        </div>
+        <div class="subcat-panel" id="panel-minisofa">
+            <div class="subcat-header"><h2 class="subcat-title"><em>Mini Sofá</em></h2><p class="subcat-desc">Seleccioná los que te interesan y consultanos por WhatsApp.</p></div>
+            <div class="catalog-grid" id="grid-minisofa"></div>
+        </div>
+        <div class="subcat-panel" id="panel-triciclos">
+            <div class="subcat-header"><h2 class="subcat-title"><em>Triciclos</em></h2><p class="subcat-desc">Seleccioná los que te interesan y consultanos por WhatsApp.</p></div>
+            <div class="catalog-grid" id="grid-triciclos"></div>
+        </div>
+        <div class="subcat-panel" id="panel-caballitos">
+            <div class="subcat-header"><h2 class="subcat-title"><em>Caballitos</em></h2><p class="subcat-desc">Seleccioná los que te interesan y consultanos por WhatsApp.</p></div>
+            <div class="catalog-grid" id="grid-caballitos"></div>
+        </div>
+        <div class="subcat-panel" id="panel-piano">
+            <div class="subcat-header"><h2 class="subcat-title"><em>Piano</em></h2><p class="subcat-desc">Seleccioná los que te interesan y consultanos por WhatsApp.</p></div>
+            <div class="catalog-grid" id="grid-piano"></div>
+        </div>
+        <div class="subcat-panel" id="panel-columpio">
+            <div class="subcat-header"><h2 class="subcat-title"><em>Columpio</em></h2><p class="subcat-desc">Seleccioná los que te interesan y consultanos por WhatsApp.</p></div>
+            <div class="catalog-grid" id="grid-columpio"></div>
+        </div>
+        <div class="subcat-panel" id="panel-autitos">
+            <div class="subcat-header"><h2 class="subcat-title"><em>Autitos</em></h2><p class="subcat-desc">Seleccioná los que te interesan y consultanos por WhatsApp.</p></div>
+            <div class="catalog-grid" id="grid-autitos"></div>
+        </div>
+
+    </div>
+
+    <button class="cart-float" onclick="sendWhatsApp()">
+        🛒 <span id="cart-count">0 items</span> — Consultar
+    </button>
+
+<script src="categoria.js"></script>
+<script>
+    const CATEGORIA = "Sesiones Infantiles";
+    let carrito = [];
+
+    const sillitas = [
+        { id: 101, 
+           nombre: "Sillita Clásica Marrón 2073", 
+           stock: 3,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/Aiqg7uvc0naAMbI/download",
+                 "https://cloud.atrezosprops.space/s/kuRFx1Jw0PWTdFO/download",
+           ]
+        },
+        
+        { id: 102, 
+           nombre: "Sillita Clásica Blanca 2074", 
+           stock: 3,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/vGBAxmqsAVyVRvM/download",
+                 "https://cloud.atrezosprops.space/s/4ca5HJ2OCFMWuNx/download",
+           ]
+        },
+        
+        { id: 103, 
+           nombre: "Silloncito con corte a los costados marrón 2215", 
+           stock: 1,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/TNf0jLCnxIlzrOM/download",
+                 "https://cloud.atrezosprops.space/s/RNhqfV2d2F29PkW/download",
+           ]
+        },
+        
+        { id: 104, 
+           nombre: "Silloncito con corte a los costados blanco 2215", 
+           stock: 1,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/CxUAMl1qQGHcx6T/download",
+                 "https://cloud.atrezosprops.space/s/SsbxBD5USxXFAoJ/download",
+           ]
+        },
+        
+        { id: 105, 
+           nombre: "Banquito Blanco con Respaldero 2208", 
+           stock: 3,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/qpg3PBvD6129tRq/download",
+                 "https://cloud.atrezosprops.space/s/iCw364gxBMFDuSj/download",
+           ]
+        },
+        
+        { id: 106, 
+           nombre: "Banquito Marrón con Respaldero 2209", 
+           stock: 3,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/pUhvfkVEWKvEAx4/download",
+                 "https://cloud.atrezosprops.space/s/iCw364gxBMFDuSj/download",
+           ]
+        },
+
+        { id: 107, 
+           nombre: "Banquito Barnizado con Respaldero 2207", 
+           stock: 3,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/My7yYbS2iKZZaE4/download",
+                 "https://cloud.atrezosprops.space/s/jhEC1uOMfYDa51v/download",
+           ]
+        },
+
+        { id: 108, 
+           nombre: "Banquito de Parque Blanco 2206", 
+           stock: 3,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/RxmNmWQPQqJVjs7/download",
+                 "https://cloud.atrezosprops.space/s/KMR89xj2n4TzisH/download",
+           ]
+        },
+
+        { id: 109, 
+           nombre: "Banquito alargado Blanco 2216", 
+           stock: 1,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/5h4UQrMcFhxPM2c/download",
+                 "https://cloud.atrezosprops.space/s/83g8DfUB6k4w4jT/download",
+           ]
+        },
+
+        { id: 110, 
+           nombre: "Banquito alargado Marrón 2217", 
+           stock: 1,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/Iu9AxBiN17swrrp/download",
+                 "https://cloud.atrezosprops.space/s/83g8DfUB6k4w4jT/download",
+           ]
+        },
+
+        { id: 111, 
+           nombre: "Banco enano Vintage 2260", 
+           stock: 1,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/d8kLRgf1X1ijX2a/download",
+                 "https://cloud.atrezosprops.space/s/9tzeadOTRdc6tmX/download",
+           ]
+        },
+        
+        { id: 112, 
+           nombre: "Silla Petit 2124-2101", 
+           stock: 3,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/FUnL7AO7VGQSCin/download",
+                 "https://cloud.atrezosprops.space/s/US2tB4HaUZ3jQjY/download",
+           ]
+        },
+ 
+        { id: 113, 
+           nombre: "Silla Enana Marrón 8002", 
+           stock: 3,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/jak6aJQH8cY1PA5/download",
+                 "https://cloud.atrezosprops.space/s/Hbw1YgMiFz4Ad3c/download",
+           ]
+        },
+ 
+        { id: 110, 
+           nombre: "Silla Enana Blanca 8003", 
+           stock: 3,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/jboBOcgp90u3T9G/download",
+                 "https://cloud.atrezosprops.space/s/7aoO5DeLDBqTHS8/download",
+           ]
+        },
+
+        { id: 111, 
+           nombre: "Silla Corralito Marrón 2082", 
+           stock: 3,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/QXjhRX5caImccNE/download",
+                 "https://cloud.atrezosprops.space/s/DqkDqoSQxqTFXyr/download",
+           ]
+        },
+        
+        { id: 112, 
+           nombre: "Silla Corralito Blanco 2121", 
+           stock: 3,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/s86FbLHPZHd2YUD/download",
+                 "https://cloud.atrezosprops.space/s/VMPBeEvo9N1JrOY/download",
+           ]
+        },
+
+        { id: 113, 
+           nombre: "Silloncito con Macrame Barnizado 2204", 
+           stock: 1,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/N9az9OZQ47XnLLW/download",
+                 "https://cloud.atrezosprops.space/s/JTdnHTlo6lwBgtt/download",
+           ]
+        },
+
+        { id: 114, 
+           nombre: "Silloncito Trono Marrón 2104", 
+           stock: 1,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/HdXqxDlxs9AgAjI/download",
+                 "https://cloud.atrezosprops.space/s/wEvGMtzDSO6eOow/download",
+           ]
+        },
+   
+        { id: 115, 
+           nombre: "Silloncito Trono Blanco 2105", 
+           stock: 1,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/iQJh1eTyBgJYN5e/download",
+                 "https://cloud.atrezosprops.space/s/KeBQGWhkB9nWlZT/download",
+           ]
+        },
+
+        { id: 116, 
+           nombre: "Pupitre enano Marrón 8037", 
+           stock: 1,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/d5HzodLwonlHjZL/download",
+                 "https://cloud.atrezosprops.space/s/vXV3xDCLkpPw6L5/download",
+           ]
+        },
+
+        { id: 117, 
+           nombre: "Pupitre Modelo 2 8036-8038", 
+           stock: 3,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/tNHG8kUFTfWgsOD/download",
+                 "https://cloud.atrezosprops.space/s/X4MLBLBiBrhTaVK/download",
+           ]
+        },
+
+        { id: 118, 
+           nombre: "Corralito Osito Marrón 2335", 
+           stock: 1,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/S3dZGxVc3r6WDxo/download",
+                 "https://cloud.atrezosprops.space/s/KY4DPpkvevnGB4z/download",
+           ]
+        },
+
+        { id: 119, 
+           nombre: "Corralito Osito Blanco 2193", 
+           stock: 0,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/S3dZGxVc3r6WDxo/download",
+                 "https://cloud.atrezosprops.space/s/zG4SWwrm0rsiBeI/download",
+           ]
+        },
+
+        { id: 120, 
+           nombre: "Silla de Hierro Negro 2119", 
+           stock: 0,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/s2IbSJAPPy0pTYN/download",
+                 "https://cloud.atrezosprops.space/s/2KIfjyTgGJ33V0V/download",
+           ]
+        },
+
+        { id: 117, 
+           nombre: "Silla de Hierro Negro 2120", 
+           stock: 3,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/QrAvYkx19yCdEYL/download",
+                 "https://cloud.atrezosprops.space/s/Zocj4yhUhIdk5Xg/download",
+           ]
+        },
+
+        { id: 117, 
+           nombre: "Silla Mecedora Blanca 2213", 
+           stock: 1,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/9O0DQxVUUopTjWj/download",
+                 "https://cloud.atrezosprops.space/s/KdPlnGzlFTz17MD/download",
+           ]
+        },
+
+        { id: 118, 
+           nombre: "Silloncito de Mimbre Alto 2212", 
+           stock: 1,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/WLVGj3fjlkNSSJt/download",
+                 "https://cloud.atrezosprops.space/s/A2EqCcbUZ9ABEfa/download",
+           ]
+        },
+
+        { id: 119, 
+           nombre: "Silloncito de Mimbre Redondeado", 
+           stock: 2,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/QiTMF6gZJmlztwK/download",
+                 "https://cloud.atrezosprops.space/s/WGEN8679SkQubgs/download",
+           ]
+        },
+
+        { id: 120, 
+           nombre: "Silloncito Rústico Marrón 8087", 
+           stock: 0,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/2GiehY0JGbLvRGq/download",
+                 "https://cloud.atrezosprops.space/s/jJoIAh6UJHacdUd/download",
+           ]
+        },
+
+        { id: 121, 
+           nombre: "Silloncito Rústico Blanco 8103", 
+           stock: 0,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/Y92IzQXDEjdp0Hv/download",
+                 "https://cloud.atrezosprops.space/s/WImfvsrxXTgjgAn/download",
+           ]
+        },
+
+        { id: 122, 
+           nombre: "Silla Comedor RN Marrón 2221", 
+           stock: 0,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/FRrih0JIc9NqB5J/download",
+                 "https://cloud.atrezosprops.space/s/lNZ9YT9JKjm6z5t/download",
+           ]
+        },
+
+        { id: 123, 
+           nombre: "Silla Comedor RN Blanco 2222", 
+           stock: 0,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/A30KNlgpnER9YCP/download",
+                 "https://cloud.atrezosprops.space/s/NqyaNiAwMkssWf1/download",
+           ]
+        },
+
+        { id: 124, 
+           nombre: "Silla Comedor Sitter Blanco 2223", 
+           stock: 0,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/7lOCldjuHW88AqZ/download",
+                 "https://cloud.atrezosprops.space/s/sPyURXxbvAj6cGY/download",
+           ]
+        },
+
+        { id: 125, 
+           nombre: "Silla Comedor Sitter Marrón 2224", 
+           stock: 0,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/7HnoFzpX9j017OK/download",
+                 "https://cloud.atrezosprops.space/s/8WbKEaopfBmMiaj/download",
+           ]
+        },
+
+        { id: 126, 
+           nombre: "Silla Curva Marrón 2219", 
+           stock: 0,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/I25z3Yxq4IiHYR9/download",
+                 "https://cloud.atrezosprops.space/s/9fBOLNWzJxRTsUB/download",
+           ]
+        },
+        { id: 127, 
+           nombre: "Silla Curva Blanco 2220", 
+           stock: 0,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/5q94rJKV9g3iY3I/download",
+                 "https://cloud.atrezosprops.space/s/bCrN5nWzHsK5vNk/download",
+           ]
+        },
+        
+        { id: 128, 
+           nombre: "Butaca Verde Vintage 55", 
+           stock: 1,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/wGSmZSduiEKzQ3q/download",
+                 "https://cloud.atrezosprops.space/s/AHnaIOdNNR3Jxhe/download",
+           ]
+        },
+
+        { id: 129, 
+           nombre: "Silla de plastico Azul ", 
+           stock: 2,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/7HnoFzpX9j017OK/download",
+                 "",
+           ]
+        },
+
+        { id: 130, 
+           nombre: "Butaca alta vintage 2225", 
+           stock: 1,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/Zn6Ebp5G8CHcXzp/download",
+                 "https://cloud.atrezosprops.space/s/6dgEkjcp2KHSUcP/download",
+           ]
+        },
+
+        { id: 131, 
+           nombre: "Silloncito Trono Blanco Nuevo Modelo 2103", 
+           stock: 0,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/VZtiC8t3uQezvKm/download",
+                 
+           ]
+        },
+
+        { id: 132, 
+           nombre: "Carrito de Madera Marrón Modelo 1 #2230", 
+           stock: 2,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/yFdFD7AwCpQkx1r/download",
+                 "https://cloud.atrezosprops.space/s/vb2PrRXTLWsDFhe/download",
+	   ]
+        },
+    
+        { id: 133, 
+           nombre: "Carrito de Madera Blanco Modelo 1 #2231", 
+           stock: 2,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/K46LtDrLeB0tXzt/download",
+                 "https://cloud.atrezosprops.space/s/U7Ubjyrf2nQUHUp/download",
+	   ]
+        },
+
+	 { id: 134, 
+           nombre: "Carrito de Madera Marrón Modelo 2 #", 
+           stock: 0,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/jdXS8BaapX1dM3m/download",
+                 "https://cloud.atrezosprops.space/s/McYfnOJMhstOcUD/download",
+	   ]
+        },
+
+	{ id: 135, 
+           nombre: "Carrito de Madera Blanco Modelo 2 #", 
+           stock: 0,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/15QhQz7Z7nnfw7J/download",
+                 "https://cloud.atrezosprops.space/s/WoHyEF4zzE8r7re/download",
+	   ]
+        },
+
+        { id: 136, 
+           nombre: "Luna Rn Sitter #2044", 
+           stock: 3,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/8aiKmxtGYdNxjYV/download",
+                 "https://cloud.atrezosprops.space/s/cBcPBmJihAMNkc0/download",
+	   ]
+        },
+
+        { id: 137, 
+           nombre: "Luna con estrellas #2042", 
+           stock: 2,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/34QiKAUoCbb6i73/download",
+                 "https://cloud.atrezosprops.space/s/Z7lvACbBNH0Gaip/download",
+	   ]
+        },
+
+    ];
+    const tinas = [
+        { id: 201,
+           nombre: "Tina Baby 2288",
+           stock: 1,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/4kb6RFl82U9tvij/download", 
+                 "https://cloud.atrezosprops.space/s/g3xt4HTFsHcv1Fn/download",
+           ]
+        },
+        
+        { id: 202,
+           nombre: "Latona Clásica",
+           stock: 1,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/ReqvU5Adxsv3Zwk/download", 
+                 "https://cloud.atrezosprops.space/s/IBTEbxufe7tLX73/download",
+           ]
+        },
+
+        { id: 203,
+           nombre: "Latona Transparente 2296",
+           stock: 2,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/O7v00m7bBaUVoKt/download", 
+                 "https://cloud.atrezosprops.space/s/NembwbQpeKJfvDO/download",
+           ]
+        },
+
+        { id: 204,
+           nombre: "Tina Minimalista Blanca 2289",
+           stock: 0,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/CSyNKzlZEizaMkU/download", 
+                 "https://cloud.atrezosprops.space/s/HsfQ0GbXQ4eHFmX/download",
+           ]
+        },
+
+        { id: 205,
+           nombre: "Tina Minimalista patas doradas 2290",
+           stock: 1,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/qTBxQASXnCx9A22/download", 
+                 "https://cloud.atrezosprops.space/s/RMslOLIX7RTkpxx/download",
+           ]
+        },
+
+        { id: 206,
+           nombre: "Tina Minimalista Dorada 2291",
+           stock: 0,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/jjTkGyCGPjj1VHu/download", 
+                 "https://cloud.atrezosprops.space/s/d6XRhApt4pK9W4c/download",
+           ]
+        },
+
+        { id: 207,
+           nombre: "Tina Doble Faz 2294",
+           stock: 1,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/EN6MG8Ky2uYArrx/download", 
+                 "https://cloud.atrezosprops.space/s/XgoxQDt92mT4RzP/download",
+           ]
+        },
+
+        { id: 208,
+           nombre: "Tina Clásica patas doradas 2284",
+           stock: 1,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/kyOy2icG6k2P4zI/download", 
+                 "https://cloud.atrezosprops.space/s/nHSbXjoMLeZzFkQ/download",
+           ]
+        },
+
+        { id: 209,
+           nombre: "Tina Clásica blanca 2284",
+           stock: 0,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/hNAgGB0DT8fRlFo/download", 
+                 "https://cloud.atrezosprops.space/s/TpOig8REyjHvwZV/download",
+           ]
+        },
+
+        { id: 210,
+           nombre: "Tina Doble Respaldo blanca 2286",
+           stock: 1,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/3imTb6uPmXzLTAa/download", 
+                 "https://cloud.atrezosprops.space/s/8a5uUTxTJ56DAgc/download",
+           ]
+        },
+
+        { id: 211,
+           nombre: "Tina Doble Respaldo patas doradas 2287",
+           stock: 0,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/moKkPmVDULeevHk/download", 
+                 "https://cloud.atrezosprops.space/s/1mYOYrVP8gAtYJ9/download",
+           ]
+        },
+
+         { id: 212,
+           nombre: "Tina King Blanca 2292",
+           stock: 1,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/PwxNjQJv2sW2ooX/download", 
+                 "https://cloud.atrezosprops.space/s/eJHm0Uoechc9VjY/download",
+           ]
+        },
+
+         { id: 213,
+           nombre: "Tina King patas doradas 2293",
+           stock: 0,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/AbUDEHBWTSYHoEW/download", 
+                 "https://cloud.atrezosprops.space/s/CEW3DfLqcxRRbIU/download",
+           ]
+        },
+
+         { id: 214,
+           nombre: "Tina Agnes 8106",
+           stock: 0,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/dioTWwTjDfgBEHL/download", 
+                 "https://cloud.atrezosprops.space/s/T2i6h2RSaOTmwji/download",
+           ]
+        },
+
+        { id: 215,
+           nombre: "Tina Oriana Dorada 2297",
+           stock: 1,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/RdcGvGHHTLA3BHI/download", 
+                 "https://cloud.atrezosprops.space/s/XmTBNWng2TcuU1k/download",
+           ]
+        },
+
+        { id: 214,
+           nombre: "Tina Oriana Blanca 2298",
+           stock: 0,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/6nHcy3cokpz26CB/download", 
+                 "https://cloud.atrezosprops.space/s/m87zIc4CpODaG4l/download",
+           ]
+        },
+
+        { id: 214,
+           nombre: "Tina Leonore Blanca 2299",
+           stock: 0,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/iBhfoAFPPAirJu2/download", 
+                 "https://cloud.atrezosprops.space/s/DpM73AQZu2Q7ZRK/download",
+           ]
+        },
+
+        { id: 214,
+           nombre: "Tina Leonore dorada 2300",
+           stock: 0,
+           fotos: [
+                 "https://cloud.atrezosprops.space/s/M6h1tjPTuTDKI84/download", 
+                 "https://cloud.atrezosprops.space/s/DpM73AQZu2Q7ZRK/download",
+           ]
+        },
+
+        
+    ];
+
+    const minisofa = [
+        { id: 301,
+            nombre: "Mini Sofá Blanca 2080",
+            stock: 0,
+            fotos: [ 
+                  "https://cloud.atrezosprops.space/s/tKKYTprGKCQ55Xu/download",
+                  "https://cloud.atrezosprops.space/s/zVhuybwfd0NYo00/download",
+           ]
+        },
+        
+        { id: 302,
+            nombre: "Mini Sofá Marrón 2100",
+            stock: 0,
+            fotos: [ 
+                  "https://cloud.atrezosprops.space/s/eYXA1drJYyzrCKv/download",
+                  "https://cloud.atrezosprops.space/s/u0C7RMN7Zs3w2YA/download",
+           ]
+        },
+
+        { id: 303,
+            nombre: "Butaca Diván 2227",
+            stock: 2,
+            fotos: [ 
+                  "https://cloud.atrezosprops.space/s/PS6hgOGQmwXtqJR/download",
+                  "https://cloud.atrezosprops.space/s/pgvVRrLN8NufKwS/download",
+           ]
+        },
+
+        { id: 304,
+            nombre: "Sofá Diván 2099",
+            stock: 3,
+            fotos: [ 
+                  "https://cloud.atrezosprops.space/s/ePqiubEzxI68usJ/download",
+                  "",
+           ]
+        },
+
+        { id: 305,
+            nombre: "Posing POD",
+            stock: 5,
+            fotos: [ 
+                  "https://cloud.atrezosprops.space/s/98ttA2c4YPlsrlD/download",
+                  "https://cloud.atrezosprops.space/s/uRQek6nPSWNbRVG/download",
+           ]
+        },
+
+        { id: 304,
+            nombre: "Sofá Reina 2098",
+            stock: 1,
+            fotos: [ 
+                  "https://cloud.atrezosprops.space/s/qdOOTr6FMm8OqkZ/download",
+                  "https://cloud.atrezosprops.space/s/EZHAq2KJn3FUzTF/download",
+           ]
+        },
+
+    ];
+    const triciclos = [
+        { id: 401,
+            nombre: "Motito Vespa Blanco 2109",
+            stock: 0,
+            fotos: [ 
+                  "https://cloud.atrezosprops.space/s/AF6ydXbluIWzoZM/download",
+                  "https://cloud.atrezosprops.space/s/Vh9GVHKZzDro1RZ/download",
+           ]
+        },
+
+        { id: 402,
+            nombre: "Motito Vespa Marrón 2108",
+            stock: 1,
+            fotos: [ 
+                  "https://cloud.atrezosprops.space/s/BhdydQs3vDiH2ss/download",
+                  "https://cloud.atrezosprops.space/s/t6RxEfB4YaN5rNw/download",
+           ]
+        },
+ 
+        { id: 403,
+            nombre: "Triciclo con canasto marrón 2106",
+            stock: 0,
+            fotos: [ 
+                  "https://cloud.atrezosprops.space/s/jrslbDEkJIKcOY1/download",
+                  "https://cloud.atrezosprops.space/s/gWdeJ0XPXmXNX2b/download",
+           ]
+        },
+
+        { id: 404,
+            nombre: "Triciclo con canasto blanco 2107",
+            stock: 0,
+            fotos: [ 
+                  "https://cloud.atrezosprops.space/s/ggvybz5pg6wcMTi/download",
+                  "https://cloud.atrezosprops.space/s/pdXDPUuWJluWnZl/download",
+           ]
+        },
+
+        { id: 405,
+            nombre: "Triciclo con carrito marrón 2110",
+            stock: 1,
+            fotos: [ 
+                  "https://cloud.atrezosprops.space/s/Tj33ss7yndDg2nN/download",
+                  "https://cloud.atrezosprops.space/s/K5vgGu8kdGDHD1h/download",
+           ]
+        },
+
+        { id: 406,
+            nombre: "Triciclo con carrito blanco 2111",
+            stock: 0,
+            fotos: [ 
+                  "https://cloud.atrezosprops.space/s/NZQIt1CZL3lIgs7/download",
+                  "https://cloud.atrezosprops.space/s/cEkoJIrn42Uy51P/download",
+           ]
+        },
+
+        { id: 407,
+            nombre: "Triciclo con carrito marron vintage 8045",
+            stock: 0,
+            fotos: [ 
+                  "https://cloud.atrezosprops.space/s/yEYbvDaVK19FH6Y/download",
+                  "",
+           ]
+        },
+
+        { id: 408,
+            nombre: "Triciclo con carrito blanco vintage 8046",
+            stock: 0,
+            fotos: [ 
+                  "https://cloud.atrezosprops.space/s/j4cGoFvfLJfeIj5/download",
+                  "https://cloud.atrezosprops.space/s/Ddjt7My0Szb7yVE/download",
+           ]
+        },
+
+    ];
+    const caballitos = [
+        { id: 501,
+            nombre: "Caballito Marrón 8107",
+            stock: 0,
+            fotos: [ 
+                  "https://cloud.atrezosprops.space/s/kLIHUI2rgRpkZVN/download",
+                  "https://cloud.atrezosprops.space/s/dobWYTsPFxqIRko/download",
+           ]
+        },
+
+        { id: 502,
+            nombre: "Caballito Blanco 8108",
+            stock: 0,
+            fotos: [ 
+                  "https://cloud.atrezosprops.space/s/f885N9HFfi75Qkv/download",
+                  "https://cloud.atrezosprops.space/s/dobWYTsPFxqIRko/download",
+           ]
+        },
+
+    ];
+
+    const piano = [
+        { id: 550,
+            nombre: "Pianito + butaca blanca 2155",
+            stock: 2,
+            foto1: "https://cloud.atrezosprops.space/s/i5H9Bm6VYBpv3kk/download",
+            foto2: "https://cloud.atrezosprops.space/s/gBmdNQp5bpf1wOI/download"
+        },
+            
+       { id: 551,
+              nombre: "Pianito + butaca marrón",
+              stock: 0,
+              foto1: "https://cloud.atrezosprops.space/s/aJEctFI0h9Btv9t/download"
+              
+       },
+
+    ];
+
+    const columpio = [
+        { id: 580,
+            nombre: "Columpio de Madera Marrón 8144",
+            stock: 1,
+            foto1: "https://cloud.atrezosprops.space/s/u8IwAWjxD60NeLJ/download",
+            foto2: "https://cloud.atrezosprops.space/s/3w8G359Dg0KKS5V/download"
+        },
+            
+       { id: 581,
+              nombre: "Columpio de Madera Blanco 8145",
+              stock: 0,
+              foto1: "https://cloud.atrezosprops.space/s/hx9VlkYsVFVmPeD/download",
+              foto2: "https://cloud.atrezosprops.space/s/OpfsacQKVUjYvzj/download"
+       },
+
+    ];
+
+    const autitos = [
+        { id: 601,
+            nombre: "Autito Rojo #2157",
+            stock: 1,
+            foto1: "https://cloud.atrezosprops.space/s/IBVkvmG9zuyf2CM/download",
+            foto2: "https://cloud.atrezosprops.space/s/qbvU4fzzuex6IfC/download"
+      },
+      
+        { id: 602,
+            nombre: "Motito Vespa Deco Mostaza #2158",
+            stock: 2,
+            foto1: "https://cloud.atrezosprops.space/s/q3JPDbN2d36UYo6/download",
+            foto2: "https://cloud.atrezosprops.space/s/YBVP3pzCTAlRIvd/download"
+        },
+
+        { id: 603,
+            nombre: "Motito Vespa Deco Turquesa #8147",
+            stock: 1,
+            foto1: "https://cloud.atrezosprops.space/s/b4JaliYhJA9aHhn/download",
+            foto2: "https://cloud.atrezosprops.space/s/HlUDAhKvNgtqvX3/download"
+        },
+      
+           
+    ];
+
+    renderGrid(tinas, 'grid-tinas');
+    renderGrid(sillitas, 'grid-sillitas');
+    renderGrid(minisofa, 'grid-minisofa');
+    renderGrid(triciclos, 'grid-triciclos');
+    renderGrid(caballitos, 'grid-caballitos');
+    renderGrid(piano, 'grid-piano');
+    renderGrid(columpio, 'grid-columpio');
+    renderGrid(autitos, 'grid-autitos');
+</script>
+</body>
+</html>

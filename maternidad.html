@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maternidad — Atrezos & Props</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="categoria.css">
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-logo">Atrezos & Props</a>
+        <div class="nav-breadcrumb">
+            <a href="index.html">Inicio</a>
+            <span>/</span>
+            <span>Maternidad</span>
+        </div>
+        <span class="nav-contact">0986 332140</span>
+    </nav>
+
+    <div class="page-hero">
+        <img src="https://cloud.atrezosprops.space/s/pWnxFsYQyixBTYh/download" alt="Maternidad">
+        <div class="page-hero-overlay"></div>
+        <div class="page-hero-content">
+            <div class="page-hero-eyebrow">Atrezos & Props · Catálogo</div>
+            <h1 class="page-hero-title">Maternidad · Adultos</h1>
+        </div>
+    </div>
+
+	
+
+    <div class="subcats-nav">
+        <button class="subcat-tab active" onclick="showTab('telas-vestidos', this)">Telas & 	Vestidos</button>
+       	<button class="subcat-tab" onclick="showTab('butacas', this)">Butacas</button>
+       	<button class="subcat-tab" onclick="showTab('posados', this)">Props para Posados</button>
+    </div>
+
+
+	
+   <div class="catalogo-section">
+
+    <!-- SECCIÓN 1: TELAS Y VESTIDOS -->
+    <div class="subcat-panel active" id="panel-telas-vestidos">
+        <div class="subcat-header">
+            <h2 class="subcat-title">Telas <em>&amp; Vestidos</em></h2>
+            <p class="subcat-desc">Seleccioná los que te interesan y consultanos por WhatsApp.</p>
+        </div>
+        <div class="catalog-grid" id="grid-telas-vestidos"></div>
+    </div>
+
+    <!-- SECCIÓN 2: BUTACAS -->
+    <div class="subcat-panel" id="panel-butacas">
+        <div class="subcat-header">
+            <h2 class="subcat-title">Butacas</h2>
+            <p class="subcat-desc">Ideales para sesiones de retrato, familiares e infantiles.</p>
+        </div>
+        <div class="catalog-grid" id="grid-butacas"></div>
+    </div>
+     
+        <!-- SECCIÓN 3 Props para Posados -->
+      <div class="subcat-panel" id="panel-posados">
+        <div class="subcat-header">
+            <h2 class="subcat-title">Cubos-Plataformas-Escalones</h2>
+            <p class="subcat-desc">Ideales para sesiones de retrato, familiares e infantiles.</p>
+        </div>
+        <div class="catalog-grid" id="grid-posados"></div>
+    </div>
+</div>
+
+
+    <button class="cart-float" onclick="sendWhatsApp()">
+        🛒 <span id="cart-count">0 items</span> — Consultar
+    </button>
+
+<script src="categoria.js"></script>
+<script>
+    const CATEGORIA = "Maternidad";
+    let carrito = [];
+
+    const telas_vestidos = [
+        { id: 1, nombre: "Tela de Maternidad Beige",  stock: 1, foto1: "https://cloud.atrezosprops.space/s/xXAdLpzekbXyLfJ/download", foto2: "https://cloud.atrezosprops.space/s/TwgnkcNLYEEpXcu/download" },
+
+        { id: 2, nombre: "Tela de Maternidad Rosa",   stock: 0, foto1: "https://cloud.atrezosprops.space/s/KukSdahwoJXCvWh/download", foto2: "https://cloud.atrezosprops.space/s/QdLSix6qc7q47mL/download" },
+
+        { id: 3, nombre: "Tela de Maternidad Blanca", stock: 2, foto1: "https://cloud.atrezosprops.space/s/VCjqtl3AvKxLw2D/download", foto2: "https://cloud.atrezosprops.space/s/VzkD9WG6BaJRFaW/download" },
+
+        { id: 4, nombre: "Vestido Azul-Rosa",          stock: 1, foto1: "https://cloud.atrezosprops.space/s/D9qnUjW8MBwicMT/download", foto2: "https://cloud.atrezosprops.space/s/D9qnUjW8MBwicMT/download" },
+
+        { id: 5, nombre: "Vestido Fucsia",             stock: 1, foto1: "https://cloud.atrezosprops.space/s/7mi81nlusxNTYe6/download", foto2: "https://cloud.atrezosprops.space/s/7mi81nlusxNTYe6/download" },
+    ];
+
+    const butacas = [
+	{ id: 1,
+		nombre: "Butaca con Posapies Barnizado #2019",
+		stock: 0,
+		foto1: "https://cloud.atrezosprops.space/s/Axn7HxOL7hU4wVR/download",
+		foto2: "https://cloud.atrezosprops.space/s/XmII6zrfL2RgEx9/download"
+	},
+
+	{ id: 2,
+		nombre: "Butaca con Posapies Blanco #2020",
+		stock: 0,
+		foto1: "https://cloud.atrezosprops.space/s/bbQIEntahpcn9Tn/download",
+		foto2: "https://cloud.atrezosprops.space/s/lLLWMkCbOrclfIW/download"
+	},
+
+	{ id: 3,
+		nombre: "Butaca de Hierro con Respaldo Blanco #2254",
+		stock: 0,
+		foto1: "https://cloud.atrezosprops.space/s/ylunxrS6bHqpcg7/download",
+		foto2: "https://cloud.atrezosprops.space/s/QWobtti7CsghHXb/download"
+	},
+
+	{ id: 4,
+		nombre: "Butaca de Hierro con Respaldo Negro #2255",
+		stock: 0,
+		foto1: "https://cloud.atrezosprops.space/s/jbxb6ea4zx6wIMk/download",
+		foto2: "https://cloud.atrezosprops.space/s/JcpTayTBXygR78P/download"
+	},
+
+	{ id: 5,
+		nombre: "Butaca de Hierro sin Respaldo Blanco #2256",
+		stock: 5,
+		foto1: "https://cloud.atrezosprops.space/s/l6mV3Se8S1yhW7W/download",
+		foto2: "https://cloud.atrezosprops.space/s/d6md1tUXaqofHEE/download"
+	},
+
+	{ id: 6,
+		nombre: "Butaca de Hierro sin Respaldo Negro #2254",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/sw8HUv9q5ntKaGE/download",
+		foto2: "https://cloud.atrezosprops.space/s/JtfPegwWCZpgWg9/download"
+	},
+
+	{ id: 7,
+		nombre: "Silla Vintage Acolchado #2259",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/hZb5N12GyCTgXvP/download",
+		foto2: "https://cloud.atrezosprops.space/s/MO4AQ5AVn9lNnmy/download"
+	},
+
+	{ id: 8,
+		nombre: "Silla Vintage con Diseño #2259-1",
+		stock: 1,
+		foto1: "https://cloud.atrezosprops.space/s/lVzZ9UGasO4B7iX/download",
+		
+	},
+     ];
+
+    
+    const posados = [
+        	{ id: 20,
+		           nombre: "Cubos el par #2251",
+		            stock: 5,
+	            	foto1: "https://cloud.atrezosprops.space/s/ps9zHQJ9aQCBmzC/download",
+            		foto2: "https://cloud.atrezosprops.space/s/zRiQ5r07yEtOmDo/download",
+					foto3: "https://cloud.atrezosprops.space/s/lXRYHUacDHc3Evx/download",
+					foto4: "https://cloud.atrezosprops.space/s/ru5OytTdRNzyBHq/download"
+	         },		
+    
+          { id: 21,
+		           nombre: "Cilindros el par #2252",
+		            stock: 0,
+	            	foto1: "https://cloud.atrezosprops.space/s/L3sVx4GQwrC50L9/download",
+            		foto2: "https://cloud.atrezosprops.space/s/sjFBxP0edLle9zy/download",
+					foto3: "https://cloud.atrezosprops.space/s/KFVEgFAJKODIstN/download"
+	         },
+    
+          { id: 22,
+		           nombre: "Escalón de 4 Grande #2017",
+		            stock: 0,
+	            	foto1: "https://cloud.atrezosprops.space/s/hQ7UAQBLPuDBOYx/download",
+            		foto2: "https://cloud.atrezosprops.space/s/62obLxKLhQYTtxq/download"
+	         },
+    
+          { id: 23,
+		           nombre: "Escalón de 2 #2253",
+		            stock: 5,
+	            	foto1: "https://cloud.atrezosprops.space/s/2NWGA2Lt7LaWPn3/download",
+            		foto2: "https://cloud.atrezosprops.space/s/8pEHAxbG4X8373d/download"
+	         },
+    
+          { id: 24,
+		           nombre: "Juego de Plataformas #2018",
+		            stock: 0,
+	            	foto1: "https://cloud.atrezosprops.space/s/HXZIVSrRwQncODt/download",
+            		foto2: "https://cloud.atrezosprops.space/s/RVZ1OlS9chF82VH/download"
+	         },
+    
+          { id: 25,
+		           nombre: "Tarima #2019",
+		            stock: 3,
+	            	foto1: "https://cloud.atrezosprops.space/s/JRy1o5q4qReoU0W/download",
+            		foto2: "https://cloud.atrezosprops.space/s/EFfAk3G7RtPAeMm/download"
+	         },
+    
+    ];
+    renderGrid(telas_vestidos, 'grid-telas-vestidos');
+    renderGrid(butacas, 'grid-butacas');
+    renderGrid(posados, 'grid-posados');
+</script>
+</body>
+</html>
