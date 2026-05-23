@@ -88,9 +88,21 @@
     <button class="cart-float" onclick="sendWhatsApp()">
         🛒 <span id="cart-count">0 items</span> — Consultar
     </button>
-
+<script src="config.js"></script>
 <script src="categoria.js"></script>
 <script>
+
+	function cargarPrecios(arr) {
+    const p = JSON.parse(localStorage.getItem('ap_precios') || '{}');
+    const f = JSON.parse(localStorage.getItem('ap_precios_feria') || '{}');
+    const esFeria = typeof FERIA_MODE !== 'undefined' && FERIA_MODE;
+    arr.forEach(prod => {
+        const precioFeria  = f[prod.id];
+        const precioNormal = p[prod.id];
+        prod.precio = esFeria && precioFeria ? precioFeria : (precioNormal || 0);
+    });
+}
+
     const CATEGORIA = "Cumpleaños & Temáticas";
     let carrito = [];
 
@@ -772,6 +784,13 @@
 	},
 
     ];
+
+	cargarPrecios(tortas);
+	cargarPrecios(globos);
+	cargarPrecios(decoracion);
+	cargarPrecios(banderines);
+	cargarPrecios(numeros);
+	cargarPrecios(letras);
 
     renderGrid(tortas, 'grid-tortas');
     renderGrid(globos, 'grid-globos');

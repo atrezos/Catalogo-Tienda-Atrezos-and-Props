@@ -1,12 +1,12 @@
 const numeroWhatsApp = "595986338010";
 
-// ── ESTILOS DEL CARRUSEL (Actualizados para evitar recortes) ────────────────
+// ── ESTILOS DEL CARRUSEL ────────────────────────────────────
 const style = document.createElement('style');
 style.textContent = `
 .carousel { 
     position: relative; 
     width: 100%; 
-    aspect-ratio: 4 / 5; /* Mantiene proporción vertical estética */
+    aspect-ratio: 4 / 5;
     overflow: hidden; 
     background: #ffffff; 
 }
@@ -18,7 +18,7 @@ style.textContent = `
 .carousel-track img { 
     width: 100%; 
     height: 100%; 
-    object-fit: contain; /* Muestra la imagen completa sin recortes */
+    object-fit: contain;
     flex-shrink: 0; 
     background: #ffffff; 
 }
@@ -43,7 +43,6 @@ style.textContent = `
 }
 .carousel-dot.active { background: #506549; width: 12px; border-radius: 4px; }
 
-/* Contenedor para fotos individuales para que respeten el mismo tamaño */
 .img-container {
     width: 100%;
     aspect-ratio: 4 / 5;
@@ -58,89 +57,267 @@ style.textContent = `
     max-height: 100%;
     object-fit: contain;
 }
+
+/* ── PANEL LATERAL DEL CARRITO ────────────────────────────── */
+.cart-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 998;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.25s;
+}
+.cart-overlay.open { opacity: 1; pointer-events: all; }
+
+.cart-panel {
+    position: fixed; top: 0; right: 0; bottom: 0;
+    width: min(400px, 100vw);
+    background: #fff;
+    z-index: 999;
+    transform: translateX(100%);
+    transition: transform 0.32s cubic-bezier(.4,0,.2,1);
+    display: flex; flex-direction: column;
+    box-shadow: -6px 0 32px rgba(0,0,0,0.13);
+    font-family: 'Jost', sans-serif;
+}
+.cart-panel.open { transform: translateX(0); }
+
+.cart-panel-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 22px 18px;
+    border-bottom: 1px solid #ece9e4;
+}
+.cart-panel-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem; font-weight: 600;
+    color: #2a2a2a; margin: 0;
+}
+.cart-panel-close {
+    background: #f5f3f0; border: none; border-radius: 50%;
+    width: 34px; height: 34px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; color: #555;
+    transition: background 0.2s;
+}
+.cart-panel-close:hover { background: #ece9e4; }
+
+.cart-panel-items {
+    flex: 1; overflow-y: auto; padding: 16px 22px;
+}
+
+.cart-panel-empty {
+    text-align: center; padding: 52px 20px; color: #999;
+}
+.cart-panel-empty p { font-size: 0.88rem; margin-top: 8px; }
+
+.cart-panel-item {
+    display: flex; gap: 13px;
+    padding: 13px 0;
+    border-bottom: 1px solid #f0ede9;
+    align-items: flex-start;
+}
+.cart-panel-item img {
+    width: 62px; height: 62px;
+    object-fit: cover; border-radius: 6px;
+    background: #f5f3f0; flex-shrink: 0;
+}
+.cart-panel-item-info { flex: 1; min-width: 0; }
+.cart-panel-item-name {
+    font-size: 0.85rem; font-weight: 500;
+    color: #2a2a2a; line-height: 1.35;
+}
+.cart-panel-item-cat {
+    font-size: 0.75rem; color: #999; margin-top: 2px;
+}
+.cart-panel-item-controls {
+    display: flex; align-items: center; gap: 8px; margin-top: 8px;
+}
+.qty-btn {
+    width: 26px; height: 26px; border-radius: 50%;
+    border: 1.5px solid #ddd; background: #fff;
+    cursor: pointer; font-size: 1rem; color: #555;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.15s, color 0.15s;
+    line-height: 1;
+}
+.qty-btn:hover { border-color: #506549; color: #506549; }
+.qty-num { font-size: 0.85rem; font-weight: 600; min-width: 18px; text-align: center; color: #2a2a2a; }
+.cart-item-remove {
+    background: none; border: none; cursor: pointer;
+    color: #bbb; font-size: 0.75rem; padding: 0; margin-left: auto;
+    transition: color 0.15s;
+}
+.cart-item-remove:hover { color: #c0392b; }
+
+.cart-panel-footer {
+    padding: 18px 22px 22px;
+    border-top: 1px solid #ece9e4;
+}
+.cart-panel-hint {
+    font-size: 0.78rem; color: #888;
+    margin-bottom: 14px; line-height: 1.4;
+}
+.cart-panel-wa-btn {
+    width: 100%;
+    background: #25d366; color: #fff;
+    border: none; border-radius: 50px;
+    padding: 14px 20px;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    cursor: pointer; font-size: 0.92rem; font-weight: 600;
+    font-family: 'Jost', sans-serif;
+    transition: background 0.2s;
+}
+.cart-panel-wa-btn:hover { background: #1ebe5d; }
+.cart-panel-wa-btn svg { width: 20px; height: 20px; fill: #fff; flex-shrink: 0; }
+
+/* Toast */
+.cart-toast {
+    position: fixed; bottom: 80px; left: 50%;
+    transform: translateX(-50%) translateY(16px);
+    background: #2a2a2a; color: #fff;
+    padding: 9px 20px; border-radius: 50px;
+    font-size: 0.82rem; font-weight: 500;
+    font-family: 'Jost', sans-serif;
+    z-index: 1100; opacity: 0; pointer-events: none;
+    transition: opacity 0.25s, transform 0.25s;
+    white-space: nowrap;
+}
+.cart-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* Botón flotante — animación bump */
+@keyframes cart-bump { 0%,100%{transform:scale(1)} 50%{transform:scale(1.18)} }
+.cart-float-bump { animation: cart-bump 0.3s ease; }
 `;
 document.head.appendChild(style);
 
-let carouselCount = 0;
+// ── INYECTAR PANEL + OVERLAY ─────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+    document.body.insertAdjacentHTML('beforeend', `
+        <div class="cart-overlay" id="cartOverlay" onclick="cerrarPanel()"></div>
+        <div class="cart-panel" id="cartPanel">
+            <div class="cart-panel-header">
+                <h2>Tu consulta</h2>
+                <button class="cart-panel-close" onclick="cerrarPanel()" aria-label="Cerrar">✕</button>
+            </div>
+            <div class="cart-panel-items" id="cartPanelItems"></div>
+            <div class="cart-panel-footer" id="cartPanelFooter" style="display:none">
+                <p class="cart-panel-hint">Estos productos se enviarán como lista a WhatsApp. Podés pedir disponibilidad, precios o hacer una reserva.</p>
+                <button class="cart-panel-wa-btn" onclick="sendWhatsApp()">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                        <path d="M12 0C5.373 0 0 5.373 0 12c0 2.093.539 4.062 1.485 5.772L0 24l6.382-1.473C8.044 23.447 9.99 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.87 0-3.628-.494-5.145-1.358l-.368-.212-3.791.874.907-3.695-.237-.384C2.516 15.613 2 13.863 2 12 2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+                    </svg>
+                    Consultar por WhatsApp
+                </button>
+            </div>
+        </div>
+        <div class="cart-toast" id="cartToast"></div>
+    `);
 
-// ── HELPERS ──────────────────────────────────────────────────
-function stockTag(stock) {
-    if (stock === 0) return { clase: 'sin-stock', texto: 'Sin stock' };
-    if (stock === 1) return { clase: 'urgencia', texto: '\u00a1\u00daltima unidad!' };
-    if (stock < 10) return { clase: 'urgencia', texto: `\u00a1\u00daltimas ${stock} unidades!` };
-    return { clase: 'disponible', texto: `Stock: ${stock} unidades` };
+    // Redirigir el botón flotante existente para que abra el panel
+    const floatBtn = document.querySelector('.cart-float');
+    if (floatBtn) {
+        floatBtn.onclick = abrirPanel;
+    }
+
+    renderPanelItems();
+});
+
+// ── PANEL — abrir / cerrar ────────────────────────────────────
+function abrirPanel() {
+    document.getElementById('cartPanel').classList.add('open');
+    document.getElementById('cartOverlay').classList.add('open');
+}
+function cerrarPanel() {
+    document.getElementById('cartPanel').classList.remove('open');
+    document.getElementById('cartOverlay').classList.remove('open');
 }
 
-// ── RENDER GRILLA ────────────────────────────────────────────
-function renderGrid(productos, gridId) {
-    const grid = document.getElementById(gridId);
-    if (!grid) return;
+// ── RENDER DEL PANEL ─────────────────────────────────────────
+function renderPanelItems() {
+    const itemsEl = document.getElementById('cartPanelItems');
+    const footerEl = document.getElementById('cartPanelFooter');
+    if (!itemsEl) return;
 
-    if (!productos || productos.length === 0) {
-        grid.innerHTML = '<div class="empty-state"><p>Pr\u00f3ximamente m\u00e1s productos en esta categor\u00eda.</p></div>';
+    if (!carrito || carrito.length === 0) {
+        itemsEl.innerHTML = `<div class="cart-panel-empty">🛒<p>Todavía no agregaste productos.<br>Tocá "Agregar a consulta" en los que te interesen.</p></div>`;
+        if (footerEl) footerEl.style.display = 'none';
         return;
     }
 
-    grid.innerHTML = productos.map(p => {
-        const tag = stockTag(p.stock);
+    if (footerEl) footerEl.style.display = 'block';
 
-        const btn = p.stock === 0
-            ? `<button class="btn btn-disabled" disabled>Agotado</button>`
-            : `<button class="btn btn-buy" onclick="addToCart(${p.id}, '${p.nombre.replace(/'/g, "\\'")}', ${p.precio || 0})">Agregar a consulta</button>`;
+    // Agrupar por id para manejar cantidades
+    const agrupado = {};
+    carrito.forEach(p => {
+        if (agrupado[p.id]) agrupado[p.id].qty++;
+        else agrupado[p.id] = { ...p, qty: 1 };
+    });
 
-        const precio = p.precio
-            ? `<div class="card-price">Gs. ${p.precio.toLocaleString('de-DE')}</div>`
-            : '';
-
-        const fotos = p.fotos
-            ? p.fotos.filter(f => f)
-            : [p.foto1, p.foto2].filter(f => f);
-
-        const cid = `c${carouselCount++}`;
-
-        let imagenes = '';
-
-        if (fotos.length <= 1) {
-            imagenes = `
-                <div class="img-container">
-                    <img src="${fotos[0] || ''}" alt="${p.nombre}" onerror="this.style.opacity='0'">
-                </div>`;
-        } else {
-            const imgs = fotos.map(f =>
-                `<img src="${f}" alt="${p.nombre}" onerror="this.style.opacity='0'">`
-            ).join('');
-            
-            const dots = `
-                <div class="carousel-dots">
-                    ${fotos.map((_, i) =>
-                        `<button class="carousel-dot ${i === 0 ? 'active' : ''}" onclick="event.stopPropagation(); goTo('${cid}', ${i})"></button>`
-                    ).join('')}
-                </div>`;
-
-            imagenes = `
-                <div class="carousel" id="${cid}">
-                    <div class="carousel-track">${imgs}</div>
-                    <button class="carousel-btn prev" onclick="event.stopPropagation(); slide('${cid}', -1)">&#8249;</button>
-                    <button class="carousel-btn next" onclick="event.stopPropagation(); slide('${cid}', 1)">&#8250;</button>
-                    ${dots}
-                </div>`;
-        }
-
-        return `
-            <div class="card">
-                ${imagenes}
-                <div class="card-info">
-                    <span class="stock-tag ${tag.clase}">${tag.texto}</span>
-                    <h3 class="card-title">${p.nombre}</h3>
-                    ${precio}
-                    ${btn}
+    itemsEl.innerHTML = Object.values(agrupado).map(item => `
+        <div class="cart-panel-item">
+            <img src="${item.foto || ''}" alt="${item.nombre}" onerror="this.style.opacity='0.15'">
+            <div class="cart-panel-item-info">
+                <div class="cart-panel-item-name">${item.nombre}</div>
+                <div class="cart-panel-item-cat">${CATEGORIA}</div>
+                <div class="cart-panel-item-controls">
+                    <button class="qty-btn" onclick="cambiarQty(${item.id}, -1)">−</button>
+                    <span class="qty-num">${item.qty}</span>
+                    <button class="qty-btn" onclick="cambiarQty(${item.id}, 1)">+</button>
+                    <button class="cart-item-remove" onclick="quitarItem(${item.id})">Quitar</button>
                 </div>
             </div>
-        `;
-    }).join('');
+        </div>
+    `).join('');
 }
 
-// ── CARRUSEL — controles (Mejorados con stopPropagation) ──────
+// ── CANTIDAD ─────────────────────────────────────────────────
+function cambiarQty(id, delta) {
+    const idx = delta < 0
+        ? carrito.findLastIndex ? carrito.findLastIndex(p => p.id === id) : [...carrito].reverse().findIndex(p => p.id === id)
+        : -1;
+
+    if (delta > 0) {
+        const base = carrito.find(p => p.id === id);
+        if (base) carrito.push({ ...base });
+    } else {
+        // quitar una sola ocurrencia
+        const i = carrito.map(p => p.id).lastIndexOf(id);
+        if (i !== -1) carrito.splice(i, 1);
+    }
+    actualizarContador();
+    renderPanelItems();
+}
+
+function quitarItem(id) {
+    carrito = carrito.filter(p => p.id !== id);
+    actualizarContador();
+    renderPanelItems();
+}
+
+// ── ACTUALIZAR CONTADOR (botón flotante) ──────────────────────
+function actualizarContador() {
+    const count = carrito.length;
+    const el = document.getElementById('cart-count');
+    if (el) {
+        el.innerText = `${count} item${count !== 1 ? 's' : ''}`;
+        el.closest('.cart-float')?.classList.remove('cart-float-bump');
+        void el.closest('.cart-float')?.offsetWidth;
+        el.closest('.cart-float')?.classList.add('cart-float-bump');
+    }
+}
+
+// ── TOAST ─────────────────────────────────────────────────────
+function mostrarToast(msg) {
+    const t = document.getElementById('cartToast');
+    if (!t) return;
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ── CARRUSEL ─────────────────────────────────────────────────
+let carouselCount = 0;
+
 function getCurrentIndex(cid) {
     const track = document.querySelector(`#${cid} .carousel-track`);
     if (!track) return 0;
@@ -169,22 +346,87 @@ function goTo(cid, index) {
     dots.forEach((d, i) => d.classList.toggle('active', i === index));
 }
 
-// ── CARRITO ───────────────────────────────────────────────────
-function addToCart(id, nombre, precio) {
-    carrito.push({ id, nombre, precio });
-    const count = carrito.length;
-    const cartCountEl = document.getElementById('cart-count');
-    if (cartCountEl) {
-        cartCountEl.innerText = `${count} item${count !== 1 ? 's' : ''}`;
+// ── HELPERS ──────────────────────────────────────────────────
+function stockTag(stock) {
+    if (stock === 0) return { clase: 'sin-stock', texto: 'Sin stock' };
+    if (stock === 1) return { clase: 'urgencia', texto: '¡Última unidad!' };
+    if (stock < 10) return { clase: 'urgencia', texto: `¡Últimas ${stock} unidades!` };
+    return { clase: 'disponible', texto: `Stock: ${stock} unidades` };
+}
+
+// ── RENDER GRILLA ────────────────────────────────────────────
+function renderGrid(productos, gridId) {
+    const grid = document.getElementById(gridId);
+    if (!grid) return;
+
+    if (!productos || productos.length === 0) {
+        grid.innerHTML = '<div class="empty-state"><p>Próximamente más productos en esta categoría.</p></div>';
+        return;
     }
 
-    document.querySelectorAll('.btn-buy').forEach(b => {
-        if (b.getAttribute('onclick') && b.getAttribute('onclick').includes(`addToCart(${id},`)) {
-            const originalText = b.innerText;
-            b.innerText = '\u00a1A\u00f1adido!';
-            setTimeout(() => b.innerText = originalText, 1100);
+    grid.innerHTML = productos.map(p => {
+        const tag = stockTag(p.stock);
+
+        const btn = p.stock === 0
+            ? `<button class="btn btn-disabled" disabled>Agotado</button>`
+            : `<button class="btn btn-buy" onclick="addToCart(${p.id}, '${p.nombre.replace(/'/g, "\\'")}', ${p.precio || 0}, '${(p.fotos ? p.fotos.find(f => f) : p.foto1) || ''}')">Agregar a consulta</button>`;
+
+        const precio = p.precio
+            ? `<div class="card-price">Gs. ${p.precio.toLocaleString('de-DE')}</div>`
+            : '';
+
+        const fotos = p.fotos
+            ? p.fotos.filter(f => f)
+            : [p.foto1, p.foto2].filter(f => f);
+
+        const cid = `c${carouselCount++}`;
+
+        let imagenes = '';
+
+        if (fotos.length <= 1) {
+            imagenes = `
+                <div class="img-container">
+                    <img src="${fotos[0] || ''}" alt="${p.nombre}" onerror="this.style.opacity='0'">
+                </div>`;
+        } else {
+            const imgs = fotos.map(f =>
+                `<img src="${f}" alt="${p.nombre}" onerror="this.style.opacity='0'">`
+            ).join('');
+            const dots = `
+                <div class="carousel-dots">
+                    ${fotos.map((_, i) =>
+                        `<button class="carousel-dot ${i === 0 ? 'active' : ''}" onclick="event.stopPropagation(); goTo('${cid}', ${i})"></button>`
+                    ).join('')}
+                </div>`;
+            imagenes = `
+                <div class="carousel" id="${cid}">
+                    <div class="carousel-track">${imgs}</div>
+                    <button class="carousel-btn prev" onclick="event.stopPropagation(); slide('${cid}', -1)">&#8249;</button>
+                    <button class="carousel-btn next" onclick="event.stopPropagation(); slide('${cid}', 1)">&#8250;</button>
+                    ${dots}
+                </div>`;
         }
-    });
+
+        return `
+            <div class="card">
+                ${imagenes}
+                <div class="card-info">
+                    <span class="stock-tag ${tag.clase}">${tag.texto}</span>
+                    <h3 class="card-title">${p.nombre}</h3>
+                    ${precio}
+                    ${btn}
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// ── CARRITO ───────────────────────────────────────────────────
+function addToCart(id, nombre, precio, foto) {
+    carrito.push({ id, nombre, precio, foto });
+    actualizarContador();
+    renderPanelItems();
+    mostrarToast(`"${nombre.length > 28 ? nombre.slice(0,28)+'…' : nombre}" agregado`);
 }
 
 function showTab(tabId, btn) {
@@ -203,24 +445,39 @@ function showSubTab(subtab, btn) {
     if (btn) btn.classList.add('active');
 }
 
+// ── ENVIAR POR WHATSAPP ───────────────────────────────────────
 function sendWhatsApp() {
-    if (carrito.length === 0) return alert('No hay productos seleccionados.');
+    if (!carrito || carrito.length === 0) {
+        mostrarToast('No hay productos en tu consulta.');
+        return;
+    }
 
-    const tienePrecios = carrito.some(p => p.precio > 0);
-    let mensaje = `Hola! Quisiera consultar sobre los siguientes productos de *${CATEGORIA}*:%0A%0A`;
-
-    carrito.forEach((p, i) => {
-        const precioStr = p.precio > 0
-            ? ` \u2014 Gs. ${p.precio.toLocaleString('de-DE')}`
-            : '';
-        mensaje += `${i + 1}. ${p.nombre}${precioStr}%0A`;
+    // Agrupar por id
+    const agrupado = {};
+    carrito.forEach(p => {
+        if (agrupado[p.id]) agrupado[p.id].qty++;
+        else agrupado[p.id] = { ...p, qty: 1 };
     });
+
+    const items = Object.values(agrupado);
+    const tienePrecios = items.some(p => p.precio > 0);
+
+    let lineas = items.map((p, i) => {
+        const precioStr = p.precio > 0
+            ? ` — Gs. ${(p.precio * p.qty).toLocaleString('de-DE')}`
+            : '';
+        const cantStr = p.qty > 1 ? ` (x${p.qty})` : '';
+        return `${i + 1}. ${p.nombre}${cantStr}${precioStr}`;
+    }).join('\n');
+
+    let mensaje = `Hola! Quisiera consultar sobre los siguientes productos de *${CATEGORIA}*:\n\n${lineas}`;
 
     if (tienePrecios) {
         const total = carrito.reduce((sum, p) => sum + (p.precio || 0), 0);
-        mensaje += `%0A*Total referencial: Gs. ${total.toLocaleString('de-DE')}*%0A`;
+        mensaje += `\n\n*Total referencial: Gs. ${total.toLocaleString('de-DE')}*`;
     }
 
-    mensaje += `%0A\u00bfMe confirman disponibilidad?`;
-    window.open(`https://wa.me/${numeroWhatsApp}?text=${mensaje}`, '_blank');
+    mensaje += `\n\n¿Me confirman disponibilidad?`;
+
+    window.open(`https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`, '_blank');
 }

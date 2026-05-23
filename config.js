@@ -1,0 +1,1 @@
+const MODO_FERIA = true;

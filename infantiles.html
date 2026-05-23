@@ -79,9 +79,22 @@
     <button class="cart-float" onclick="sendWhatsApp()">
         🛒 <span id="cart-count">0 items</span> — Consultar
     </button>
-
+    
+<script src="config.js"></script>
 <script src="categoria.js"></script>
 <script>
+
+      function cargarPrecios(arr) {
+    const p = JSON.parse(localStorage.getItem('ap_precios') || '{}');
+    const f = JSON.parse(localStorage.getItem('ap_precios_feria') || '{}');
+    const esFeria = typeof FERIA_MODE !== 'undefined' && FERIA_MODE;
+    arr.forEach(prod => {
+        const precioFeria  = f[prod.id];
+        const precioNormal = p[prod.id];
+        prod.precio = esFeria && precioFeria ? precioFeria : (precioNormal || 0);
+    });
+}
+
     const CATEGORIA = "Sesiones Infantiles";
     let carrito = [];
 
@@ -875,6 +888,15 @@
       
            
     ];
+
+   cargarPrecios(tinas);
+   cargarPrecios(sillitas);
+   cargarPrecios(minisofa);
+   cargarPrecios(triciclos);
+   cargarPrecios(caballitos);
+   cargarPrecios(piano);
+   cargarPrecios(columpio);
+   cargarPrecios(autitos);
 
     renderGrid(tinas, 'grid-tinas');
     renderGrid(sillitas, 'grid-sillitas');

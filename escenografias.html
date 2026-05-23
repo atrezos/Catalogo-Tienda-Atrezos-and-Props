@@ -142,13 +142,26 @@ Tamaño: 1.40 x 3 metros.</p>
 
     </div>
 
-    <button class="cart-float" onclick="sendWhatsApp()">
+
+   <button class="cart-float" onclick="sendWhatsApp()">
         🛒 <span id="cart-count">0 items</span> — Consultar
     </button>
-
+    
+<script src="config.js"></script>
 <script src="categoria.js"></script>
-
 <script>
+
+	function cargarPrecios(arr) {
+    const p = JSON.parse(localStorage.getItem('ap_precios') || '{}');
+    const f = JSON.parse(localStorage.getItem('ap_precios_feria') || '{}');
+    const esFeria = typeof FERIA_MODE !== 'undefined' && FERIA_MODE;
+    arr.forEach(prod => {
+        const precioFeria  = f[prod.id];
+        const precioNormal = p[prod.id];
+        prod.precio = esFeria && precioFeria ? precioFeria : (precioNormal || 0);
+    });
+}
+
 
 
 /* -------------------------
@@ -430,6 +443,17 @@ const melamina = [
 /* -------------------------
    RENDER
 --------------------------*/
+cargarPrecios(fondosVintage);
+cargarPrecios(fondosTela);
+cargarPrecios(fondosCuerina);
+cargarPrecios(fondosTextura);
+cargarPrecios(paneles); 
+cargarPrecios(cortinas);
+cargarPrecios(arcos);
+cargarPrecios(mamparas);
+cargarPrecios(melamina);
+
+
 renderGrid(fondosVintage, 'grid-fondos-vintage');
 renderGrid(fondosTela, 'grid-fondos-tela');
 renderGrid(fondosCuerina, 'grid-fondos-cuerina');

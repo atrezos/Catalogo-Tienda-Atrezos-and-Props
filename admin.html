@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Precios · Atrezos & Props</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--verde:#506549;--vl:#e8ede7;--feria:#b06030;--fl:#fff4ee;--text:#1a1a1a;--muted:#888;--border:#ddd;--bg:#f8f7f5;--w:#fff}
+body{font-family:'Jost',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+nav{background:var(--w);border-bottom:1px solid var(--border);padding:0 1.2rem;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;gap:.8rem}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:var(--verde);text-decoration:none;white-space:nowrap}
+.nav-r{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.btn{border:none;padding:.42rem .9rem;font-family:'Jost',sans-serif;font-size:.78rem;cursor:pointer;border-radius:3px;transition:all .2s;white-space:nowrap}
+.btn-p{background:var(--verde);color:#fff}.btn-p:hover{background:#3d4f37}
+.btn-o{background:var(--w);color:var(--verde);border:1px solid var(--verde)}.btn-o:hover{background:var(--vl)}
+.btn-g{background:transparent;color:var(--muted);border:1px solid var(--border)}.btn-g:hover{border-color:var(--verde);color:var(--verde)}
+
+/* TABS */
+.tabs{background:var(--w);border-bottom:1px solid var(--border);padding:0 1.2rem;display:flex;gap:0;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:.65rem 1.1rem;font-size:.8rem;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;color:var(--muted);background:none;border-top:none;border-left:none;border-right:none;font-family:'Jost',sans-serif;transition:all .15s}
+.tab:hover{color:var(--verde)}
+.tab.active{color:var(--verde);border-bottom-color:var(--verde);font-weight:500}
+
+/* HEADER */
+.hdr{max-width:920px;margin:1.6rem auto 0;padding:0 1.2rem}
+.hdr h1{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:400}
+.hdr p{font-size:.76rem;color:var(--muted);margin-top:.2rem}
+
+/* PANELS */
+.panel{display:none;max-width:920px;margin:1rem auto 4rem;padding:0 1.2rem}
+.panel.active{display:block}
+
+/* BLOQUES */
+.bloque{background:var(--w);border:1px solid var(--border);border-radius:5px;margin-bottom:.55rem;overflow:hidden}
+.bloque-h{padding:.75rem 1rem;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:background .15s;user-select:none}
+.bloque-h:hover{background:var(--vl)}
+.bloque-t{font-family:'Cormorant Garamond',serif;font-size:.98rem;font-style:italic}
+.bloque-m{display:flex;align-items:center;gap:.7rem}
+.bloque-c{font-size:.7rem;color:var(--muted)}
+.chev{font-size:.62rem;color:var(--muted);transition:transform .2s}
+.bloque.open .chev{transform:rotate(180deg)}
+.bloque-b{display:none;border-top:1px solid var(--border)}
+.bloque.open .bloque-b{display:block}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse}
+th{font-size:.67rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:400;padding:.5rem .9rem;text-align:left;border-bottom:1px solid var(--border);background:#fafaf9}
+th.r{text-align:right}
+th.fth{text-align:right;color:var(--feria)!important}
+td{padding:.45rem .9rem;border-bottom:1px solid #f0eeec;vertical-align:middle;font-size:.83rem}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#fafaf9}
+.pn{font-weight:400;line-height:1.3}
+.pid{font-size:.7rem;color:var(--muted)}
+
+/* BADGES */
+.badge{font-size:.67rem;padding:.14rem .42rem;border-radius:20px;white-space:nowrap}
+.b0{background:#fdecea;color:#c0392b}
+.b1{background:#fff8e1;color:#b7770d}
+.bok{background:var(--vl);color:var(--verde)}
+
+/* INPUTS */
+.pw{display:flex;align-items:center;justify-content:flex-end;gap:.22rem}
+.gs{font-size:.7rem;color:var(--muted)}
+.gsf{font-size:.7rem;color:var(--feria)}
+input[type=number]{width:108px;border:1px solid var(--border);border-radius:3px;padding:.28rem .45rem;font-family:'Jost',sans-serif;font-size:.82rem;text-align:right;transition:border-color .15s;-moz-appearance:textfield}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
+input[type=number]:focus{outline:none;border-color:var(--verde)}
+input.changed{border-color:#e8a020;background:#fffdf5}
+input.saved{border-color:var(--verde)}
+input.feria:focus{border-color:var(--feria)}
+input.feria.saved{border-color:var(--feria)}
+
+/* VACÍO */
+.empty{text-align:center;padding:2.5rem 1rem;color:var(--muted);font-size:.83rem}
+.empty small{display:block;margin-top:.4rem;font-size:.72rem}
+
+/* TOAST */
+.toast{position:fixed;bottom:1rem;right:1rem;background:var(--verde);color:#fff;padding:.6rem 1rem;border-radius:4px;font-size:.78rem;opacity:0;transform:translateY(5px);transition:all .25s;pointer-events:none;z-index:999}
+.toast.show{opacity:1;transform:translateY(0)}
+
+/* INFO */
+.info{max-width:920px;margin:0 auto;padding:0 1.2rem 2rem;font-size:.74rem;color:var(--muted);line-height:1.6}
+.info strong{color:var(--text)}
+
+@media(max-width:600px){input[type=number]{width:82px}th,td{padding-left:.5rem;padding-right:.5rem}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Atrezos & Props</a>
+  <div class="nav-r">
+    <label class="btn btn-g" title="Importar precios.json existente">
+      ⬆ Importar
+      <input type="file" accept=".json" style="display:none" onchange="importarJSON(event)">
+    </label>
+    <button class="btn btn-o" onclick="exportarJSON()">⬇ Exportar JSON</button>
+    <button class="btn btn-p" onclick="guardarTodo()">Guardar</button>
+  </div>
+</nav>
+
+<div class="tabs" id="tabs"></div>
+
+<div class="hdr">
+  <h1>Gestión de Precios</h1>
+  <p>Guardá → Exportar precios.json → subí a GitHub. El catálogo lo lee solo.</p>
+</div>
+
+<div id="paneles"></div>
+
+<div class="info">
+  <strong>Tip:</strong> Precio 0 o vacío = no se muestra en el catálogo.
+  El precio de feria solo se activa cuando tenés <code>MODO_FERIA = true</code> en la página correspondiente.
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════════════════
+//  DATOS — todos tus productos reales, copiados de cada .html
+//  Cuando agregues productos nuevos a una página, agregá la fila aquí también.
+// ══════════════════════════════════════════════════════════════════════════════
+const PAGINAS = [
+
+// ── 1. NEWBORN ────────────────────────────────────────────────────────────────
+{ key:'newborn', label:'Newborn', subcats:[
+  { label:'Camitas', productos:[
+    {id:101,nombre:'Camita Marrón 2036',stock:3},
+    {id:102,nombre:'Camita Blanca 2037',stock:4},
+    {id:103,nombre:'Camita Celeste 2034',stock:5},
+    {id:104,nombre:'Camita Rosa 2035',stock:4},
+    {id:105,nombre:'Camita Beige 2033',stock:1},
+    {id:106,nombre:'Camita Verde 2038',stock:1},
+    {id:107,nombre:'Camita Blanca Nuevo modelo 2168',stock:5},
+    {id:108,nombre:'Camita Marrón Nuevo modelo 2169',stock:0},
+    {id:109,nombre:'Camita Vintage Marrón 2167',stock:0},
+    {id:110,nombre:'Camita Vintage Blanco 8013',stock:0},
+    {id:111,nombre:'Camita Curva Blanca Nuevo modelo 2170',stock:3},
+    {id:112,nombre:'Cunita de Mimbre 2165',stock:0},
+    {id:113,nombre:'Camita de Hierro Mc 2164',stock:1},
+    {id:114,nombre:'Cunita alargada Blanca o Marrón 2171/2172',stock:0},
+    {id:115,nombre:'Cunita alta de Mimbre 2166',stock:2},
+  ]},
+  { label:'Baldes', productos:[
+    {id:201,nombre:'Balde RN con cuerdas Blanco 2087',stock:4},
+    {id:202,nombre:'Balde RN con cuerdas Beige 8018',stock:1},
+    {id:203,nombre:'Balde RN con cuerdas 2174',stock:1},
+    {id:204,nombre:'Contenedor RN Beige 2176',stock:1},
+    {id:205,nombre:'Balde Blanco Sitter 2087',stock:1},
+    {id:206,nombre:'Balde Marrón Sitter 8015',stock:1},
+    {id:207,nombre:'Balde Beige Sitter 8017',stock:2},
+    {id:208,nombre:'Contenedor Sitter Marrón 2175',stock:1},
+    {id:209,nombre:'Contenedor Sitter Blanco 2175',stock:1},
+    {id:210,nombre:'Contenedor Sitter Beige 8016',stock:1},
+    {id:211,nombre:'Barrilcito Sitter Marrón #2189',stock:1},
+  ]},
+  { label:'Cestas', productos:[
+    {id:301,nombre:'Cesta de Yute 30cm 30',stock:1},
+    {id:302,nombre:'Cesta Rectangular Rn 2182',stock:2},
+    {id:303,nombre:'Cuenco Brasil 2183',stock:2},
+    {id:304,nombre:'Corazón de Madera NM RN-Sitter 2178-2179',stock:2},
+    {id:305,nombre:'Corazón de Madera NM RN-Sitter 2180-2181',stock:2},
+    {id:306,nombre:'Contenedor de Mimbre 2385',stock:1},
+    {id:307,nombre:'Cesta Rectangular #31',stock:1},
+  ]},
+  { label:'Mantas y Wraps', productos:[
+    {id:401,nombre:'Manta + Wrap Marrón Estampado flores 2132',stock:2},
+    {id:402,nombre:'Manta + Wrap Rosa Estampado flores 2133',stock:2},
+    {id:403,nombre:'Manta + Wrap Verde Estampado flores 2133',stock:2},
+    {id:404,nombre:'Manta + Wrap Tocado Floreado 8082',stock:1},
+    {id:405,nombre:'Manta + Wrap de Encaje Gris 8081',stock:1},
+    {id:406,nombre:'Manta + Wrap de Encaje Celeste 8063',stock:1},
+    {id:407,nombre:'Manta de Encaje Celeste 8085',stock:1},
+    {id:408,nombre:'Manta Cuadrille Mostaza 2410',stock:4},
+    {id:409,nombre:'Manta Mostaza 2331',stock:3},
+    {id:410,nombre:'Manta de Hilo Verde 37',stock:1},
+    {id:411,nombre:'Manta Cuadros Blanco + Amarillo 2332',stock:1},
+    {id:412,nombre:'Manta Piel de Oveja 2395',stock:3},
+  ]},
+  { label:'Posicionadores', productos:[
+    {id:501,nombre:'Posicionador Doble 2129',stock:2},
+    {id:502,nombre:'Juego de 4 Posicionadores Lunitas 2130',stock:1},
+    {id:503,nombre:'Posicionador Moldeable 2126',stock:2},
+    {id:504,nombre:'Relleno para el wraping 2127',stock:4},
+    {id:505,nombre:'Pesita Contenedora 2128',stock:3},
+    {id:506,nombre:'Posicionador Nido 2229',stock:2},
+    {id:507,nombre:'Posing POD 2228',stock:3},
+    {id:508,nombre:'Colchoncito + almohadita Marrón 2141',stock:1},
+    {id:509,nombre:'Colchoncito + almohadita Blanco 2140',stock:0},
+  ]},
+]},
+
+// ── 2. MATERNIDAD ─────────────────────────────────────────────────────────────
+{ key:'maternidad', label:'Maternidad', subcats:[
+  { label:'Telas & Vestidos', productos:[
+    {id:1,nombre:'Tela de Maternidad Beige',stock:1},
+    {id:2,nombre:'Tela de Maternidad Rosa',stock:0},
+    {id:3,nombre:'Tela de Maternidad Blanca',stock:2},
+    {id:4,nombre:'Vestido Azul-Rosa',stock:1},
+    {id:5,nombre:'Vestido Fucsia',stock:1},
+  ]},
+  { label:'Butacas', productos:[
+    {id:1,nombre:'Butaca con Posapies Barnizado #2019',stock:0},
+    {id:2,nombre:'Butaca con Posapies Blanco #2020',stock:0},
+    {id:3,nombre:'Butaca de Hierro con Respaldo Blanco #2254',stock:0},
+    {id:4,nombre:'Butaca de Hierro con Respaldo Negro #2255',stock:0},
+    {id:5,nombre:'Butaca de Hierro sin Respaldo Blanco #2256',stock:5},
+    {id:6,nombre:'Butaca de Hierro sin Respaldo Negro #2254',stock:1},
+    {id:7,nombre:'Silla Vintage Acolchado #2259',stock:1},
+    {id:8,nombre:'Silla Vintage con Diseño #2259-1',stock:1},
+  ]},
+  { label:'Props para Posados', productos:[
+    {id:20,nombre:'Cubos el par #2251',stock:5},
+    {id:21,nombre:'Cilindros el par #2252',stock:0},
+    {id:22,nombre:'Escalón de 4 Grande #2017',stock:0},
+    {id:23,nombre:'Escalón de 2 #2253',stock:5},
+    {id:24,nombre:'Juego de Plataformas #2018',stock:0},
+    {id:25,nombre:'Tarima #2019',stock:3},
+  ]},
+]},
+
+// ── 3. INFANTILES ─────────────────────────────────────────────────────────────
+{ key:'infantiles', label:'Infantiles', subcats:[
+  { label:'Sillitas & Banquitos', productos:[
+    {id:101,nombre:'Sillita Clásica Marrón 2073',stock:3},
+    {id:102,nombre:'Sillita Clásica Blanca 2074',stock:3},
+    {id:103,nombre:'Silloncito con corte a los costados marrón 2215',stock:1},
+    {id:104,nombre:'Silloncito con corte a los costados blanco 2215',stock:1},
+    {id:105,nombre:'Banquito Blanco con Respaldero 2208',stock:3},
+    {id:106,nombre:'Banquito Marrón con Respaldero 2209',stock:3},
+    {id:107,nombre:'Banquito Barnizado con Respaldero 2207',stock:3},
+    {id:108,nombre:'Banquito de Parque Blanco 2206',stock:3},
+    {id:109,nombre:'Banquito alargado Blanco 2216',stock:1},
+    {id:110,nombre:'Banquito alargado Marrón 2217',stock:1},
+    {id:111,nombre:'Banco enano Vintage 2260',stock:1},
+    {id:112,nombre:'Silla Petit 2124-2101',stock:3},
+    {id:113,nombre:'Silla Enana Marrón 8002',stock:3},
+    {id:114,nombre:'Silla Enana Blanca 8003',stock:3},
+    {id:115,nombre:'Silla Corralito Marrón 2082',stock:3},
+    {id:116,nombre:'Silla Corralito Blanco 2121',stock:3},
+    {id:117,nombre:'Silloncito con Macrame Barnizado 2204',stock:1},
+    {id:118,nombre:'Silloncito Trono Marrón 2104',stock:1},
+    {id:119,nombre:'Silloncito Trono Blanco 2105',stock:1},
+    {id:120,nombre:'Pupitre enano Marrón 8037',stock:1},
+    {id:121,nombre:'Pupitre Modelo 2 8036-8038',stock:3},
+    {id:122,nombre:'Corralito Osito Marrón 2335',stock:1},
+    {id:123,nombre:'Corralito Osito Blanco 2193',stock:0},
+    {id:124,nombre:'Silla de Hierro Negro 2119',stock:0},
+    {id:125,nombre:'Silla de Hierro Negro 2120',stock:3},
+    {id:126,nombre:'Silla Mecedora Blanca 2213',stock:1},
+    {id:127,nombre:'Silloncito de Mimbre Alto 2212',stock:1},
+    {id:128,nombre:'Silloncito de Mimbre Redondeado',stock:2},
+    {id:129,nombre:'Silloncito Rústico Marrón 8087',stock:0},
+    {id:130,nombre:'Silloncito Rústico Blanco 8103',stock:0},
+    {id:131,nombre:'Silla Comedor RN Marrón 2221',stock:0},
+    {id:132,nombre:'Silla Comedor RN Blanco 2222',stock:0},
+    {id:133,nombre:'Silla Comedor Sitter Blanco 2223',stock:0},
+    {id:134,nombre:'Silla Comedor Sitter Marrón 2224',stock:0},
+    {id:135,nombre:'Silla Curva Marrón 2219',stock:0},
+    {id:136,nombre:'Silla Curva Blanco 2220',stock:0},
+    {id:137,nombre:'Butaca Verde Vintage 55',stock:1},
+    {id:138,nombre:'Silla de plastico Azul',stock:2},
+    {id:139,nombre:'Butaca alta vintage 2225',stock:1},
+    {id:140,nombre:'Silloncito Trono Blanco Nuevo Modelo 2103',stock:0},
+    {id:141,nombre:'Carrito de Madera Marrón Modelo 1 #2230',stock:2},
+    {id:142,nombre:'Carrito de Madera Blanco Modelo 1 #2231',stock:2},
+    {id:143,nombre:'Carrito de Madera Marrón Modelo 2',stock:0},
+    {id:144,nombre:'Carrito de Madera Blanco Modelo 2',stock:0},
+    {id:145,nombre:'Luna Rn Sitter #2044',stock:3},
+    {id:146,nombre:'Luna con estrellas #2042',stock:2},
+  ]},
+  { label:'Tinas', productos:[
+    {id:201,nombre:'Tina Baby 2288',stock:1},
+    {id:202,nombre:'Latona Clásica',stock:1},
+    {id:203,nombre:'Latona Transparente 2296',stock:2},
+    {id:204,nombre:'Tina Minimalista Blanca 2289',stock:0},
+    {id:205,nombre:'Tina Minimalista patas doradas 2290',stock:1},
+    {id:206,nombre:'Tina Minimalista Dorada 2291',stock:0},
+    {id:207,nombre:'Tina Doble Faz 2294',stock:1},
+    {id:208,nombre:'Tina Clásica patas doradas 2284',stock:1},
+    {id:209,nombre:'Tina Clásica blanca 2284',stock:0},
+    {id:210,nombre:'Tina Doble Respaldo blanca 2286',stock:1},
+    {id:211,nombre:'Tina Doble Respaldo patas doradas 2287',stock:0},
+    {id:212,nombre:'Tina King Blanca 2292',stock:1},
+    {id:213,nombre:'Tina King patas doradas 2293',stock:0},
+    {id:214,nombre:'Tina Agnes 8106',stock:0},
+    {id:215,nombre:'Tina Oriana Dorada 2297',stock:1},
+    {id:216,nombre:'Tina Oriana Blanca 2298',stock:0},
+    {id:217,nombre:'Tina Leonore Blanca 2299',stock:0},
+    {id:218,nombre:'Tina Leonore dorada 2300',stock:0},
+  ]},
+  { label:'Mini Sofá', productos:[
+    {id:301,nombre:'Mini Sofá Blanca 2080',stock:0},
+    {id:302,nombre:'Mini Sofá Marrón 2100',stock:0},
+    {id:303,nombre:'Butaca Diván 2227',stock:2},
+    {id:304,nombre:'Sofá Diván 2099',stock:3},
+    {id:305,nombre:'Posing POD',stock:5},
+    {id:306,nombre:'Sofá Reina 2098',stock:1},
+  ]},
+  { label:'Triciclos', productos:[
+    {id:401,nombre:'Motito Vespa Blanco 2109',stock:0},
+    {id:402,nombre:'Motito Vespa Marrón 2108',stock:1},
+    {id:403,nombre:'Triciclo con canasto marrón 2106',stock:0},
+    {id:404,nombre:'Triciclo con canasto blanco 2107',stock:0},
+    {id:405,nombre:'Triciclo con carrito marrón 2110',stock:1},
+    {id:406,nombre:'Triciclo con carrito blanco 2111',stock:0},
+    {id:407,nombre:'Triciclo con carrito marron vintage 8045',stock:0},
+    {id:408,nombre:'Triciclo con carrito blanco vintage 8046',stock:0},
+  ]},
+  { label:'Caballitos', productos:[
+    {id:501,nombre:'Caballito Marrón 8107',stock:0},
+    {id:502,nombre:'Caballito Blanco 8108',stock:0},
+  ]},
+  { label:'Piano', productos:[
+    {id:550,nombre:'Pianito + butaca blanca 2155',stock:2},
+    {id:551,nombre:'Pianito + butaca marrón',stock:0},
+  ]},
+  { label:'Columpio', productos:[
+    {id:580,nombre:'Columpio de Madera Marrón 8144',stock:1},
+    {id:581,nombre:'Columpio de Madera Blanco 8145',stock:0},
+  ]},
+  { label:'Autitos', productos:[
+    {id:601,nombre:'Autito Rojo #2157',stock:1},
+    {id:602,nombre:'Motito Vespa Deco Mostaza #2158',stock:2},
+    {id:603,nombre:'Motito Vespa Deco Turquesa #8147',stock:1},
+  ]},
+]},
+
+// ── 4. ACCESORIOS & DETALLES ──────────────────────────────────────────────────
+{ key:'accesorios', label:'Accesorios & Detalles', subcats:[
+  { label:'Flores', productos:[
+    {id:1,nombre:'Flor Deisy Amarilla 011',stock:0},
+    {id:2,nombre:'Ramo 5 Rosas Blancas 2420',stock:3},
+    {id:3,nombre:'Rosas Amarillas 665',stock:0},
+    {id:4,nombre:'Margaritas Matizado 184',stock:7},
+    {id:5,nombre:'Rosas Rosita rosa 196',stock:3},
+    {id:6,nombre:'Hojas corazon 8074',stock:9},
+    {id:7,nombre:'Lavandas 507',stock:5},
+    {id:8,nombre:'Flores Lilas 605',stock:3},
+    {id:9,nombre:'Flores Rosas Lilas 273',stock:3},
+    {id:10,nombre:'Flor Hortencia Celeste 8056',stock:1},
+    {id:11,nombre:'Flor Hortencia 8089',stock:9},
+    {id:13,nombre:'Peonias Azules 071',stock:3},
+    {id:14,nombre:'Flor Clavel Amarillo 693',stock:2},
+    {id:15,nombre:'Ramo Rosas Rojas 667',stock:2},
+    {id:16,nombre:'Ramo 7 Flores Lavanda 6351',stock:2},
+    {id:17,nombre:'Ramo 7 Flores Lila Claro 6352',stock:2},
+    {id:18,nombre:'Flores rojas 129',stock:2},
+    {id:19,nombre:'Flores Lilas chicas 228',stock:1},
+    {id:20,nombre:'Flores Rosa pastel 8055',stock:4},
+    {id:21,nombre:'Ramo 7 Flores Lila Matizada 2419',stock:2},
+    {id:22,nombre:'Girasol x Ramo 32',stock:7},
+    {id:23,nombre:'Flor Rosa Granate Terciopelo 668',stock:2},
+    {id:24,nombre:'Rosa roja 6 Ramos 7938',stock:2},
+    {id:25,nombre:'Flor Margarita 5 Ramas 116',stock:11},
+    {id:26,nombre:'Flor Amarilla 7 Ramos grande 8090',stock:2},
+    {id:27,nombre:'Flor Celeste 7 Ramos 059',stock:2},
+    {id:28,nombre:'Ramo Rosas Secas Vintage 694',stock:2},
+  ]},
+  { label:'Ramos Secos', productos:[
+    {id:12,nombre:'Ramo Rosas Secas Vintage 694',stock:2},
+  ]},
+  { label:'Frutas', productos:[
+    {id:501,nombre:'Frutilla paq. x 5 #2088',stock:4},
+    {id:502,nombre:'Banana #2201',stock:1},
+    {id:503,nombre:'Naranja #2200',stock:3},
+    {id:504,nombre:'Granada #2196',stock:6},
+    {id:505,nombre:'Manzana #2199',stock:6},
+    {id:506,nombre:'Pera #8054',stock:4},
+    {id:507,nombre:'Tira Colgante Frutilla #8093',stock:2},
+    {id:508,nombre:'Tira Colgante Limones #8092',stock:2},
+  ]},
+  { label:'Decos', productos:[
+    {id:601,nombre:'Botella con Encaje #69',stock:4},
+    {id:602,nombre:'Set 3 Floreros de Cerámica #8097',stock:1},
+    {id:603,nombre:'Juego de 3 Canastos Verde #51',stock:1},
+    {id:604,nombre:'Juego de 3 Canastos Lila #52',stock:2},
+    {id:605,nombre:'Jaulitas #2338',stock:5},
+    {id:607,nombre:'Jaula Grande #9751',stock:1},
+    {id:608,nombre:'Cesta Verde #8126',stock:2},
+    {id:609,nombre:'Cajas Deco Storage #7956',stock:1},
+    {id:610,nombre:'Tapete de Yute Diseño Flor #41',stock:1},
+    {id:611,nombre:'Tapete de Yute 1.50m #43',stock:2},
+    {id:612,nombre:'Tapete de Yute Rectangular #7976',stock:2},
+    {id:613,nombre:'Tapete Piri redondo 37cm #7953',stock:2},
+    {id:614,nombre:'Tapete Arpillera Blanco Redondo 36cm #7954',stock:2},
+  ]},
+  { label:'Ositos & Peluches', productos:[
+    {id:701,nombre:'Peluche Osito con Moño #2262',stock:1},
+    {id:702,nombre:'Peluche Osito con Bufanda #7969',stock:2},
+    {id:703,nombre:'Peluche Osito chico #7968',stock:1},
+    {id:704,nombre:'Peluche Osito Daisy #7967',stock:1},
+    {id:705,nombre:'Peluche Oveja #2059',stock:1},
+    {id:706,nombre:'Peluche Felpudo Rosa Moño Cuadrille #8135',stock:2},
+    {id:707,nombre:'Peluche Felpudo Beige Moño Cuadrille #8136',stock:2},
+    {id:708,nombre:'Peluche Felpudo Blanco Moño Cuadrille #8134',stock:2},
+    {id:709,nombre:'Peluche Osito Peludo #2263',stock:1},
+  ]},
+]},
+
+// ── 5. ESCENOGRAFÍAS ──────────────────────────────────────────────────────────
+{ key:'escenografias', label:'Escenografías', subcats:[
+  { label:'Fondos Vintage', productos:[
+    {id:101,nombre:'Fondo Gris texturizado',stock:0},
+    {id:102,nombre:'Fondo Marrón texturizado',stock:0},
+  ]},
+  { label:'Fondos de Tela', productos:[
+    {id:201,nombre:'Fondo Playa',stock:0},
+    {id:202,nombre:'Fondo Cielo Estrellado',stock:0},
+  ]},
+  { label:'Fondos de Cuerina', productos:[
+    {id:301,nombre:'Fondo Marrón Chocolate',stock:0},
+    {id:302,nombre:'Fondo Marrón Oscuro',stock:0},
+    {id:303,nombre:'Fondo Celeste',stock:0},
+    {id:304,nombre:'Fondo Gris',stock:0},
+    {id:305,nombre:'Fondo Blanco',stock:0},
+  ]},
+  { label:'Fondos con Textura', productos:[
+    {id:401,nombre:'Fondo Araña',stock:0},
+    {id:402,nombre:'Fondo Dinosaurio',stock:0},
+    {id:403,nombre:'Fondo Hojas',stock:0},
+    {id:404,nombre:'Fondo Ladrillo Gris',stock:0},
+    {id:405,nombre:'Fondo Madera',stock:0},
+    {id:406,nombre:'Fondo Nubes',stock:0},
+    {id:407,nombre:'Fondo Vaquita',stock:0},
+    {id:408,nombre:'Fondo Forro',stock:0},
+  ]},
+  { label:'Paneles & Arcos', productos:[
+    {id:501,nombre:'Juego de 3 paneles 2279',stock:3},
+    {id:502,nombre:'Juego de 3 paneles Tetris 2277',stock:0},
+    {id:503,nombre:'Juego de 4 paneles 2278',stock:2},
+    {id:504,nombre:'Paneles Castilo 2276',stock:1},
+    {id:505,nombre:'Paneles 2 en 1 8062',stock:0},
+    {id:506,nombre:'Juego de Arcoíris Rosa-Beige-Blanco 2274',stock:2},
+    {id:507,nombre:'Juego de Arcoíris Beige-Blanco-Amarillo 2275',stock:2},
+    {id:508,nombre:'Panel Granja Rojo + Marron 2122',stock:0},
+    {id:509,nombre:'Panel Granja Rosa + Marron 2123',stock:0},
+    {id:510,nombre:'Casita Rústica Marrón 2184',stock:0},
+    {id:511,nombre:'Casita Rústica Blanco 2185',stock:0},
+    {id:512,nombre:'Casita Hongo 2186',stock:0},
+    {id:513,nombre:'Arco 3D 2281',stock:0},
+    {id:514,nombre:'Mampara Blanca 8060',stock:5},
+    {id:515,nombre:'Mariposa Cremita 2149',stock:1},
+    {id:516,nombre:'Mariposa Blanco 2333',stock:0},
+  ]},
+  { label:'Cortinas', productos:[
+    {id:590,nombre:'Cortina Fibra de Coco 2394',stock:3},
+    {id:591,nombre:'Deco Fibra de Coco 8125',stock:2},
+  ]},
+  { label:'Melamina', productos:[
+    {id:801,nombre:'Placa de Melamina',stock:0},
+  ]},
+]},
+
+// ── 6. VESTUARIOS ─────────────────────────────────────────────────────────────
+// Completá con los productos de vestuarios.html cuando tengas los datos
+{ key:'vestuarios', label:'Vestuarios', subcats:[
+  { label:'Vestuarios', productos:[] },
+]},
+
+// ── 7. CUMPLEAÑOS ─────────────────────────────────────────────────────────────
+// Completá con los productos de cumpleanos.html cuando tengas los datos
+{ key:'cumpleanos', label:'Cumpleaños', subcats:[
+  { label:'Cumpleaños', productos:[] },
+]},
+
+];
+// ══════════════════════════════════════════════════════════════════════════════
+
+// ── STORAGE ───────────────────────────────────────────────────────────────────
+const SK='ap_precios', SKF='ap_precios_feria';
+const leerN=()=>{try{return JSON.parse(localStorage.getItem(SK))||{};}catch{return{}}};
+const leerF=()=>{try{return JSON.parse(localStorage.getItem(SKF))||{};}catch{return{}}};
+const guardar=(n,f)=>{localStorage.setItem(SK,JSON.stringify(n));localStorage.setItem(SKF,JSON.stringify(f))};
+
+// ── TABS ──────────────────────────────────────────────────────────────────────
+let activa = PAGINAS[0].key;
+function renderTabs(){
+  document.getElementById('tabs').innerHTML = PAGINAS.map(p=>
+    `<button class="tab${p.key===activa?' active':''}" onclick="cambiarPag('${p.key}')">${p.label}</button>`
+  ).join('');
+}
+function cambiarPag(key){
+  activa=key; renderTabs();
+  document.querySelectorAll('.panel').forEach(el=>el.classList.toggle('active',el.dataset.key===key));
+}
+
+// ── BADGE ─────────────────────────────────────────────────────────────────────
+const badge=s=>s===0?`<span class="badge b0">Sin stock</span>`:s===1?`<span class="badge b1">Última ud.</span>`:`<span class="badge bok">${s} uds.</span>`;
+
+// ── RENDER PANELES ────────────────────────────────────────────────────────────
+function renderPaneles(){
+  const n=leerN(), f=leerF();
+  const wrap=document.getElementById('paneles');
+  wrap.innerHTML='';
+  PAGINAS.forEach(pag=>{
+    const panel=document.createElement('div');
+    panel.className=`panel${pag.key===activa?' active':''}`;
+    panel.dataset.key=pag.key;
+    const subs=pag.subcats.filter(s=>s.productos.length>0);
+    if(!subs.length){
+      panel.innerHTML=`<div class="empty">Sin productos cargados aún.<small>Agregá los productos de ${pag.label}.html en el array PAGINAS de este archivo.</small></div>`;
+    } else {
+      panel.innerHTML=subs.map(sub=>{
+        const rows=sub.productos.map(p=>{
+          const pn=n[p.id]||'', pf=f[p.id]||'';
+          return `<tr>
+            <td><div class="pn">${p.nombre}</div><div class="pid">#${p.id}</div></td>
+            <td>${badge(p.stock)}</td>
+            <td><div class="pw"><span class="gs">Gs.</span>
+              <input type="number" class="${pn?'saved':''}" data-id="${p.id}" data-tipo="normal"
+                value="${pn}" placeholder="0" min="0" oninput="mc(this)"></div></td>
+            <td><div class="pw"><span class="gsf">Gs.</span>
+              <input type="number" class="feria ${pf?'saved':''}" data-id="${p.id}" data-tipo="feria"
+                value="${pf}" placeholder="0" min="0" oninput="mc(this)"></div></td>
+          </tr>`;
+        }).join('');
+        return `<div class="bloque">
+          <div class="bloque-h" onclick="tog(this)">
+            <span class="bloque-t">${sub.label}</span>
+            <div class="bloque-m"><span class="bloque-c">${sub.productos.length} productos</span><span class="chev">▼</span></div>
+          </div>
+          <div class="bloque-b">
+            <table><thead><tr>
+              <th>Producto</th><th>Stock</th>
+              <th class="r">Precio normal</th><th class="fth">🏷 Feria</th>
+            </tr></thead><tbody>${rows}</tbody></table>
+          </div>
+        </div>`;
+      }).join('');
+    }
+    wrap.appendChild(panel);
+  });
+}
+
+// ── INTERACCIÓN ───────────────────────────────────────────────────────────────
+function tog(h){h.parentElement.classList.toggle('open')}
+function mc(i){i.classList.add('changed');i.classList.remove('saved')}
+
+function guardarTodo(){
+  const n=leerN(), f=leerF();
+  document.querySelectorAll('input[data-id]').forEach(inp=>{
+    const id=parseInt(inp.dataset.id), val=parseInt(inp.value)||0;
+    const obj=inp.dataset.tipo==='feria'?f:n;
+    if(val>0) obj[id]=val; else delete obj[id];
+    inp.classList.remove('changed');
+    inp.classList.toggle('saved',val>0);
+  });
+  guardar(n,f);
+  toast('Guardado ✓');
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&e.target.dataset.id){guardarTodo();e.target.blur()}
+});
+
+// ── IMPORT / EXPORT ───────────────────────────────────────────────────────────
+function importarJSON(ev){
+  const file=ev.target.files[0]; if(!file) return;
+  const r=new FileReader();
+  r.onload=e=>{
+    try{
+      const d=JSON.parse(e.target.result);
+      if(d.normal) localStorage.setItem(SK,JSON.stringify(d.normal));
+      if(d.feria)  localStorage.setItem(SKF,JSON.stringify(d.feria));
+      renderPaneles(); toast('Importado ✓');
+    } catch{ toast('Error al leer el archivo') }
+  };
+  r.readAsText(file);
+}
+
+function exportarJSON(){
+  guardarTodo();
+  const blob=new Blob([JSON.stringify({normal:leerN(),feria:leerF()},null,2)],{type:'application/json'});
+  const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(blob),download:'precios.json'});
+  a.click(); URL.revokeObjectURL(a.href);
+  toast('precios.json descargado — subilo a GitHub');
+}
+
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2400);
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+renderTabs();
+renderPaneles();
+</script>
+</body>
+</html>
