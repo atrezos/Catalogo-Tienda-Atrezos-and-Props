@@ -1,5 +1,12 @@
 const numeroWhatsApp = "595986338010";
 
+// ── PRECIOS DESDE precios.json ────────────────────────────────
+let _precios = {}, _preciosFeria = {};
+fetch('precios.json')
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(data => { _precios = data.normal || {}; _preciosFeria = data.feria || {}; })
+    .catch(() => {});
+
 // ── ESTILOS DEL CARRUSEL ────────────────────────────────────
 const style = document.createElement('style');
 style.textContent = `
@@ -42,6 +49,11 @@ style.textContent = `
     padding: 0; transition: all 0.3s;
 }
 .carousel-dot.active { background: #506549; width: 12px; border-radius: 4px; }
+
+/* Modo feria */
+.precio-feria { color: #b06030 !important; font-weight: 700; }
+.btn-buy.feria-mode { background: #506549; color: #fff; }
+.btn-buy.feria-mode:hover { background: #3d4f37; }
 
 .img-container {
     width: 100%;
@@ -367,12 +379,21 @@ function renderGrid(productos, gridId) {
     grid.innerHTML = productos.map(p => {
         const tag = stockTag(p.stock);
 
+        // Precio desde precios.json según MODO_FERIA
+        const esFeria = typeof MODO_FERIA !== 'undefined' && MODO_FERIA;
+        const precioVal = esFeria
+            ? (_preciosFeria[p.id] || _precios[p.id] || p.precio || 0)
+            : (_precios[p.id] || p.precio || 0);
+
         const btn = p.stock === 0
             ? `<button class="btn btn-disabled" disabled>Agotado</button>`
-            : `<button class="btn btn-buy" onclick="addToCart(${p.id}, '${p.nombre.replace(/'/g, "\\'")}', ${p.precio || 0}, '${(p.fotos ? p.fotos.find(f => f) : p.foto1) || ''}')">Agregar a consulta</button>`;
+            : `<button class="btn btn-buy${esFeria ? ' feria-mode' : ''}"
+                onclick="addToCart(${p.id}, '${p.nombre.replace(/'/g, "\'")}', ${precioVal}, '${(p.fotos ? p.fotos.find(f => f) : p.foto1) || ''}')">
+                ${esFeria ? '+ Agregar' : '&#9825; Me interesa'}
+               </button>`;
 
-        const precio = p.precio
-            ? `<div class="card-price">Gs. ${p.precio.toLocaleString('de-DE')}</div>`
+        const precio = precioVal > 0
+            ? `<div class="card-price${esFeria ? ' precio-feria' : ''}">Gs. ${precioVal.toLocaleString('de-DE')}</div>`
             : '';
 
         const fotos = p.fotos
