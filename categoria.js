@@ -2,22 +2,19 @@ const numeroWhatsApp = "595986338010";
 
 // ── PRECIOS DESDE precios.json ────────────────────────────────
 // FERIA_MODE viene de config.js (true/false)
-let _precios = {}, _preciosFeria = {};
+let _renderQueue = [];
+let _preciosListos = false;
+
 fetch('precios.json')
     .then(r => r.ok ? r.json() : Promise.reject())
     .then(data => {
-        _precios      = data.normal || {};
-        _preciosFeria = data.feria  || {};
-        // Re-renderizar grillas con precios ya cargados
-        if (typeof _renderQueue !== 'undefined') {
-            _renderQueue.forEach(([arr, id]) => renderGrid(arr, id));
-            _renderQueue = [];
-        }
+        _precios       = data.normal || {};
+        _preciosFeria  = data.feria  || {};
+        _preciosListos = true;
+        _renderQueue.forEach(([arr, id]) => renderGrid(arr, id));
+        _renderQueue = [];
     })
-    .catch(() => {});
-
-// Cola para re-renderizar si los precios llegan después del DOM
-let _renderQueue = [];
+    .catch(() => { _preciosListos = true; });
 
 // ── ESTILOS DEL CARRUSEL ────────────────────────────────────
 const style = document.createElement('style');
