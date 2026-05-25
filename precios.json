@@ -1,8 +1,23 @@
 {
   "normal": {
-    "101": 135000
+    "newborn_101": 185000,
+    "newborn_102": 185000,
+    "newborn_103": 185000,
+    "newborn_104": 185000,
+    "newborn_105": 185000,
+    "newborn_106": 185000,
+    "newborn_307": 200000,
+    "newborn_409": 150000,
+    "newborn_410": 235000,
+    "newborn_411": 235000,
+    "newborn_412": 400000
   },
   "feria": {
-    "101": 75000
+    "newborn_101": 75000,
+    "newborn_102": 75000,
+    "newborn_103": 75000,
+    "newborn_104": 75000,
+    "newborn_105": 75000,
+    "newborn_106": 75000
   }
 }

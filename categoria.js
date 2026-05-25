@@ -1,11 +1,23 @@
 const numeroWhatsApp = "595986338010";
 
 // ── PRECIOS DESDE precios.json ────────────────────────────────
+// FERIA_MODE viene de config.js (true/false)
 let _precios = {}, _preciosFeria = {};
 fetch('precios.json')
     .then(r => r.ok ? r.json() : Promise.reject())
-    .then(data => { _precios = data.normal || {}; _preciosFeria = data.feria || {}; })
+    .then(data => {
+        _precios      = data.normal || {};
+        _preciosFeria = data.feria  || {};
+        // Re-renderizar grillas con precios ya cargados
+        if (typeof _renderQueue !== 'undefined') {
+            _renderQueue.forEach(([arr, id]) => renderGrid(arr, id));
+            _renderQueue = [];
+        }
+    })
     .catch(() => {});
+
+// Cola para re-renderizar si los precios llegan después del DOM
+let _renderQueue = [];
 
 // ── ESTILOS DEL CARRUSEL ────────────────────────────────────
 const style = document.createElement('style');
@@ -195,6 +207,22 @@ style.textContent = `
 }
 .cart-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+/* Total en panel carrito */
+.cart-panel-total {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 0 14px;
+    font-size: 0.95rem; font-weight: 700;
+    border-bottom: 1px solid #ece9e4;
+    margin-bottom: 14px;
+    color: #2a2a2a;
+}
+.cart-panel-total span:last-child { color: #506549; }
+.cart-item-precio {
+    font-size: 0.8rem; font-weight: 600;
+    color: #506549; margin-top: 3px;
+}
+.cart-item-unit { font-weight: 400; color: #999; font-size: 0.75rem; }
+
 /* Botón flotante — animación bump */
 @keyframes cart-bump { 0%,100%{transform:scale(1)} 50%{transform:scale(1.18)} }
 .cart-float-bump { animation: cart-bump 0.3s ease; }
@@ -212,14 +240,13 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <div class="cart-panel-items" id="cartPanelItems"></div>
             <div class="cart-panel-footer" id="cartPanelFooter" style="display:none">
-                <div id="cartPanelTotal"></div>
                 <p class="cart-panel-hint">Estos productos se enviarán como lista a WhatsApp. Podés pedir disponibilidad, precios o hacer una reserva.</p>
                 <button class="cart-panel-wa-btn" onclick="sendWhatsApp()">
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
                         <path d="M12 0C5.373 0 0 5.373 0 12c0 2.093.539 4.062 1.485 5.772L0 24l6.382-1.473C8.044 23.447 9.99 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.87 0-3.628-.494-5.145-1.358l-.368-.212-3.791.874.907-3.695-.237-.384C2.516 15.613 2 13.863 2 12 2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
                     </svg>
-                    Consultar por WhatsApp
+                    <span>Consultar por WhatsApp</span>
                 </button>
             </div>
         </div>
@@ -266,24 +293,22 @@ function renderPanelItems() {
         else agrupado[p.id] = { ...p, qty: 1 };
     });
 
-const items = Object.values(agrupado);
-const total = items.reduce((sum, i) => sum + (i.precio || 0) * i.qty, 0);
+    const esFeria = typeof FERIA_MODE !== 'undefined' && FERIA_MODE;
+    const items   = Object.values(agrupado);
+    const total   = items.reduce((s, i) => s + (i.precio || 0) * i.qty, 0);
 
-itemsEl.innerHTML = items.map(item => {
-    const subtotal = (item.precio || 0) * item.qty;
-    const precioLinea = item.precio > 0
-        ? `<div style="font-size:0.8rem; color:#506549; font-weight:600; margin-top:3px">
-               Gs. ${item.precio.toLocaleString('de-DE')}
-               ${item.qty > 1 ? ` × ${item.qty} = Gs. ${subtotal.toLocaleString('de-DE')}` : ''}
-           </div>`
-        : '';
-    return `
+    itemsEl.innerHTML = items.map(item => {
+        const subtotal = (item.precio || 0) * item.qty;
+        const precioLine = item.precio > 0
+            ? `<div class="cart-item-precio">Gs. ${subtotal.toLocaleString('de-DE')}${item.qty > 1 ? ` <span class="cart-item-unit">(${item.precio.toLocaleString('de-DE')} c/u)</span>` : ''}</div>`
+            : '';
+        return `
         <div class="cart-panel-item">
             <img src="${item.foto || ''}" alt="${item.nombre}" onerror="this.style.opacity='0.15'">
             <div class="cart-panel-item-info">
                 <div class="cart-panel-item-name">${item.nombre}</div>
                 <div class="cart-panel-item-cat">${CATEGORIA}</div>
-                ${precioLinea}
+                ${precioLine}
                 <div class="cart-panel-item-controls">
                     <button class="qty-btn" onclick="cambiarQty(${item.id}, -1)">−</button>
                     <span class="qty-num">${item.qty}</span>
@@ -291,19 +316,33 @@ itemsEl.innerHTML = items.map(item => {
                     <button class="cart-item-remove" onclick="quitarItem(${item.id})">Quitar</button>
                 </div>
             </div>
-        </div>
-    `;
-}).join('');
+        </div>`;
+    }).join('');
 
-// Total en el footer
-const totalEl = document.getElementById('cartPanelTotal');
-if (totalEl) {
-    totalEl.innerHTML = total > 0
-        ? `<div style="font-size:0.92rem; font-weight:600; color:#2a2a2a; margin-bottom:12px">
-               Total referencial: <span style="color:#506549">Gs. ${total.toLocaleString('de-DE')}</span>
-           </div>`
-        : '';
-}
+    // Total y hint según modo
+    const hintEl  = footerEl.querySelector('.cart-panel-hint');
+    const totalEl = footerEl.querySelector('.cart-panel-total');
+    const btnEl   = footerEl.querySelector('.cart-panel-wa-btn span');
+
+    if (esFeria && total > 0) {
+        if (!footerEl.querySelector('.cart-panel-total')) {
+            footerEl.insertAdjacentHTML('afterbegin',
+                `<div class="cart-panel-total">
+                    <span>Total</span>
+                    <span id="cartTotal">Gs. ${total.toLocaleString('de-DE')}</span>
+                </div>`
+            );
+        } else {
+            document.getElementById('cartTotal').textContent = 'Gs. ' + total.toLocaleString('de-DE');
+        }
+        if (hintEl) hintEl.textContent = 'Precios de feria. El total es referencial.';
+        if (btnEl)  btnEl.textContent  = 'Pedir por WhatsApp';
+    } else {
+        const t = footerEl.querySelector('.cart-panel-total');
+        if (t) t.remove();
+        if (hintEl) hintEl.textContent = 'Estos productos se enviarán como lista a WhatsApp. Podés pedir disponibilidad, precios o hacer una reserva.';
+        if (btnEl)  btnEl.textContent  = 'Consultar por WhatsApp';
+    }
 }
 
 // ── CANTIDAD ─────────────────────────────────────────────────
@@ -403,11 +442,14 @@ function renderGrid(productos, gridId) {
     grid.innerHTML = productos.map(p => {
         const tag = stockTag(p.stock);
 
-        // Precio desde precios.json según MODO_FERIA
-        const esFeria = typeof MODO_FERIA !== 'undefined' && MODO_FERIA;
+        // Precio desde precios.json según FERIA_MODE (definido en config.js)
+        const esFeria = typeof FERIA_MODE !== 'undefined' && FERIA_MODE;
+        // Buscar por clave compuesta "pagina_id" primero, luego por id solo (compatibilidad)
+        const _pcat = typeof CATEGORIA !== 'undefined' ? CATEGORIA.toLowerCase() : '';
+        const _key  = _pcat + '_' + p.id;
         const precioVal = esFeria
-            ? (_preciosFeria[p.id] || _precios[p.id] || p.precio || 0)
-            : (_precios[p.id] || p.precio || 0);
+            ? (_preciosFeria[_key] || _preciosFeria[p.id] || _precios[_key] || _precios[p.id] || p.precio || 0)
+            : (_precios[_key] || _precios[p.id] || p.precio || 0);
 
         const btn = p.stock === 0
             ? `<button class="btn btn-disabled" disabled>Agotado</button>`
@@ -416,20 +458,9 @@ function renderGrid(productos, gridId) {
                 ${esFeria ? '+ Agregar' : '&#9825; Me interesa'}
                </button>`;
 
-        let precio = '';
-if (precioVal > 0) {
-    if (esFeria && p.precioNormal && p.precioNormal !== precioVal) {
-        precio = `
-            <div class="card-price">
-                <span style="text-decoration:line-through; color:#aaa; font-size:0.82em; margin-right:6px">
-                    Gs. ${p.precioNormal.toLocaleString('de-DE')}
-                </span>
-                <span class="precio-feria">Gs. ${precioVal.toLocaleString('de-DE')}</span>
-            </div>`;
-    } else {
-        precio = `<div class="card-price${esFeria ? ' precio-feria' : ''}">Gs. ${precioVal.toLocaleString('de-DE')}</div>`;
-    }
-}
+        const precio = precioVal > 0
+            ? `<div class="card-price${esFeria ? ' precio-feria' : ''}">Gs. ${precioVal.toLocaleString('de-DE')}</div>`
+            : '';
 
         const fotos = p.fotos
             ? p.fotos.filter(f => f)

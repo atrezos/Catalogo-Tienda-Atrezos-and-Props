@@ -1,5 +1,5 @@
 // ── MODO FERIA ────────────────────────────────────────────────
-const FERIA_MODE = false;  // true = feria activa, false = catálogo normal
+const FERIA_MODE = true;  // true = feria activa, false = catálogo normal
 
 // Alias para compatibilidad (categoria.js usa FERIA_MODE directamente)
 const MODO_FERIA = FERIA_MODE;
@@ -15,5 +15,7 @@ function cargarPrecios(arr) {
         prod.precioNormal = pNormal;
         prod.precioFeria  = pFeria;
         prod.precio       = FERIA_MODE && pFeria ? pFeria : pNormal;
+    });
+}ormal;
     });
 }

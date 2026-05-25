@@ -87,7 +87,7 @@ input.feria.saved{border-color:var(--feria)}
 .info{max-width:920px;margin:0 auto;padding:0 1.2rem 2rem;font-size:.74rem;color:var(--muted);line-height:1.6}
 .info strong{color:var(--text)}
 
-@media(max-width:600px){input[type=number]{width:82px}th,td{padding-left:.5rem;padding-right:.5rem;-moz-appearance: textfield;appearance: textfield;}}
+@media(max-width:600px){input[type=number]{width:82px}th,td{padding-left:.5rem;padding-right:.5rem}}
 </style>
 </head>
 <body>
@@ -508,15 +508,16 @@ function renderPaneles(){
     } else {
       panel.innerHTML=subs.map(sub=>{
         const rows=sub.productos.map(p=>{
-          const pn=n[p.id]||'', pf=f[p.id]||'';
+          const k=pag.key+'_'+p.id;
+          const pn=n[k]||n[p.id]||'', pf=f[k]||f[p.id]||'';
           return `<tr>
             <td><div class="pn">${p.nombre}</div><div class="pid">#${p.id}</div></td>
             <td>${badge(p.stock)}</td>
             <td><div class="pw"><span class="gs">Gs.</span>
-              <input type="number" class="${pn?'saved':''}" data-id="${p.id}" data-tipo="normal"
+              <input type="number" class="${pn?'saved':''}" data-key="${k}" data-tipo="normal"
                 value="${pn}" placeholder="0" min="0" oninput="mc(this)"></div></td>
             <td><div class="pw"><span class="gsf">Gs.</span>
-              <input type="number" class="feria ${pf?'saved':''}" data-id="${p.id}" data-tipo="feria"
+              <input type="number" class="feria ${pf?'saved':''}" data-key="${k}" data-tipo="feria"
                 value="${pf}" placeholder="0" min="0" oninput="mc(this)"></div></td>
           </tr>`;
         }).join('');
@@ -543,11 +544,11 @@ function tog(h){h.parentElement.classList.toggle('open')}
 function mc(i){i.classList.add('changed');i.classList.remove('saved')}
 
 function guardarTodo(){
-  const n=leerN(), f=leerF();
-  document.querySelectorAll('input[data-id]').forEach(inp=>{
-    const id=parseInt(inp.dataset.id), val=parseInt(inp.value)||0;
+  const n={}, f={};
+  document.querySelectorAll('input[data-key]').forEach(inp=>{
+    const key=inp.dataset.key, val=parseInt(inp.value)||0;
     const obj=inp.dataset.tipo==='feria'?f:n;
-    if(val>0) obj[id]=val; else delete obj[id];
+    if(val>0) obj[key]=val;
     inp.classList.remove('changed');
     inp.classList.toggle('saved',val>0);
   });
@@ -556,7 +557,7 @@ function guardarTodo(){
 }
 
 document.addEventListener('keydown',e=>{
-  if(e.key==='Enter'&&e.target.dataset.id){guardarTodo();e.target.blur()}
+  if(e.key==='Enter'&&e.target.dataset.key){guardarTodo();e.target.blur()}
 });
 
 // ── IMPORT / EXPORT ───────────────────────────────────────────────────────────
@@ -569,7 +570,7 @@ function importarJSON(ev){
       if(d.normal) localStorage.setItem(SK,JSON.stringify(d.normal));
       if(d.feria)  localStorage.setItem(SKF,JSON.stringify(d.feria));
       renderPaneles(); toast('Importado ✓');
-    } catch{ toast('Error al leer el archivo') }
+    } catch(err){ toast('Error al leer el archivo: '+err.message) }
   };
   r.readAsText(file);
 }
