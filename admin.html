@@ -67,7 +67,7 @@ tr:hover td{background:#fafaf9}
 .pw{display:flex;align-items:center;justify-content:flex-end;gap:.22rem}
 .gs{font-size:.7rem;color:var(--muted)}
 .gsf{font-size:.7rem;color:var(--feria)}
-input[type=number]{width:108px;border:1px solid var(--border);border-radius:3px;padding:.28rem .45rem;font-family:'Jost',sans-serif;font-size:.82rem;text-align:right;transition:border-color .15s;-moz-appearance:textfield}
+input[type=number]{width:108px;border:1px solid var(--border);border-radius:3px;padding:.28rem .45rem;font-family:'Jost',sans-serif;font-size:.82rem;text-align:right;transition:border-color .15s;appearance:textfield;-moz-appearance:textfield}
 input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
 input[type=number]:focus{outline:none;border-color:var(--verde)}
 input.changed{border-color:#e8a020;background:#fffdf5}
@@ -87,7 +87,7 @@ input.feria.saved{border-color:var(--feria)}
 .info{max-width:920px;margin:0 auto;padding:0 1.2rem 2rem;font-size:.74rem;color:var(--muted);line-height:1.6}
 .info strong{color:var(--text)}
 
-@media(max-width:600px){input[type=number]{width:82px}th,td{padding-left:.5rem;padding-right:.5rem}}
+@media(max-width:600px){input[type=number]{width:82px}th,td{padding-left:.5rem;padding-right:.5rem;-moz-appearance: textfield;appearance: textfield;}}
 </style>
 </head>
 <body>

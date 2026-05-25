@@ -84,8 +84,7 @@
         🛒 <span id="cart-count">0 items</span> — Consultar
     </button>
     
-<script>const MODO_FERIA = false;</script>
-<script>const MODO_FERIA = false;</script>
+<script src="config.js"></script>   <!-- ← línea nueva -->
 <script src="categoria.js"></script>
 <script>
     const CATEGORIA = "Newborn";
@@ -634,6 +633,13 @@
 
        
 ];
+
+    cargarPrecios(camitas);
+    cargarPrecios(baldes);
+    cargarPrecios(cestas);
+    cargarPrecios(mantasYWraps);
+    cargarPrecios(posicionadores);  
+
     renderGrid(camitas, 'grid-camitas');
     renderGrid(baldes, 'grid-baldes');
     renderGrid(cestas, 'grid-cestas');

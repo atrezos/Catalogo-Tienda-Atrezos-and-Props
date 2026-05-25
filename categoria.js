@@ -212,6 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <div class="cart-panel-items" id="cartPanelItems"></div>
             <div class="cart-panel-footer" id="cartPanelFooter" style="display:none">
+                <div id="cartPanelTotal"></div>
                 <p class="cart-panel-hint">Estos productos se enviarán como lista a WhatsApp. Podés pedir disponibilidad, precios o hacer una reserva.</p>
                 <button class="cart-panel-wa-btn" onclick="sendWhatsApp()">
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -265,12 +266,24 @@ function renderPanelItems() {
         else agrupado[p.id] = { ...p, qty: 1 };
     });
 
-    itemsEl.innerHTML = Object.values(agrupado).map(item => `
+const items = Object.values(agrupado);
+const total = items.reduce((sum, i) => sum + (i.precio || 0) * i.qty, 0);
+
+itemsEl.innerHTML = items.map(item => {
+    const subtotal = (item.precio || 0) * item.qty;
+    const precioLinea = item.precio > 0
+        ? `<div style="font-size:0.8rem; color:#506549; font-weight:600; margin-top:3px">
+               Gs. ${item.precio.toLocaleString('de-DE')}
+               ${item.qty > 1 ? ` × ${item.qty} = Gs. ${subtotal.toLocaleString('de-DE')}` : ''}
+           </div>`
+        : '';
+    return `
         <div class="cart-panel-item">
             <img src="${item.foto || ''}" alt="${item.nombre}" onerror="this.style.opacity='0.15'">
             <div class="cart-panel-item-info">
                 <div class="cart-panel-item-name">${item.nombre}</div>
                 <div class="cart-panel-item-cat">${CATEGORIA}</div>
+                ${precioLinea}
                 <div class="cart-panel-item-controls">
                     <button class="qty-btn" onclick="cambiarQty(${item.id}, -1)">−</button>
                     <span class="qty-num">${item.qty}</span>
@@ -279,7 +292,18 @@ function renderPanelItems() {
                 </div>
             </div>
         </div>
-    `).join('');
+    `;
+}).join('');
+
+// Total en el footer
+const totalEl = document.getElementById('cartPanelTotal');
+if (totalEl) {
+    totalEl.innerHTML = total > 0
+        ? `<div style="font-size:0.92rem; font-weight:600; color:#2a2a2a; margin-bottom:12px">
+               Total referencial: <span style="color:#506549">Gs. ${total.toLocaleString('de-DE')}</span>
+           </div>`
+        : '';
+}
 }
 
 // ── CANTIDAD ─────────────────────────────────────────────────
@@ -392,9 +416,20 @@ function renderGrid(productos, gridId) {
                 ${esFeria ? '+ Agregar' : '&#9825; Me interesa'}
                </button>`;
 
-        const precio = precioVal > 0
-            ? `<div class="card-price${esFeria ? ' precio-feria' : ''}">Gs. ${precioVal.toLocaleString('de-DE')}</div>`
-            : '';
+        let precio = '';
+if (precioVal > 0) {
+    if (esFeria && p.precioNormal && p.precioNormal !== precioVal) {
+        precio = `
+            <div class="card-price">
+                <span style="text-decoration:line-through; color:#aaa; font-size:0.82em; margin-right:6px">
+                    Gs. ${p.precioNormal.toLocaleString('de-DE')}
+                </span>
+                <span class="precio-feria">Gs. ${precioVal.toLocaleString('de-DE')}</span>
+            </div>`;
+    } else {
+        precio = `<div class="card-price${esFeria ? ' precio-feria' : ''}">Gs. ${precioVal.toLocaleString('de-DE')}</div>`;
+    }
+}
 
         const fotos = p.fotos
             ? p.fotos.filter(f => f)
